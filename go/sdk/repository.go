@@ -4,7 +4,7 @@ type ContractInfo struct {
 	Name          string
 	Permission    ExecutionPermissionScope
 	Methods       map[string]MethodInfo
-	InitSingleton func(*BaseContract) Contract
+	InitSingleton func(*BaseContract) ContractInstance
 }
 
 type MethodInfo struct {
