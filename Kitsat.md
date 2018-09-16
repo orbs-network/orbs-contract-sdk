@@ -50,13 +50,17 @@ TODO write the cli command here
 
 ```
 ---
-# Deploy & test your own contract  
+## Deploy & test your own contract  
 
 -TODO 
 
 
-# How to works with logs 
-- TODO
+## How to use Kitsat CLI
+
+- TODO: document the options (including logs- turn on/off)
+
+## How to works with logs 
+- TODO: option to turn on 
 
 ---
 
@@ -71,7 +75,7 @@ TODO write the cli command here
 
 
 
-### Kitsat v1 -coming next...
+###  Coming soon... Kitsat v1.0
 - Support in additional Consensus algorithm: Lean Helix  
 - Virtual chain configuration settings
 - block explorer APIs
