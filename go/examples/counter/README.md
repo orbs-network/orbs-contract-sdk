@@ -1,6 +1,7 @@
 # Counter Example
 
 > Native Go contract
+
 This simaple example is designed to show you how to read & write from state variables.
 
 The Counter smart contract supports two main methods:
