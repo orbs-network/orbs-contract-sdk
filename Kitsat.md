@@ -1,4 +1,4 @@
-#Kitsat - Personal ORBS Blockchain for Developers
+# Kitsat - Personal ORBS Blockchain for Developers
 >Temporary- TODO: move this to a new location
 
 - Version  0.5 (alpha)
@@ -7,15 +7,15 @@
   <img src="tbd?raw=true")
 </p>
 
-##Overview
+## Overview
 Kitsat is a personal ORBS blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.<enter>
 Kitsat runs an in-memory ORBS blockchain with N nodes on your local machine. 
 The Command line interface is deisnged to help you an interact with the blockchain network. 
 
 
-##Getting Started... 
+## Getting Started... 
 
-###Requirements
+### Requirements
 - Go 1.10.X installed 
 - Mac or Linux (Windows support coming soon)
 
@@ -25,7 +25,7 @@ The installation of a personal ORBS and the command line interface is done by ru
 
 * To validate that the installation of Kitsat- [TODO]
 
-###Let's start with examples 
+### Let's start with examples 
 
 2 examples are provided to quickly get started:
 *[Counter contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/counter "Counter Contract") - designed to show you how to read and write state variables.<ENTER>
@@ -50,19 +50,19 @@ TODO write the cli command here
 
 ```
 ---
-#Deploy & test your own contract  
+# Deploy & test your own contract  
 
 -TODO 
 
 
-#How to works with logs 
+# How to works with logs 
 - TODO
 
 ---
 
-##Project status
+## Project status
 
-####Kitsat v0.5 (alpha) feature list
+#### Kitsat v0.5 (alpha) feature list
 - Connecting to an in-memory ORBS blockchain with 3 nodes.
 - Support Benchmark consensus algorithm (Lean Helix is planned to be realised soon)
 - Examples of basic contracts to run & test: token contract & counter contract. 
