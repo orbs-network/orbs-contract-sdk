@@ -3,7 +3,7 @@ package main
 import "github.com/orbs-network/orbs-contract-sdk/go/sdk"
 
 var CONTRACT = sdk.ContractInfo{
-	Name:       "SimpleToken",
+	Name:       "FunToken",
 	Permission: sdk.PERMISSION_SCOPE_SERVICE,
 	Methods: map[string]sdk.MethodInfo{
 		METHOD_INIT.Name:  			METHOD_INIT,
@@ -31,7 +31,7 @@ var METHOD_INIT = sdk.MethodInfo{
 }
 
 func (c *contract) _init(ctx sdk.Context) error {
-	c.State.WriteStringByKey(ctx,"name","SimpleToken")
+	c.State.WriteStringByKey(ctx,"name","Fun_Token")
 	c.State.WriteStringByKey(ctx,"symbol","SMP")
 	return c.State.WriteUint64ByKey(ctx, "totalSupply", 1000000000)
 }

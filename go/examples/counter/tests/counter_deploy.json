@@ -1,0 +1,26 @@
+{
+  "ContractName": "BenchmarkToken",
+  "MethodName": "transfer",
+  "Arguments": [
+    {
+      "Name": "someArgumentName",
+      "Type": "string",
+      "Value": "blablabla"
+    },
+    {
+      "Name": "amount",
+      "Type": "uint32",
+      "Value": 34298
+    },
+    {
+      "Name": "someOtherAmount",
+      "Type": "uint64",
+      "Value": 2342343
+    },
+    {
+      "Name": "someByteArrayArgument",
+      "Type": "bytes",
+      "Value": "d0630122aaff"
+    }
+  ]
+}

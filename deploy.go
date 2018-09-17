@@ -41,7 +41,7 @@ func runCommand(command []string) string {
 }
 
 func getContractAsString(contractPath string) (string, error) {
-	contractAsBytes, err := ioutil.ReadFile(contractPath + "/contract.go")
+	contractAsBytes, err := ioutil.ReadFile(contractPath + "/counter.go")
 	if err != nil {
 		return "", err
 	}
