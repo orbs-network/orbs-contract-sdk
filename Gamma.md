@@ -20,6 +20,9 @@ The installation of a personal ORBS and the command line interface is done by ru
 - TODO: Add the command 
 
 * To validate that the installation of Gamma- [TODO]
+```go
+DROR\ ODED\ ITAMAR PLEASE ADD A CODE EXMAPLE HERE ONCE RUNNING IT
+```
 
 ### Let's start with examples 
 
@@ -96,12 +99,11 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 
 >To ease the work with Gamma, part of the installation a pair of sK & pK are generated to sign the transactions.
 
-
 ---
 
 ## Project status
 
-#### Kitsat v0.5 (alpha) feature list
+#### Gamma v0.5 (alpha) feature list
 
 - Connecting to an in-memory ORBS blockchain with 3 nodes.
 - Examples of basic contracts to run & test: token contract & counter contract. 
@@ -109,8 +111,7 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 - Log files to assist with debugging
 
 
-
-### Kitsat v1 -coming next...
+### Gamma v1 - coming next...
 - Virtual chain configuration settings
 - Support in additional Consensus algorithm.
 - Block explorer APIs
