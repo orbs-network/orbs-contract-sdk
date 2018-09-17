@@ -91,7 +91,7 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 * `Stop`   - stops the virtual chain. Unlike in a Mainnet or Testnet, the smart contract state variables are deleted. 
 * `deploy` - compile the smart contract with go v10.0 and deploy it on the personal orbs blockchain on your machine. 
 * `run`    - gets as arguments `call` or `send`. Use 
-* `genKeys`- generates a new pair public and private key to sign on the trasncatons you send or you contract sends. 
+* `genKeys`- generates a new pair public and private key to sign on the transactions you send or you contract sends. 
              The keys are stored on your computer on a file named ORBS.KEYS.
 * `help`   - information of all the commands that gamma-cli supports. 
 
