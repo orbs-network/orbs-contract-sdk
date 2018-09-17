@@ -1,6 +1,5 @@
 # Gamma - local ORBS blockchain for developers
-
-- Version  0.5 (alpha)
+>Version  0.5 (alpha)
 
 
 ## Overview
@@ -27,12 +26,11 @@ DROR\ ODED\ ITAMAR PLEASE ADD A CODE EXMAPLE HERE ONCE RUNNING IT
 ### Let's start with examples 
 
 2 contracts examples are provided to quickly get started:
->   * [Counter contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/counter "Counter Contract") - 
-designed to show you how to read and write state variables.
-<ENTER>
-> * [Fun token contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/tokens/fun_token "fun token  contract")- designed to show you a basic token functionality.
+> * [Counter contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/counter "Counter Contract") - designed to show you how to read and write state variables.<ENTER>
+> * [Fun token contract] (https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/tokens/fun_token "fun token contract")- designed to show you a basic token functionality.
 
 **Steps to deploy the example contracts**  
+
 * **Step 1**: Open the terminal & restart and start local ORBS blockchain instance <enter>
   `$ gamma-cli -start`. You should get a message "Your personal ORBS blockchain is ready for use"
 * **Step 2** : Deploy your contract `$ gamma-cli deploy [contract file pathn] ` , you should get a message "Contract [file name] was deployed successfully".<enter>
@@ -85,7 +83,7 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 
 ## Command line
 
-`$ kitsat-cli  <options>`
+`$ gamma-cli  <options>`
 
 ### Options 
 
