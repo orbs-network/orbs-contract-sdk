@@ -1,5 +1,4 @@
-# Kitsat - Personal ORBS Blockchain for Developers
->Temporary- TODO: move this to a new location
+#Kitsat - personal ORBS blockchain for developers
 
 - Version  0.5 (alpha)
 
@@ -7,15 +6,15 @@
   <img src="tbd?raw=true")
 </p>
 
-## Overview
+##Overview
 Kitsat is a personal ORBS blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.<enter>
 Kitsat runs an in-memory ORBS blockchain with N nodes on your local machine. 
 The Command line interface is deisnged to help you an interact with the blockchain network. 
 
 
-## Getting Started... 
+##Getting Started... 
 
-### Requirements
+###Requirements
 - Go 1.10.X installed 
 - Mac or Linux (Windows support coming soon)
 
@@ -25,57 +24,56 @@ The installation of a personal ORBS and the command line interface is done by ru
 
 * To validate that the installation of Kitsat- [TODO]
 
-### Let's start with examples 
+###Let's start with examples 
 
-2 examples are provided to quickly get started:
-*[Counter contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/counter "Counter Contract") - designed to show you how to read and write state variables.<ENTER>
-*[MyToken contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/MyToken "Counter Contract") - designed to show you how to implement token contract with accounts to store balances.
+2 contracts examples are provided to quickly get started:
+>   *[Counter contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/counter "Counter Contract") - 
+designed to show you how to read and write state variables.
+<ENTER>
+*[MyToken contract](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/MyToken "Counter contract".
 
-**To deploy one of the contracts above :**
-```go
-TODO
+**Steps to deploy the example contracts**  
+* **Step 1**: Open the terminal & restart and start local ORBS blockchain instance <enter>
+  `$ kitsat-cli -start`. You should get a message "Your personal ORBS blockchain is ready for use"
+* **Step 2** : Deploy your contract `$ kitsat-cli deploy [contract file pathn] ` , you should get a message "Contract [file name] was deployed successfully".<enter>
+          Please note that the code was compiled - part of the deployment process to save time.
 
-```
-**To test the exmaple contracts:**
+**Steps to test the counter & FunToken contracts:**
+* **Step 1**: In kitsat-cli `$ go [test file path]`. 
+* **Step 2**: you should in the terminal the expected test results and actual results, including an indication of "yes" or "no" if the test passed. 
 
-Part of the TDD methodology we adopted at ORBS, please find complementary test files for the examples above.<enter>
+-- TODO: ADD screenshots            
+<p align="center">
+  <img src="tbd?raw=true")
+</p>
 
-*[Counter Tests] - TODO
+*
 
-*[Token Tests] - TODO
+#Deploy & test your own contract  
+
+-TODO the test file should be 
+
+#Kitsat CLI
+
+##Commands
+
+start , stop , deploy, run [call, send transcation]
+
+Kitsat run call [jason contract name + arrgum,ents ]
 
 
-```go
-TODO write the cli command here 
+##Project status
 
-```
----
-## Deploy & test your own contract  
-
--TODO 
-
-
-## How to use Kitsat CLI
-
-- TODO: document the options (including logs- turn on/off)
-
-## How to works with logs 
-- TODO: option to turn on 
-
----
-
-## Project status
-
-#### Kitsat v0.5 (alpha) feature list
+####Kitsat v0.5 (alpha) feature list
 - Connecting to an in-memory ORBS blockchain with 3 nodes.
 - Support Benchmark consensus algorithm (Lean Helix is planned to be realised soon)
 - Examples of basic contracts to run & test: token contract & counter contract. 
 - Test jason with an example on how to test your owen smart contract easily (just copy and adjust). 
-- Log files to assits with debugging
+- Log files to assist with debugging
 
 
 
-###  Coming soon... Kitsat v1.0
+### Kitsat v1 -coming next...
 - Support in additional Consensus algorithm: Lean Helix  
 - Virtual chain configuration settings
 - block explorer APIs
@@ -84,3 +82,5 @@ TODO write the cli command here
 ## Licence  
 TODO
 
+#### TODO:
+- How to use the logs , 
