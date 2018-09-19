@@ -1,5 +1,5 @@
 {
-  "ContractName": "MyDemoContract",
+  "ContractName": "Counter",
   "MethodName": "add",
   "Arguments": [
     {
