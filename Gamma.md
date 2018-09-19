@@ -14,13 +14,17 @@ Gamma-cli -  the command line interface is deigned to help you to interact with 
 - Go 1.10.X installed 
 - Mac or Linux (Windows support coming soon)
 
-### Installation  
-The installation of a personal ORBS and the command line interface is done by running the following command: 
-- TODO: Add the command 
+### Installation 
+To install you can simply run this command in your terminal using cURL/wget:
 
-* To validate that the installation of Gamma- [TODO]
-```go
-DROR\ ODED\ ITAMAR PLEASE ADD A CODE EXMAPLE HERE ONCE RUNNING IT
+```sh
+curl -o- https://raw.githubusercontent.com/orbs-network/orbs-contract-sdk/master/install.sh | bash
+```
+
+or Wget:
+
+```sh
+wget -qO- https://raw.githubusercontent.com/orbs-network/orbs-contract-sdk/master/install.sh | bash
 ```
 
 ### Let's start with examples 
