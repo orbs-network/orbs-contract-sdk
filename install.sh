@@ -5,22 +5,26 @@ cd `echo $GOPATH`
 echo "Installing Orbs Network Go, Please wait.."
 go get github.com/orbs-network/orbs-network-go
 cd src/github.com/orbs-network/orbs-network-go
-sh git-submodule-checkout.sh
 git fetch --all && git checkout feature/deployable-go
-
-echo "Compiling Sambusac.."
-rm -f ./sambusac ./cli
-go build -o ./sambusac devtools/sambusac/main/main.go
-echo "Compiling Orbs CLI.."
-go build -o ./cli devtools/jsonapi/main/main.go
+rm -rf vendor
+./git-submodule-checkout.sh
 
 echo "Installing the Developer SDK, Please wait.."
 go get github.com/orbs-network/orbs-contract-sdk 2> /dev/null
 
+echo "Compiling gamma-server binary.."
+rm -f ./gamma-server ./gamma-cli
+go build -o ./gamma-server devtools/sambusac/main/main.go
+echo "Compiling gamma-cli binary.."
+go build -o ./cli devtools/jsonapi/main/main.go
+
 cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-contract-sdk
-ln -s ../orbs-network-go/cli cli
-ln -s ../orbs-network-go/sambusac sambusac
+ln -s ../orbs-network-go/gamma-cli gamma-cli
+ln -s ../orbs-network-go/gamma-server gamma-server
+
+echo "Generating test keys for the Orbs CLI to use"
+./generate_test_keys.sh
 
 echo "Workspace created successfully!"
 echo "You can begin experimenting with Orbs Network"
