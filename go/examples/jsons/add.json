@@ -1,0 +1,11 @@
+{
+  "ContractName": "MyDemoContract",
+  "MethodName": "add",
+  "Arguments": [
+    {
+      "Name": "amount",
+      "Type": "uint64",
+      "Value": 100
+    }
+  ]
+}
