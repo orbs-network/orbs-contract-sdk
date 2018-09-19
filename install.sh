@@ -5,7 +5,7 @@ cd `echo $GOPATH`
 echo "Installing Orbs Network Go, Please wait.."
 go get github.com/orbs-network/orbs-network-go
 cd src/github.com/orbs-network/orbs-network-go
-git fetch --all && git checkout feature/deployable-go
+git fetch --all && git checkout feature/gamma-cli
 rm -rf vendor
 ./git-submodule-checkout.sh
 
