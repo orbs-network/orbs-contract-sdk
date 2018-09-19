@@ -31,3 +31,9 @@ type StateSdk interface {
 type ServiceSdk interface {
 	CallMethod(ctx Context, serviceName string, methodName string, args ...interface{}) ([]interface{}, error)
 }
+
+type AddressSdk interface {
+	ValidateAddress(ctx Context, address Ripmd160Sha256) error
+	GetSignerAddress(ctx Context) (Ripmd160Sha256, error)
+	GetCallerAddress(ctx Context) (Ripmd160Sha256, error)
+}

@@ -10,15 +10,18 @@ type ContractInstance interface {
 type BaseContract struct {
 	State   StateSdk
 	Service ServiceSdk
+	Address AddressSdk
 }
 
 func NewBaseContract(
 	state StateSdk,
 	service ServiceSdk,
+	address AddressSdk,
 ) *BaseContract {
 
 	return &BaseContract{
 		State:   state,
 		Service: service,
+		Address: address,
 	}
 }
