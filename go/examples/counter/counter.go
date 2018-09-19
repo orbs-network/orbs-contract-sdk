@@ -6,9 +6,9 @@ var CONTRACT = sdk.ContractInfo{
 	Name:       "Counter",
 	Permission: sdk.PERMISSION_SCOPE_SERVICE,
 	Methods: map[string]sdk.MethodInfo{
-		METHOD_INIT.Name:  METHOD_INIT,
-		METHOD_ADD.Name:   METHOD_ADD,
-		METHOD_GET.Name:   METHOD_GET,
+		METHOD_INIT.Name: METHOD_INIT,
+		METHOD_ADD.Name:  METHOD_ADD,
+		METHOD_GET.Name:  METHOD_GET,
 	},
 	InitSingleton: newContract,
 }
