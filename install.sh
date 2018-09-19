@@ -16,19 +16,21 @@ echo "Compiling gamma-server binary.."
 rm -f ./gamma-server ./gamma-cli
 go build -o ./gamma-server devtools/sambusac/main/main.go
 echo "Compiling gamma-cli binary.."
-go build -o ./cli devtools/jsonapi/main/main.go
+go build -o ./gamma-cli devtools/jsonapi/main/main.go
 
 cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-contract-sdk
 ln -s ../orbs-network-go/gamma-cli gamma-cli
 ln -s ../orbs-network-go/gamma-server gamma-server
 
-echo "Generating test keys for the Orbs CLI to use"
+echo "Generating test keys for gamma-cli to use"
 ./generate_test_keys.sh
 
 echo "Workspace created successfully!"
 echo "You can begin experimenting with Orbs Network"
 echo "The workspace is located under"
 echo "$GOPATH/src/github.com/orbs-network/orbs-contract-sdk"
+
+./gamma-cli
 
 exit 0
