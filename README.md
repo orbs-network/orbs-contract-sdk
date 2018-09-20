@@ -5,7 +5,7 @@
 ## Overview
 Gamma is a local Orbs blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.<enter>
 Gamma runs an in-memory virtual chain on top of an Orbs blockchain with N nodes on your local machine. 
-Gamma-cli -  the command line interface is deigned to help you to interact with the virtual chain. 
+Gamma-cli - the command line interface - is designed to help you to interact with the virtual chain. 
 
 
 ## Getting Started... 
