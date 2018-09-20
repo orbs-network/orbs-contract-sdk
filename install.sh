@@ -14,7 +14,7 @@ go get github.com/orbs-network/orbs-contract-sdk 2> /dev/null
 
 echo "Compiling gamma-server binary.."
 rm -f ./gamma-server ./gamma-cli
-go build -o ./gamma-server devtools/sambusac/main/main.go
+go build -o ./gamma-server devtools/gamma-server/main/main.go
 echo "Compiling gamma-cli binary.."
 go build -o ./gamma-cli devtools/jsonapi/main/main.go
 
