@@ -241,12 +241,10 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 ### Options 
 
 * `start`  - start a local virtual chain over ORBS blockchain network, running on 3 nodes. 
-* `Stop`   - stops the virtual chain. Unlike in a Mainnet or Testnet, the smart contract state variables are deleted. 
 * `deploy` - compile the smart contract with go v10.0 and deploy it on the personal orbs blockchain on your machine. 
 * `run`    - gets as arguments `call` or `send`. Use 
 * `genKeys`- generates a new pair public and private key to sign on the transactions you send or you contract sends. 
              The keys are stored on your computer on a file named ORBS.KEYS.
-* `help`   - information of all the commands that gamma-cli supports. 
 
 >To ease the work with Gamma, part of the installation a pair of sK & pK are generated to sign the transactions.
 
@@ -273,5 +271,10 @@ MIT
 #### TODO:
 - How to use the logs , 
 - work with the public sdk
+- more commands : 
+...* `Stop`   - stops the virtual chain. Unlike in a Mainnet or Testnet, the smart contract state variables are deleted. 
+...* `help`   - information of all the commands that gamma-cli supports. 
+
+
 
 ---
