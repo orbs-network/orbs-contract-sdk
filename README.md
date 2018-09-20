@@ -37,6 +37,7 @@ or Wget:
 ```sh
 wget -qO- https://raw.githubusercontent.com/orbs-network/orbs-contract-sdk/master/install.sh | bash
 ```
+> Message  - will apear at the end of a scuscfuul installtion. Pleaes note! once instualltion is done gamma blckchian & gamma-cli should should be running - 
 
 ### Starting the Gamma server
 Open the terminal and start a local Orbs blockchain instance <enter>
