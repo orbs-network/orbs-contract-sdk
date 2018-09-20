@@ -16,7 +16,7 @@ Gamma-cli -  the command line interface is deigned to help you to interact with 
 
 ### Prerequisites
 
-1. Make sure [Go](https://golang.org/doc/install) is installed (version 1.10 or later).
+1. Make sure [Go](https://golang.org/doc/install) is installed (version 1.10.x).
   
     > Verify with `go version`
 
