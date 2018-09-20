@@ -93,6 +93,7 @@ In order to deploy a contract on the gamma chain use:
 
 * Deploy the contracts
   ```
+  cd "$GOPATH/src/github.com/orbs-network/orbs-contract-sdk/"
   gamma-cli deploy Counter ./go/examples/counter/counter.go
   gamma-cli deploy TokenContract ./go/examples/tokens/fun_token/fun_token.go
   ```
