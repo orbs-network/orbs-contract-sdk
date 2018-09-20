@@ -56,7 +56,7 @@ In order to deploy a contract on the gamma chain use:
   ```
   *  Note that the code is compiled as part of the deployment process.
  
- > For a successful deploy, jason response should contain `"ExecutionResult":1`.
+ > For a successful deploy, jason response should contain **`"ExecutionResult":1`**.
 > Output example: 
 
 ### Interacting with a deployed contract
