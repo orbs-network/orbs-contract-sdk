@@ -55,7 +55,9 @@ In order to deploy a contract on the gamma chain use:
   gamma-cli deploy [contract name] [contract file]
   ```
   *  Note that the code is compiled as part of the deployment process.
-  *  You should get a message "Contract [file name] was deployed successfully".
+ 
+ > For a successful deploy, jason response should contain `"ExecutionResult":1`.
+> Output example: 
 
 ### Interacting with a deployed contract
 * Use `call` when you want to access a smart contract method that reads from your state variables. In this case, the read is done on a local node, without undergoing consensus. 
@@ -91,8 +93,8 @@ In order to deploy a contract on the gamma chain use:
 
 * Deploy the contracts
   ```
-  gamma-cli deploy Counter ./go/examples/counter/counter/fun_token.go
-  gamma-cli deploy TokenContract ./go/examples/counter/counter/fun_token.go
+  gamma-cli deploy Counter ./go/examples/counter/counter.go
+  gamma-cli deploy TokenContract ./go/examples/tokens/fun_token/fun_token.go
   ```
 
 #### Interacting with the counter contract example
