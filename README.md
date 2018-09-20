@@ -47,6 +47,9 @@ Open the terminal and start a local Orbs blockchain instance <enter>
   You should get a message "gamma-server started and listening on port 8080".
 
 ### Deploying a contract
+
+Please open an addtional terminal tab (on the same folder), and continue: 
+
 In order to deploy a contract on the gamma chain use:
   ```
   gamma-cli deploy [contract name] [contract file]
