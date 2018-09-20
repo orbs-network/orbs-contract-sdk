@@ -31,8 +31,8 @@ var METHOD_INIT = sdk.MethodInfo{
 }
 
 func (c *contract) _init(ctx sdk.Context) error {
-	c.State.WriteKeyByKey(ctx, "name", "Fun_Token")
-	c.State.WriteKeyByKey(ctx, "symbol", "SMP")
+	c.State.WriteStringByKey(ctx, "name", "Fun_Token")
+	c.State.WriteStringByKey(ctx, "symbol", "FTK")
 	return c.State.WriteUint64ByKey(ctx, "totalSupply", 1000000000)
 }
 
@@ -73,8 +73,23 @@ var METHOD_TRANSFER = sdk.MethodInfo{
 }
 
 func (c *contract) transfer(ctx sdk.Context, from string, to string, value uint64) error {
-	fromAmount, err = c.State.ReadUint64ByKey(ctx, from)
-	toAmount, err = c.State.ReadUint64ByKey(ctx, to)
+	fromAmount, err := c.State.ReadUint64ByKey(ctx, from)
+
+	if err != nil {
+		return err
+	}
+
+	toAmount, err := c.State.ReadUint64ByKey(ctx, to)
+
+	if err != nil {
+		return err
+	}
+
+	totalSupply, err := c.State.ReadUint64ByKey(ctx,"totalSupply")
+
+	if err != nil {
+		return err
+	}
 
 	if fromAmount < value {
 		return nil
