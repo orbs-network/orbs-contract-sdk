@@ -31,8 +31,8 @@ var METHOD_INIT = sdk.MethodInfo{
 }
 
 func (c *contract) _init(ctx sdk.Context) error {
-	c.State.WriteStringByKey(ctx, "name", "Fun_Token")
-	c.State.WriteStringByKey(ctx, "symbol", "SMP")
+	c.State.WriteKeyByKey(ctx, "name", "Fun_Token")
+	c.State.WriteKeyByKey(ctx, "symbol", "SMP")
 	return c.State.WriteUint64ByKey(ctx, "totalSupply", 1000000000)
 }
 
@@ -45,9 +45,9 @@ var METHOD_MINT = sdk.MethodInfo{
 	Implementation: (*contract).mint,
 }
 
-func (c *contract) mint(ctx sdk.Context, address Ripmd160Sha256, value uint64) error {
+func (c *contract) mint(ctx sdk.Context, address string, value uint64) error {
 	// TODO: add limitation according to current total supply
-	return c.State.WriteUint64ByAddress(ctx, address, value)
+	return c.State.WriteUint64ByKey(ctx, address, value)
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -59,8 +59,8 @@ var METHOD_BALANCEOF = sdk.MethodInfo{
 	Implementation: (*contract).balanceOf,
 }
 
-func (c *contract) balanceOf(ctx sdk.Context, address Ripmd160Sha256) error {
-	return c.State.ReadUint64ByAddress(ctx, address)
+func (c *contract) balanceOf(ctx sdk.Context, address string) (uint64,error) {
+	return c.State.ReadUint64ByKey(ctx, address)
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -72,9 +72,9 @@ var METHOD_TRANSFER = sdk.MethodInfo{
 	Implementation: (*contract).transfer,
 }
 
-func (c *contract) transfer(ctx sdk.Context, from Ripmd160Sha256, to Ripmd160Sha256, value uint32) error {
-	fromAmount := c.State.ReadUint64ByAddress(ctx, from)
-	toAmount := c.State.RedaUint64ByAddress(ctx, to)
+func (c *contract) transfer(ctx sdk.Context, from string, to string, value uint64) error {
+	var fromAmount = c.State.ReadUint64ByKey(ctx, from)
+	var toAmount = c.State.ReadUint64ByKey(ctx, to)
 
 	if fromAmount < value {
 		return nil
@@ -84,8 +84,8 @@ func (c *contract) transfer(ctx sdk.Context, from Ripmd160Sha256, to Ripmd160Sha
 		return nil
 	}
 
-	c.State.WriteUint64ByAddress(ctx, from, fromAmount-value)
-	return c.State.WriteUint64ByAddress(to, toAmount+value)
+	c.State.WriteUint64ByKey(ctx, from, fromAmount-value)
+	return c.State.WriteUint64ByKey(ctx, to, toAmount+value)
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -97,6 +97,6 @@ var METHOD_TOTALSUPPLY = sdk.MethodInfo{
 	Implementation: (*contract).totalSupply,
 }
 
-func (c *contract) totalSupply(ctx sdk.Context) {
+func (c *contract) totalSupply(ctx sdk.Context) (uint64, error){
 	return c.State.ReadUint64ByKey(ctx, "totalSupply")
 }

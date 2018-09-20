@@ -1,0 +1,16 @@
+{
+  "ContractName": "FunToken",
+  "MethodName": "mint",
+  "Arguments": [
+    {
+      "Name": "address",
+      "Type": "Ripmd160Sha256",
+      "Value": "79071f0da6619e9329f7b292fb392738ae61f9e2"
+    },
+    {
+      "Name": "value",
+      "Type": "uint64",
+      "Value": "500"
+    }
+  ]
+}
