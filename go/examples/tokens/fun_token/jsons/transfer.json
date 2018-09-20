@@ -4,12 +4,12 @@
   "Arguments": [
     {
       "Name": "address",
-      "Type": "Ripmd160Sha256",
+      "Type": "string",
       "Value": "79071f0da6619e9329f7b292fb392738ae61f9e2"
     },
     {
       "Name": "address",
-      "Type": "Ripmd160Sha256",
+      "Type": "string",
       "Value": "b3296e0a72013379e5b818544e2c423e4a2a9f3a"
     },
     {
