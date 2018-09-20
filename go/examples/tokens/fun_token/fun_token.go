@@ -73,8 +73,8 @@ var METHOD_TRANSFER = sdk.MethodInfo{
 }
 
 func (c *contract) transfer(ctx sdk.Context, from string, to string, value uint64) error {
-	var fromAmount = c.State.ReadUint64ByKey(ctx, from)
-	var toAmount = c.State.ReadUint64ByKey(ctx, to)
+	fromAmount, err = c.State.ReadUint64ByKey(ctx, from)
+	toAmount, err = c.State.ReadUint64ByKey(ctx, to)
 
 	if fromAmount < value {
 		return nil
