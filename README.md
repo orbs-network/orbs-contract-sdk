@@ -149,7 +149,7 @@ In order to deploy a contract on the gamma chain use:
   {
     "OutputArguments":[
       {
-      "Name":"uint64",
+      "Name":"amount",
       "Type":"uint64",
       "Value":100
       }],
