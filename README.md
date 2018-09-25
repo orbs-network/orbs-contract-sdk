@@ -246,7 +246,9 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 * `deploy` - compile the smart contract with go v10.0 and deploy it on the personal orbs blockchain on your machine. 
 * `run`    - gets as arguments `call` or `send`. Use 
 * `genKeys`- generates a new pair public and private key to sign on the transactions you send or you contract sends. 
-             The keys are stored on your computer on a file named ORBS.KEYS.
+             The keys are presented on the cli and stored on your computer on a file named ORBS.KEYS. The first key - is the 
+             private key, the second is the public key.  
+  
 
 >To ease the work with Gamma, part of the installation a pair of sK & pK are generated to sign the transactions.
 
