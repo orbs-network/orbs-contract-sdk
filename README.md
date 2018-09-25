@@ -44,8 +44,8 @@ Open the terminal and start a local Orbs blockchain instance <enter>
   gamma-cli start
   ``` 
   You should get a message "gamma-server started and listening on port 8080".
-  > The gamma server, ORBS local blockchain, is running. You should see all the logs wriiten. 
-  > Hit `CTRL-C` to stop the server. 
+  > You should see all the logs written. <ENTER> 
+  > In case you want to stop the server, hit `CTRL-C` to stop the server. 
 
 ### Deploying a contract
 
@@ -271,7 +271,6 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 MIT
 
 #### TODO:
-- How to use the logs , 
 - work with the public sdk
 - more commands : 
 ...* `Stop`   - stops the virtual chain. Unlike in a Mainnet or Testnet, the smart contract state variables are deleted. 
