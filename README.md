@@ -44,6 +44,8 @@ Open the terminal and start a local Orbs blockchain instance <enter>
   gamma-cli start
   ``` 
   You should get a message "gamma-server started and listening on port 8080".
+  > The gamma server, ORBS local blockchain, is running. You should see all the logs wriiten. 
+  > Hit `CTRL-C` to stop the server. 
 
 ### Deploying a contract
 
