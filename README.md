@@ -22,8 +22,7 @@ Gamma-cli - the command line interface - is designed to help you to interact wit
 
 2. Make sure [$GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) is set correctly, meanning the path is not empty.
    
-    > Verify with `echo $GOPATH`
-    
+    > Verify with `echo $GOPATH`    
 
 ### Installation 
 To install you can simply run this command in your terminal using cURL/wget:
