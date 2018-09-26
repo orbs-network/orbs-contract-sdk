@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-cd `echo $GOPATH`
-
 echo "Installing Orbs Network Go, Please wait.."
 go get github.com/orbs-network/orbs-network-go
+cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-network-go
 git fetch --all && git checkout feature/gamma-cli
 rm -rf vendor
@@ -42,3 +41,4 @@ echo "$GOPATH/src/github.com/orbs-network/orbs-contract-sdk"
 ./gamma-cli
 
 exit 0
+
