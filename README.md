@@ -36,7 +36,7 @@ or Wget:
 ```sh
 wget -qO- https://raw.githubusercontent.com/orbs-network/orbs-contract-sdk/master/install.sh | bash
 ```
-> Message  - will apear at the end of a scuscfuul installtion. Pleaes note! once instualltion is done gamma blckchian & gamma-cli should should be running - 
+> Message  - will appear at the end of a successful installation. Please note! once installation is done gamma blockchain & gamma-cli should should be running. 
 
 ### Starting the Gamma server
 Open the terminal and start a local Orbs blockchain instance <enter>
@@ -64,8 +64,8 @@ In order to deploy a contract on the gamma chain use:
 * Use `call` when you want to access a smart contract method that reads from your state variables. In this case, the read is done on a local node, without undergoing consensus. 
 * Use `send` when you want to send a transaction to a smart contract method that may change the the contract state. The transaction will be added to the blockchain under consensus.
 
-* The smart contract's arguments for `send` or `call` are provided in a JSON format.
-  * The JSON file incldues the contract name and input arguments.
+* The smart contract arguments for `send` or `call` are provided in a JSON format.
+* The JSON file includes the contract name and input arguments.
 * `send` or `call` returns a JSON output format with the output arguments
    
 * In order to run a call method:
@@ -186,7 +186,7 @@ wget -qO- https://raw.githubusercontent.com/orbs-network/orbs-contract-sdk/maste
 
 * **Step 1**: Open the terminal & restart and start local ORBS blockchain instance <enter>
   `$ gamma-cli -start`. You should get a message "Your personal ORBS blockchain is ready for use"
-* **Step 2** : Deploy your contract `$ gamma-cli deploy [contract file pathn] ` , you should get a message "Contract [file name] was deployed successfully".<enter>
+* **Step 2** : Deploy your contract `$ gamma-cli deploy [contract file path] ` , you should get a message "Contract [file name] was deployed successfully".<enter>
           Please note that the code was compiled - part of the deployment process to save time.
 
 > Code to start the local virtual chain and deploy the 2 contracts: 
@@ -198,7 +198,7 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 
 **Steps to test using Call or Send:**
 * Use `call` when you want to access a smart contract method that reads from your state variables. In this case, the read will be done with no need to run the consensus. 
-* Use `send` when you want to acess a smart contract method that also writes to the blockchain. This means that a condenses should be reached.
+* Use `send` when you want to access a smart contract method that also writes to the blockchain. This means that a condenses should be reached.
 
 >Please note that the smart contract's arguments expected in `send` or `run` should be written in a jason format. 
 > Example of jason  files can be downloaded here: [Counter jason ](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/counter/tests) and [fun token jason]( https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples/tokens/fun_token/tests )
