@@ -19,13 +19,13 @@ go build -o ./gamma-cli devtools/gammacli/main/main.go
 
 cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-contract-sdk
-ln -s ../orbs-network-go/gamma-cli gamma-cli
-ln -s ../orbs-network-go/gamma-server gamma-server
+ln -sf ../orbs-network-go/gamma-cli gamma-cli
+ln -sf ../orbs-network-go/gamma-server gamma-server
 
 # Create global symlinks
 cd `echo $GOPATH`
-sudo ln -s $GOPATH/src/github.com/orbs-network/orbs-network-go/gamma-cli /usr/local/bin/gamma-cli
-sudo ln -s $GOPATH/src/github.com/orbs-network/orbs-network-go/gamma-server /usr/local/bin/gamma-server
+sudo ln -sf $GOPATH/src/github.com/orbs-network/orbs-network-go/gamma-cli /usr/local/bin/gamma-cli
+sudo ln -sf $GOPATH/src/github.com/orbs-network/orbs-network-go/gamma-server /usr/local/bin/gamma-server
 
 cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-contract-sdk
