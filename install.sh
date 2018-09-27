@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -x
 
 echo "Installing Orbs Network Go, Please wait.."
 go get github.com/orbs-network/orbs-network-go
 cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-network-go
-git fetch --all && git checkout feature/gamma-cli
+git fetch --all && git checkout feature/gamma-cli && git pull
 rm -rf vendor
 ./git-submodule-checkout.sh
 
