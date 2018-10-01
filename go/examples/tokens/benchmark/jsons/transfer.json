@@ -1,0 +1,24 @@
+{
+  "ContractName": "BenchmarkERC20Token",
+  "MethodName": "transfer",
+  "Arguments": [
+    {
+      "Name": "owner",
+      "Type": "string",
+      "Value": "owner"
+
+    },
+    {
+      "Name": "recepient",
+      "Type": "string",
+      "Value": "notowner"
+
+    },
+    {
+      "Name": "amount",
+      "Type": "uint64",
+      "Value": 8
+
+    }
+  ]
+}

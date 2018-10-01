@@ -1,0 +1,12 @@
+{
+  "ContractName": "BenchmarkERC20Token",
+  "MethodName": "balanceOf",
+  "Arguments": [
+    {
+      "Name": "address",
+      "Type": "string",
+      "Value": "owner"
+
+    }
+  ]
+}
