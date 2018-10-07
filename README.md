@@ -262,12 +262,11 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 - Connecting to an in-memory ORBS blockchain with 3 nodes.
 - Examples of basic contracts to run & test: token contract & counter contract. 
 - Test jason with an example on how to test your owen smart contract easily (just copy and adjust). 
-- Log files to assist with debugging
 
 
 ### Gamma v1 - coming next...
 - Virtual chain configuration settings
-- Support in additional Consensus algorithm.
+- Ethereum autonomous swap
 - Block explorer APIs
 
 ## Licence  
