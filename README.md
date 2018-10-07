@@ -272,12 +272,6 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 ## Licence  
 MIT
 
-#### TODO:
-- work with the public sdk
-- more commands : 
-...* `Stop`   - stops the virtual chain. Unlike in a Mainnet or Testnet, the smart contract state variables are deleted. 
-...* `help`   - information of all the commands that gamma-cli supports. 
-
 
 
 ---
