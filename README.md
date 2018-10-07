@@ -1,5 +1,5 @@
 # Gamma - local Orbs blockchain for developers
->Version  0.5 (alpha)
+>Version  0.1 (alpha)
 
 
 ## Overview
