@@ -39,7 +39,8 @@ wget -qO- https://raw.githubusercontent.com/orbs-network/orbs-contract-sdk/maste
 > Message  - will appear at the end of a successful installation. Please note! once installation is done gamma blockchain & gamma-cli should should be running. 
 
 ### Starting the Gamma server
-Open the terminal and start a local Orbs blockchain instance <enter>
+Open the terminal and `cd` to the workspace directory (the directory appears in the installation logs).
+<enter>Start a local Orbs blockchain instance <enter>
   ```
   gamma-cli start
   ``` 
