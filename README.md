@@ -5,7 +5,7 @@
 ## Overview
 Gamma is a local Orbs blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.<enter>
 Gamma runs an in-memory virtual chain on top of an Orbs blockchain with N nodes on your local machine. 
-Gamma-cli - the command line interface - is designed to help you to interact with the virtual chain. 
+Gamma-CLI - the command line interface - is designed to help you to interact with the virtual chain. 
   >v0.1 is an experimental version of a local Orbs blockchain. Please make sure to upgrade it regularly in order to receive bug fixes, new features, and improvements to the smart contract SDK. For more info, please visit our [blog](https://medium.com/orbs-network). ”
 
 
@@ -228,7 +228,7 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 
 # Deploy & test your own contract  
 
->Make sure the ORBS blockchain is on. If not please use the `start` command.<enter>
+>Make sure the Orbs blockchain is on. If not please use the `start` command.<enter>
  Please use a GO file, the `deploy`- also includes compilation with GO v1.10.x.
  
 * Step 1: deploy your contract, using `deploy`
@@ -244,31 +244,33 @@ gamma-cli deploy /examples/counter/counter/fun_token.go
 
 ### Options 
 
-* `start`  - start a local virtual chain over ORBS blockchain network, running on 3 nodes. 
+* `start`  - start a local virtual chain over Orbs blockchain network, running on 3 nodes. 
 * `deploy` - compile the smart contract with go v10.0 and deploy it on the personal orbs blockchain on your machine. 
 * `run`    - gets as arguments `call` or `send`. Use 
 * `genKeys`- generates a new pair public and private key to sign on the transactions you send or you contract sends. 
-             The keys are presented on the cli and stored on your computer on a file named ORBS.KEYS. The first key - is the 
+             The keys are presented on the CLI and stored on your computer on a file named ORBS.KEYS. The first key is the 
              private key, the second is the public key.  
   
 
->To ease the work with Gamma, part of the installation a pair of sK & pK are generated to sign the transactions.
+>As part of the installation a pair of sK & pK are generated to sign the transactions.
 
 ---
 
 ## Project status
 
-#### Gamma v0.5 (alpha) feature list
+#### Gamma v0.1 (alpha) feature list
 
-- Connecting to an in-memory ORBS blockchain with 3 nodes.
+- Connecting to an in-memory Orbs blockchain with 3 nodes.
 - Examples of basic contracts to run & test: token contract & counter contract. 
 - Test jason with an example on how to test your owen smart contract easily (just copy and adjust). 
 
 
-### Gamma v1 - coming next...
-- Virtual chain configuration settings
-- Ethereum autonomous swap
+### Gamma v0.5 - coming next...
+- Ethereum autonomous swap & connector
+- Smart contract SDK - ability to call other smart contract
+- formatted error messages
 - Block explorer APIs
+- Performance improvements
 
 ## Licence  
 MIT
