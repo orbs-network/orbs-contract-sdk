@@ -1,10 +1,12 @@
 #!/usr/bin/env bash -x
 
+export GAMMA_VERSION=v0.1-gamma
+
 echo "Installing Orbs Network Go, Please wait.."
 go get github.com/orbs-network/orbs-network-go
 cd `echo $GOPATH`
 cd src/github.com/orbs-network/orbs-network-go
-git fetch --all && git checkout feature/gamma-cli && git pull
+git fetch --all && git checkout $GAMMA_VERSION && git pull
 rm -rf vendor
 ./git-submodule-checkout.sh
 
