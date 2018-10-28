@@ -1,0 +1,11 @@
+{
+  "ContractName": "Singular",
+  "MethodName": "set",
+  "Arguments": [
+    {
+      "Name": "amount",
+      "Type": "string",
+      "Value": "some_value"
+    }
+  ]
+}
