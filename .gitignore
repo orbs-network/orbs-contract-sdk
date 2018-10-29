@@ -3,6 +3,6 @@
 .orbsKeys
 cli
 sambusac
-*.json
+/*.json
 gamma-cli
 gamma-server
