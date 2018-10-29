@@ -1,0 +1,16 @@
+{
+  "ContractName": "Singular",
+  "MethodName": "cas",
+  "Arguments": [
+    {
+      "Name": "oldValue",
+      "Type": "string",
+      "Value": "some_value"
+    },
+    {
+      "Name": "newValue",
+      "Type": "string",
+      "Value": "awesome_cas_bruh"
+    }
+  ]
+}
