@@ -32,6 +32,10 @@ type ServiceSdk interface {
 	CallMethod(ctx Context, serviceName string, methodName string, args ...interface{}) ([]interface{}, error)
 }
 
+type EthereumSdk interface {
+	CallMethod(ctx Context, contractAddress string, jsonAbi string, methodName string, out interface{}, args ...interface{}) error
+}
+
 type AddressSdk interface {
 	ValidateAddress(ctx Context, address Ripmd160Sha256) error
 	GetSignerAddress(ctx Context) (Ripmd160Sha256, error)

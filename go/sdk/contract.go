@@ -8,20 +8,23 @@ type ContractInstance interface {
 }
 
 type BaseContract struct {
-	State   StateSdk
-	Service ServiceSdk
-	Address AddressSdk
+	State    StateSdk
+	Service  ServiceSdk
+	Ethereum EthereumSdk
+	Address  AddressSdk
 }
 
 func NewBaseContract(
 	state StateSdk,
 	service ServiceSdk,
+	ethereum EthereumSdk,
 	address AddressSdk,
 ) *BaseContract {
 
 	return &BaseContract{
-		State:   state,
-		Service: service,
-		Address: address,
+		State:    state,
+		Service:  service,
+		Ethereum: ethereum,
+		Address:  address,
 	}
 }
