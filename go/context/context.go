@@ -50,7 +50,6 @@ func PopContext(contextId ContextId) {
 		} else {
 			activeContext.permissionStack = activeContext.permissionStack[:len(activeContext.permissionStack)-1]
 		}
-
 	} else {
 		panic("PopContext: context not found")
 	}

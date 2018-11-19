@@ -10,20 +10,28 @@ import (
 
 func TestPrintG(t *testing.T) {
 	ch := make(chan unsafe.Pointer)
-	t.Logf("G0 value is %p", G())
+	g0 := G()
+	t.Logf("G0 value is %p", g0)
 
-	for i := 1 ; i < 5 ; i++ {
+	for i := 1; i < 5; i++ {
 		go func() {
 			ch <- G()
 		}()
 	}
 
-	for i := 1 ; i < 5 ; i++ {
-		gp := <- ch
+	for i := 1; i < 5; i++ {
+		gp := <-ch
 		t.Logf("G%d value is %p", i, gp)
+		if gp == g0 {
+			t.Fatalf("Goroutine G is identical to original one.")
+		}
 	}
 
-	t.Logf("G0 value is %p", G())
+	gp := G()
+	t.Logf("G0 value is %p", gp)
+	if gp != g0 {
+		t.Fatalf("Original goroutine G is different than the original one.")
+	}
 }
 
 func TestG(t *testing.T) {
