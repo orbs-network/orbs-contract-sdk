@@ -1,43 +1,70 @@
 package context
 
 import (
-	"sync"
 	"github.com/orbs-network/orbs-contract-sdk/go/context/g"
+	"sync"
 	"unsafe"
 )
 
-type ContextId uint32
-
 type context struct {
-	contextId ContextId
-	handler SdkHandler
+	contextId       ContextId
+	handler         SdkHandler
+	permissionStack []PermissionScope
 }
 
 var mutex = &sync.RWMutex{}
 var activeContexts = make(map[unsafe.Pointer]*context)
 
-func CreateContext(contextId ContextId, handler SdkHandler) {
+func PushContext(contextId ContextId, handler SdkHandler, permissionScope PermissionScope) {
 	gid := g.G()
 	mutex.Lock()
 	defer mutex.Unlock()
-	activeContexts[gid] = &context{contextId, handler}
+
+	activeContext := activeContexts[gid]
+	if activeContext != nil {
+		if activeContext.contextId != contextId {
+			panic("PushContext: multiple contexts found")
+		}
+		activeContext.permissionStack = append(activeContext.permissionStack, permissionScope)
+	} else {
+		activeContexts[gid] = &context{
+			contextId:       contextId,
+			handler:         handler,
+			permissionStack: []PermissionScope{permissionScope},
+		}
+	}
 }
 
-func DestroyContext() {
+func PopContext(contextId ContextId) {
 	gid := g.G()
 	mutex.Lock()
 	defer mutex.Unlock()
-	delete(activeContexts, gid)
+
+	activeContext := activeContexts[gid]
+	if activeContext != nil {
+		if activeContext.contextId != contextId {
+			panic("PopContext: multiple contexts found")
+		}
+		if len(activeContext.permissionStack) <= 1 {
+			delete(activeContexts, gid)
+		} else {
+			activeContext.permissionStack = activeContext.permissionStack[:len(activeContext.permissionStack)-1]
+		}
+
+	} else {
+		panic("PopContext: context not found")
+	}
 }
 
-func GetContext() (contextId ContextId, handler SdkHandler) {
+func GetContext() (contextId ContextId, handler SdkHandler, permissionScope PermissionScope) {
 	gid := g.G()
 	mutex.RLock()
 	defer mutex.RUnlock()
-	c := activeContexts[gid]
-	if c != nil {
-		return c.contextId, c.handler
+
+	activeContext := activeContexts[gid]
+	if activeContext != nil && len(activeContext.permissionStack) >= 1 {
+		return activeContext.contextId, activeContext.handler, activeContext.permissionStack[len(activeContext.permissionStack)-1]
 	} else {
-		return 0, nil
+		panic("GetContext: context not found")
 	}
 }

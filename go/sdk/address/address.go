@@ -12,11 +12,11 @@ func ValidateAddress(address []byte) {
 }
 
 func GetSignerAddress() []byte {
-	contextId, handler := context.GetContext()
-	return handler.SdkAddressGetSignerAddress(contextId)
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkAddressGetSignerAddress(contextId, permissionScope)
 }
 
 func GetCallerAddress() []byte {
-	contextId, handler := context.GetContext()
-	return handler.SdkAddressGetCallerAddress(contextId)
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkAddressGetCallerAddress(contextId, permissionScope)
 }

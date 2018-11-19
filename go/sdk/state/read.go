@@ -6,8 +6,8 @@ import (
 )
 
 func ReadBytesByAddress(address []byte) []byte {
-	contextId, handler := context.GetContext()
-	return handler.SdkStateReadBytesByAddress(contextId, address)
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkStateReadBytesByAddress(contextId, permissionScope, address)
 }
 
 func ReadBytesByKey(key string) []byte {

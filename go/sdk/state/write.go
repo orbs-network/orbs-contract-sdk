@@ -6,8 +6,8 @@ import (
 )
 
 func WriteBytesByAddress(address []byte, value []byte) {
-	contextId, handler := context.GetContext()
-	handler.SdkStateWriteBytesByAddress(contextId, address, value)
+	contextId, handler, permissionScope := context.GetContext()
+	handler.SdkStateWriteBytesByAddress(contextId, permissionScope, address, value)
 }
 
 func WriteBytesByKey(key string, value []byte) {
