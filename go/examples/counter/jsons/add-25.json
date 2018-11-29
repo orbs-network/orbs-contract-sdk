@@ -1,11 +1,10 @@
 {
-  "ContractName": "Counter",
+  "ContractName": "MyCounter",
   "MethodName": "add",
   "Arguments": [
     {
-      "Name": "count",
       "Type": "uint64",
-      "Value": -55
+      "Value": "25"
     }
   ]
 }

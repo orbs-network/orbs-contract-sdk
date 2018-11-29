@@ -4,12 +4,11 @@ import (
 	"github.com/orbs-network/orbs-contract-sdk/go/sdk"
 )
 
-
 // Define contract info, it is similar to interface
 var CONTRACT = sdk.ContractInfo{
 
 	// Contract name TODO: we had a discussion about it (should it be the filename or what)
-	Name:       "FunToken",
+	Name: "FunToken",
 
 	// Permission scope can be either SERVICE or SYSTEM, for non-system contracts use PERMISSION_SCOPE_SERVICE
 	Permission: sdk.PERMISSION_SCOPE_SERVICE,
@@ -45,13 +44,13 @@ type contract struct{ *sdk.BaseContract }
 var METHOD_INIT = sdk.MethodInfo{
 
 	// Name of the method is _init
-	Name:           "_init",
+	Name: "_init",
 
 	// External property is false for this method, it can be called only from within the contract
-	External:       false,
+	External: false,
 
 	// Access level is READ_WRITE because this method both reads and writes to the blockchain
-	Access:         sdk.ACCESS_SCOPE_READ_WRITE,
+	Access: sdk.ACCESS_SCOPE_READ_WRITE,
 
 	// A pointer to the function TODO: any better explanations?
 	Implementation: (*contract)._init,
@@ -81,14 +80,14 @@ func (c *contract) _init(ctx sdk.Context) error {
 var METHOD_MINT = sdk.MethodInfo{
 
 	// Name of the method is mint
-	Name:           "mint",
+	Name: "mint",
 
 	// External property is true for this method, it can be called from within the contract
 	// and also from other contracts
-	External:       true,
+	External: true,
 
 	// Access level is READ_WRITE because this method both reads and writes to the blockchain
-	Access:         sdk.ACCESS_SCOPE_READ_WRITE,
+	Access: sdk.ACCESS_SCOPE_READ_WRITE,
 
 	// A pointer to the function TODO: any better explanations?
 	Implementation: (*contract).mint,
@@ -116,14 +115,14 @@ func (c *contract) mint(ctx sdk.Context, address []byte, value uint64) error {
 var METHOD_BALANCEOF = sdk.MethodInfo{
 
 	// Name of the method is balanceOf
-	Name:           "balanceOf",
+	Name: "balanceOf",
 
 	// External property is true for this method, it can be called from within the contract
 	// and also from other contracts
-	External:       true,
+	External: true,
 
 	// Access level is READ_ONLY because this method only reads from the blockchain
-	Access:         sdk.ACCESS_SCOPE_READ_ONLY,
+	Access: sdk.ACCESS_SCOPE_READ_ONLY,
 
 	// A pointer to the function TODO: any better explanations?
 	Implementation: (*contract).balanceOf,
@@ -137,7 +136,7 @@ var METHOD_BALANCEOF = sdk.MethodInfo{
 // Return:
 // 	(1) The number of tokens in a uint64 value
 // 	(2) an error in case of an exception
-func (c *contract) balanceOf(ctx sdk.Context, address []byte) (uint64,error) {
+func (c *contract) balanceOf(ctx sdk.Context, address []byte) (uint64, error) {
 	return c.State.ReadUint64ByAddress(ctx, address)
 }
 
@@ -147,14 +146,14 @@ func (c *contract) balanceOf(ctx sdk.Context, address []byte) (uint64,error) {
 var METHOD_TRANSFER = sdk.MethodInfo{
 
 	// Name of the method is transfer
-	Name:           "transfer",
+	Name: "transfer",
 
 	// External property is true for this method, it can be called from within the contract
 	// and also from other contracts
-	External:       true,
+	External: true,
 
 	// Access level is READ_WRITE because this method both reads and writes to the blockchain
-	Access:         sdk.ACCESS_SCOPE_READ_WRITE,
+	Access: sdk.ACCESS_SCOPE_READ_WRITE,
 
 	// A pointer to the function TODO: any better explanations?
 	Implementation: (*contract).transfer,
@@ -205,14 +204,14 @@ func (c *contract) transfer(ctx sdk.Context, from string, to string, value uint6
 var METHOD_TOTALSUPPLY = sdk.MethodInfo{
 
 	// Name of the method is totalSupply
-	Name:           "totalSupply",
+	Name: "totalSupply",
 
 	// External property is true for this method, it can be called from within the contract
 	// and also from other contracts
-	External:       true,
+	External: true,
 
 	// Access level is READ_ONLY because this method only reads from the blockchain
-	Access:         sdk.ACCESS_SCOPE_READ_ONLY,
+	Access: sdk.ACCESS_SCOPE_READ_ONLY,
 
 	// A pointer to the function TODO: any better explanations?
 	Implementation: (*contract).totalSupply,
@@ -226,7 +225,7 @@ var METHOD_TOTALSUPPLY = sdk.MethodInfo{
 // Return:
 // 	(1) The total supply of tokens in an uint64 value
 // 	(2) an error in case of an exception
-func (c *contract) totalSupply(ctx sdk.Context) (uint64, error){
+func (c *contract) totalSupply(ctx sdk.Context) (uint64, error) {
 	return c.State.ReadUint64ByKey(ctx, "totalSupply")
 }
 

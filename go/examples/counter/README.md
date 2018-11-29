@@ -1,14 +1,12 @@
 # Counter Example
 
-> Native Go contract
+This simple example is designed to show you how to read and write state variables.
 
-This simple example is designed to show you how to read & write state variables.
+The counter smart contract supports two main methods:
 
-The Counter smart contract supports two main methods:
+* `get` - returns the current value of the counter.
 
-* `get` - which returns the current value of the counter.
-
-* `add` - which takes a value as argument and adds it to the counter.
+* `add` - takes a value as argument and adds it to the counter.
 
 ### How to test this example?
 

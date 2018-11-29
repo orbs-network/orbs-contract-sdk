@@ -1,5 +1,5 @@
 {
-  "ContractName": "Counter",
+  "ContractName": "MyCounter",
   "MethodName": "get",
   "Arguments": []
 }
