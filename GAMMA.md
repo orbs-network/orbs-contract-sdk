@@ -2,12 +2,14 @@
 
 > Local Orbs blockchain instance for developers
 
+&nbsp;
 ## Overview
 
 Gamma is a local Orbs blockchain instance for smart contract developers. With Gamma, you can easily and efficiently deploy, run and test smart contracts designed for the Orbs network. Gamma runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine. 
 
 The `gamma-cli` command line tool helps developers interact with the Gamma server instance running on their machine. 
 
+&nbsp;
 ## Installation for Mac
 
 1. Install the command line tool using [brew](https://brew.sh/) by running in terminal:
@@ -28,6 +30,7 @@ The `gamma-cli` command line tool helps developers interact with the Gamma serve
     
     > Stop with `gamma-cli stop-local` when finished
 
+&nbsp;
 ## Commands
 
 ```
@@ -95,6 +98,7 @@ Multiple environments (eg. local and testnet) can be defined in orbs-gamma-confi
 See https://github.com/orbs-network/orbs-contract-sdk for more info.
 ```
 
+&nbsp;
 ## Workflow
 
 #### Starting and stopping the server
@@ -187,6 +191,7 @@ gamma-cli send-tx -i transfer.json -signer user1 -env testnet2
 
 If a config file does not exist, the default environment is `local` with virtual chain `42` and the endpoint `localhost`.
 
+&nbsp;
 ## Building from source
 
 All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only. If you're interested in building the tools from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go.
