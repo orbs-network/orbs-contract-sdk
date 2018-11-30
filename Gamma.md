@@ -16,7 +16,7 @@ The `gamma-cli` command line tool helps developers interact with the Gamma serve
     brew install orbs-network/devtools/gamma-cli
     ```
 
-    Verify with `gamma-cli version`
+    > Verify with `gamma-cli version`
 
 2. Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
 
@@ -26,7 +26,7 @@ The `gamma-cli` command line tool helps developers interact with the Gamma serve
     gamma-cli start-local
     ```
     
-    Stop with `gamma-cli stop-local` when finished
+    > Stop with `gamma-cli stop-local` when finished
 
 ## Commands
 
@@ -189,4 +189,4 @@ If a config file does not exist, the default environment is `local` with virtual
 
 ## Building from source
 
-All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only. If you're interested in building the tools from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go,
+All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only. If you're interested in building the tools from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go.
