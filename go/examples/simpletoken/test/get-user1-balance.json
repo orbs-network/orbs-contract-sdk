@@ -1,0 +1,10 @@
+{
+  "ContractName": "MySimpleToken",
+  "MethodName": "getBalance",
+  "Arguments": [
+    {
+      "Type": "gamma:keys-file-address",
+      "Value": "user1"
+    }
+  ]
+}

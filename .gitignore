@@ -1,8 +1,5 @@
 .idea
 .vscode
-.orbsKeys
-cli
+orbs-test-keys.json
 sambusac
-/*.json
 gamma-cli
-gamma-server

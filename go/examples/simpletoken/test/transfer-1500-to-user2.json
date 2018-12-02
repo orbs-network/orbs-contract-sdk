@@ -1,0 +1,14 @@
+{
+  "ContractName": "MySimpleToken",
+  "MethodName": "transfer",
+  "Arguments": [
+    {
+      "Type": "uint64",
+      "Value": "1500"
+    },
+    {
+      "Type": "gamma:keys-file-address",
+      "Value": "user2"
+    }
+  ]
+}
