@@ -1,4 +1,4 @@
-package uint64
+package safeuint64
 
 import "math"
 

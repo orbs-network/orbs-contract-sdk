@@ -1,4 +1,4 @@
-package uint32
+package safeuint32
 
 import "math"
 
