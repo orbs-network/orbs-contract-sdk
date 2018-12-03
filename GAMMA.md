@@ -18,7 +18,7 @@ The `gamma-cli` command line tool helps developers interact with a Gamma server 
 
     * Make sure brew is available on your machine. See installation instructions [here](https://brew.sh/).
 
-3. Install `gamma-cli` command line tool using by running in terminal:
+2. Install `gamma-cli` command line tool using by running in terminal:
 
     ```
     brew install orbs-network/devtools/gamma-cli
