@@ -1,5 +1,5 @@
 # Gamma 
-#####Personal Orbs Blockchain For Developers
+### Personal Orbs Blockchain For Developers
 
 > gamma-cli version v0.5.1 (beta) , gamma-server version v0.7
 
