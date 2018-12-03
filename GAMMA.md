@@ -1,15 +1,22 @@
-# Gamma
+# Gamma 
+#####Personal Orbs Blockchain For Developers
 
-> Local Orbs blockchain instance for developers
+> gamma-cli version v0.5.1 (beta) , gamma-server version v0.7
 
 &nbsp;
 ## Overview
+Gamma server is a local Orbs blockchain to empower developers to easily and efficiently deploy, run & test smart contracts designed for the Orbs network.<enetr></enetr>
+Gamma runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine. 
 
-Gamma is a local Orbs blockchain instance for smart contract developers. With Gamma, you can easily and efficiently deploy, run and test smart contracts designed for the Orbs network. Gamma runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine. 
-
-The `gamma-cli` command line tool helps developers interact with the Gamma server instance running on their machine. 
+The `gamma-cli` command line tool helps developers interact with Gamma server instance running on their machine. 
 
 &nbsp;
+
+## Prerequisites
+-  Docker  installed. 
+> Instructions to install  [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
+- [Brew](https://brew.sh/) is installed. 
+
 ## Installation for Mac
 
 1. Install the command line tool using [brew](https://brew.sh/) by running in terminal:
