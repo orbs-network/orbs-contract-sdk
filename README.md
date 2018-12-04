@@ -1,6 +1,7 @@
 # Orbs Smart Contract SDK
 
-> Everything you need to develop smart contracts for the Orbs blockchain
+Orbs smart contract software development kit allows you to develop, test and deploy contracts on the Orbs network so that users can interact with them on-chain using transactions.
+> Here you may find everything you need to develop smart contracts for the Orbs blockchain
 
 * [Overview](#Overview)
 * [Getting started](#Getting-started)
