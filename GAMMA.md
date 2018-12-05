@@ -39,6 +39,21 @@ The `gamma-cli` command line tool helps developers interact with a Gamma server 
     ```
 
 &nbsp;
+## Upgrading to latest versions
+
+1. After installing, upgrade to latest version of `gamma-cli` with:
+
+    ```
+    brew upgrade gamma-cli
+    ```
+
+2. Upgrade to latest version of Gamma server with:
+
+    ```
+    gamma-cli upgrade-server
+    ```
+
+&nbsp;
 ## Commands
 
 ```
