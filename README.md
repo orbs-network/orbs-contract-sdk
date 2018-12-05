@@ -44,7 +44,7 @@ JavaScript is the world's most popular programming language. It's a high-level o
 
 ##### Go developers:
 
-1. Run in terminal `go get -u github.com/orbs-network/orbs-contract-sdk`
+1. Run in terminal `go get -u github.com/orbs-network/orbs-contract-sdk/...`
 2. The SDK will be downloaded to your workspace at `~/go/src/github.com/orbs-network/orbs-contract-sdk`
 3. If you're new to Go, keep the SDK in the workspace since Go is particular about the location of source files
 4. Choose an [IDE](https://golang.org/doc/editors.html) and open it in `~/go/src/github.com/orbs-network/orbs-contract-sdk/go`
@@ -67,7 +67,7 @@ Or just do all 4 steps above at once
 
 ```
 brew install go
-go get -u github.com/orbs-network/orbs-contract-sdk
+go get -u github.com/orbs-network/orbs-contract-sdk/...
 cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go
 brew cask install atom
 apm install go-plus
