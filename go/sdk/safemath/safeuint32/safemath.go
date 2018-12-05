@@ -25,3 +25,17 @@ func Mul(x uint32, y uint32) uint32 {
 	}
 	return x * y
 }
+
+func Div(x uint32, y uint32) uint32 {
+	if y == 0 {
+		panic("division by zero")
+	}
+	return x / y
+}
+
+func Mod(x uint32, y uint32) uint32 {
+	if y == 0 {
+		panic("division by zero")
+	}
+	return x % y
+}
