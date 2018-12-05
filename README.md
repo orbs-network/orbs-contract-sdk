@@ -53,10 +53,11 @@ JavaScript is the world's most popular programming language. It's a high-level o
 
 ##### Go developers:
 
-1. Install the CLI with [brew](https://brew.sh/) by typing in terminal `brew install orbs-network/devtools/gamma-cli`
-2. Verify the installation by typing in terminal `gamma-cli version`
-3. Start Gamma server with `gamma-cli start-local` and stop with `gamma-cli stop-local`
-4. For more details see the full Gamma [documentation](GAMMA.md)
+1. Make sure docker is available on your machine. See installation instructions [here](https://docs.docker.com/docker-for-mac/install/).
+2. Install the CLI with [brew](https://brew.sh/) by typing in terminal `brew install orbs-network/devtools/gamma-cli`
+3. Verify the installation by typing in terminal `gamma-cli version`
+4. Start Gamma server with `gamma-cli start-local` and stop with `gamma-cli stop-local`
+5. For more details see the full Gamma [documentation](GAMMA.md)
 
 &nbsp;
 ## Getting started - TLDR
