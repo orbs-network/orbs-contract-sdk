@@ -31,10 +31,7 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
 - [Go](https://golang.org/doc/install) 1.10+ is installed. 
    
    > Verify installation with `go version`<br/> 
-   > Make sure  [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) variable is set to the location of your Go 
-     workspace.<enter> 
-     Verify with`echo $GOPATH` .<br/> 
-   >The full guide to install Go can be found [here]((https://golang.org/doc/install)) 
+   >The full guide to install Go can be found [here](https://golang.org/doc/install)). 
 
 - Please Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
 
