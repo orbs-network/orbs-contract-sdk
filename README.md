@@ -41,11 +41,6 @@ Orbs smart contracts SDK includes the following capabilities:
 
 2. Please Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
 
-3. Install [Gamma]((GAMMA.md))  - the local orbs blockchain and CLI - simply type this command in your terminal using [brew](https://brew.sh/) :
-```
-         brew install orbs-network/devtools/gamma-cli
-
-```
 ### Installation 
 
 1. Download the Orbs smart contract SDK to your desired location by typing in terminal `go get -u github.com/orbs-network/orbs-contract-sdk/...`
