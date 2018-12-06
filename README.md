@@ -25,12 +25,12 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
 Orbs smart contracts SDK includes the following capabilities:
 -  Orbs smart contracts reading data from Ethereum.
 -  [TBD]  TODO:
-
 &nbsp;
 
 ## Quick Start
+&nbsp;
 
-## Prerequisites
+### Prerequisites
  
 1. [Go](https://golang.org/doc/install) 1.10+ is installed. 
    
@@ -46,7 +46,7 @@ Orbs smart contracts SDK includes the following capabilities:
          brew install orbs-network/devtools/gamma-cli
 
 ```
-## Installation 
+### Installation 
 
 1. Download the Orbs smart contract SDK to your desired location by typing in terminal `go get -u github.com/orbs-network/orbs-contract-sdk/...`
 >If you're new to Go, it is recommended to download the SDK to the Go workspace.
