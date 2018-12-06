@@ -1,59 +1,55 @@
-# Gamma
+# Gamma - Personal Orbs Blockchain for Developers (in progress) 
 
-Personal Orbs Blockchain for Developers
+Gamma is a personal Orbs blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.</br>
+**Gamma-server** runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine.
 
-&nbsp;
-## Overview
+**Gamma-CLI*** -  command line tool helps developers interact with a Gamma server instance running on their machine. 
 
-Gamma is a local Orbs blockchain instance for smart contract developers. With Gamma, you can easily and efficiently deploy, run and test smart contracts designed for the Orbs network. Gamma runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine. 
-
-The `gamma-cli` command line tool helps developers interact with a Gamma server instance running on their machine. 
+ >v0.1 is an experimental version of a local Orbs blockchain. Please make sure to upgrade it regularly in order to receive bug fixes, new features, and improvements to the smart contract SDK. For more info, please visit our [blog](https://medium.com/orbs-network). ”
 
 &nbsp;
-## Installation for Mac
 
-1. Prerequisites:
+## Getting Started...
 
-    * Make sure docker is available on your machine. See installation instructions [here](https://docs.docker.com/docker-for-mac/install/).
+### Prerequisites
+- [Go](https://golang.org/doc/install) 1.10+ is installed. 
+   > Verify installation with `go version`<br/> 
+   >The full guide to install Go can be found [here]((https://golang.org/doc/install)) 
 
-    * Make sure brew is available on your machine. See installation instructions [here](https://brew.sh/).
+- [Docker](https://docs.docker.com/docker-for-mac/install/) is installed and **running** on your machine.
 
-2. Install `gamma-cli` command line tool using by running in terminal:
+- Brew is installed. See installation instructions [here](https://brew.sh/). 
+- It is recommanded to download Orbs smart contract exmaples in Go for a quick start [avaiable here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples). Smart contract installation instructions [here].(https://github.com/orbs-network/orbs-contract-sdk/blob/master/README.md#installation)
 
-    ```
+&nbsp;
+
+## Installation
+To install gamma-cli you can simply run this command in your terminal using brew:
+```
     brew install orbs-network/devtools/gamma-cli
-    ```
+```
+> To verify type in terminal `gamma-cli version`, see it matches tha latest [version]() </br>
+> Note that in the first time both gamma-cli and gamma-server will be installed. 
 
-    Verify by running `gamma-cli version`
 
-3. Start Gamma server by running in terminal:
+## Start & stop Gamma server 
 
+Start Gamma server by typing in terminal:
     ```
     gamma-cli start-local
     ```
-    
-    When finished, stop Gamma server by running:
+
+When finished, stop Gamma server by typing in terminal:
      
     ```
     gamma-cli stop-local
     ```
+   > Note that local blockchain instance is running in-memory.
+   > The next time you start the instance, all contracts and state will disappear.
 
 &nbsp;
-## Upgrading to latest versions
 
-1. After installing, upgrade to latest version of `gamma-cli` with:
 
-    ```
-    brew upgrade gamma-cli
-    ```
-
-2. Upgrade to latest version of Gamma server with:
-
-    ```
-    gamma-cli upgrade-server
-    ```
-
-&nbsp;
 ## Commands
 
 ```
@@ -215,6 +211,30 @@ gamma-cli send-tx -i transfer.json -signer user1 -env testnet2
 If a config file does not exist, the default environment is `local` with virtual chain `42` and the endpoint `localhost`.
 
 &nbsp;
+
+
 ## Building from source
 
 All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only. If you're interested in building the tools from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go.
+
+
+## Upgrading to latest versions
+
+- To upgrade to the latest gamma-cli version
+
+    ```
+    brew upgrade gamma-cli
+    ```
+
+- To Upgrade to latest version of Gamma server with:
+
+    ```
+    gamma-cli upgrade-server
+    ```
+
+&nbsp;
+
+## current version
+- gamma cli version v0.5 (beta)
+- gamma-server version v0.7 (beta)
+
