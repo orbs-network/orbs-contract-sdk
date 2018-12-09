@@ -118,7 +118,7 @@ See https://github.com/orbs-network/orbs-contract-sdk for more info.
 ```
 
 &nbsp;
-## Workflow
+## Workflows
 
 #### Starting and stopping the server
 
