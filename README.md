@@ -30,7 +30,7 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
 - For mac - [brew](https://brew.sh/) should be installed.
 - [Go](https://golang.org/doc/install) 1.10+ is installed. 
    
-   > Verify installation with `go version`<br/> 
+   > Verify installation by typing in terminal `go version`<br/> 
    >The full guide to install Go can be found [here](https://golang.org/doc/install)). 
 
 - Please Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
@@ -48,13 +48,13 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
   brew install orbs-network/devtools/gamma-cli
 
 ```
-> Verify by running the command  `gamma-cli version`
-
+> Verify by typing in the terminal: `gamma-cli version`
 
 ## Deploying your first contract
 
-### 1. Write a simple counter contract
+### 1. Write a simple contract
 
+Let's write a simple counter contract.
 This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
 
 ```go
@@ -83,7 +83,7 @@ func get() uint64 {
 }
 ```
 
-### 2. Start the Gamma local blockchain 
+### 2. Start the Gamma server local blockchain 
 
 Type in the terminal:
 ```
@@ -115,7 +115,7 @@ gamma-cli deploy -name MyCounter -code counter.go
 ```
 ### 3. Send a transaction to increment the counter
 
-Write the contract's method arguments in a json file named [`add-25.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/add-25.json): 
+Write the contract's method arguments in a json file named [`add-25.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/add-25.json). See example: 
 
 ```json
 {
@@ -130,15 +130,16 @@ Write the contract's method arguments in a json file named [`add-25.json`](https
 }
 ```
 
-To increment the counter by 75, please type in the terminal:
-
+To increment the counter by 75, for example, please type in the terminal:
 ```
-gamma-cli send-tx -i add-25.json
-gamma-cli send-tx -i add-25.json
-gamma-cli send-tx -i add-25.json
+// sending 
+gamma-cli send-tx -i add-25.json -signer user1
+gamma-cli send-tx -i add-25.json -signer user1
+gamma-cli send-tx -i add-25.json -signer user1
 ```
 >  `send-tx` is used when the smart contract method may change contract's state. 
    The transaction will be added to the blockchain under consensus.
+>  `user 1`, from orbs-test-keys.json file, represent the private key that signed the transaction.
 
 
 ### 4. Read the counter value
