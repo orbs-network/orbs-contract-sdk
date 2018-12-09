@@ -1,25 +1,25 @@
-# Gamma - Personal Orbs Blockchain for Developers (in progress) 
+# Gamma - Personal Orbs Blockchain for Developers 
 
 Gamma is a personal Orbs blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.</br>
 **Gamma-server** runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine.
 
 **Gamma-CLI*** -  command line tool helps developers interact with a Gamma server instance running on their machine. 
 
- >v0.1 is an experimental version of a local Orbs blockchain. Please make sure to upgrade it regularly in order to receive bug fixes, new features, and improvements to the smart contract SDK. For more info, please visit our [blog](https://medium.com/orbs-network). ”
-
 &nbsp;
 
 ## Getting Started...
 
 ### Prerequisites
+- For mac - [brew](https://brew.sh/) should be installed.
+
 - [Go](https://golang.org/doc/install) 1.10+ is installed. 
-   > Verify installation with `go version`<br/> 
-   >The full guide to install Go can be found [here]((https://golang.org/doc/install)) 
+   
+   > Verify installation by typing in terminal `go version`<br/> 
+   >The full guide to install Go can be found [here](https://golang.org/doc/install)). 
 
-- [Docker](https://docs.docker.com/docker-for-mac/install/) is installed and **running** on your machine.
+- Please Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
 
-- Brew is installed. See installation instructions [here](https://brew.sh/). 
-- It is recommanded to download Orbs smart contract exmaples in Go for a quick start [avaiable here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples). Smart contract installation instructions [here].(https://github.com/orbs-network/orbs-contract-sdk/blob/master/README.md#installation)
+- Orbs smart contract SDK is installed. installation instructions [here].(https://github.com/orbs-network/orbs-contract-sdk/blob/master/README.md#installation).
 
 &nbsp;
 
@@ -163,7 +163,7 @@ Both commands rely on an input JSON file which contains the actual details of th
 }
 ``` 
 
-The contract name should be the name chosen during deployment of the contract with `gamma-cli deploy`. The method name should be one of the exported methods found in the contract source code.
+The **contract name** should be the name chosen during deployment of the contract with `gamma-cli deploy`. The method name should be one of the exported methods found in the contract source code.
 
 The array of arguments should be given according to the declaration of the method in contract source code. The following primitive argument types are supported:
 
