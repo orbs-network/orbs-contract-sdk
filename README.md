@@ -21,8 +21,8 @@ To make the development process as easy and productive as possible, Orbs relies 
 Please [contact us](FeatureRequest@orbs.com ) for information about additional implementation in another language.
 &nbsp;
 
+
 ## Quick Start
-&nbsp;
 
 ### Prerequisites
 
@@ -42,7 +42,9 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
    > The SDK includes [examples](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) - those
      will be download to  ~/github.com/orbs-network/orbs-contract-sdk/go/examples on your computer.
    
-2. Install [Gamma]((GAMMA.md))- the local orbs blockchain and CLI tool. Simply type in the terminal
+2. Install [Gamma]((GAMMA.md))- the local orbs blockchain and CLI tool. 
+
+Simply type in the terminal
 ```
   brew install orbs-network/devtools/gamma-cli
 
@@ -83,7 +85,7 @@ func get() uint64 {
 
 ### 2. Start the Gamma server local blockchain 
 
-Type in the terminal:
+    Type in the terminal:
 ```
     gamma-cli start-local
 ```
