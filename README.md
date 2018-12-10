@@ -10,7 +10,6 @@ Here you will find everything you need to develop smart contracts for the Orbs b
 * [Quick start](#Quick-Start)
 * [Deploying your first contract](#Deploying-your-first-contract)
 * [Next steps](#Next-steps)
-
 &nbsp;
 
 ## Overview
@@ -40,7 +39,7 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
 1. Download the Orbs smart contract SDK by typing in terminal `go get -u github.com/orbs-network/orbs-contract-sdk/...`</br>
    > If you're new to Go, it is recommended to download the SDK to the Go workspace.
 
-   > The SDK includes [examples](https://github.com/orbs-network/orbs-contract  sdk/tree/master/go/examples) - those
+   > The SDK includes [examples](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) - those
      will be download to  ~/github.com/orbs-network/orbs-contract-sdk/go/examples on your computer.
    
 2. Install [Gamma]((GAMMA.md))- the local orbs blockchain and CLI tool. Simply type in the terminal
@@ -56,7 +55,6 @@ Please [contact us](FeatureRequest@orbs.com ) for information about additional i
 
 Let's write a simple counter contract.
 This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
-
 ```go
 package main
 
@@ -141,7 +139,6 @@ gamma-cli send-tx -i add-25.json -signer user1
    The transaction will be added to the blockchain under consensus.
 >  `user 1`, from orbs-test-keys.json file, represent the private key that signed the transaction.
 
-
 ### 4. Read the counter value
 
 Write the contract's method arguments in a json file named [`get.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/get.json):
@@ -158,7 +155,6 @@ To read the counter value from contract's state type in terminal:
 ```
 gamma-cli read -i get.json
 ```
-
 &nbsp;
 
 ## Next steps
