@@ -9,6 +9,9 @@ type SdkHandler interface {
 	// service
 	SdkServiceCallMethod(ctx ContextId, permissionScope PermissionScope, serviceName string, methodName string, args ...interface{}) []interface{}
 
+	// events
+	SdkEventsEmitEvent(ctx ContextId, permissionScope PermissionScope, eventName string, args ...interface{})
+
 	// ethereum
 	SdkEthereumCallMethod(ctx ContextId, permissionScope PermissionScope, contractAddress string, jsonAbi string, methodName string, out interface{}, args ...interface{})
 	SdkEthereumGetTransactionLog(ctx ContextId, permissionScope PermissionScope, contractAddress string, jsonAbi string, ethTransactionId string, eventName string, out interface{})
