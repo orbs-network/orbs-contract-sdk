@@ -2,7 +2,7 @@
 
 The Orbs smart contract SDK is a framework for building decentralized applications over the Orbs blockchain. These applications are made of smart contracts written in the [Go](https://en.wikipedia.org/wiki/Go_(programming_language)) programming language.
 
-Support for additional programming languages like JavaScript is under development. [Contact us](FeatureRequest@orbs.com) for more information.
+Support for additional programming languages like JavaScript is under way, [contact us](FeatureRequest@orbs.com) for more information.
 
 > Note: While the Orbs smart contract SDK is stable, it is still under development; there may be breaking changes.
 
