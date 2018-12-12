@@ -1,53 +1,59 @@
 # Orbs Smart Contract SDK
 
-The Orbs smart contract a framework for building applications over the Orbs blockchain, and written in [Go](https://en.wikipedia.org/wiki/Go_(programming_language) language.
-Please [contact us](FeatureRequest@orbs.com) for information about additional implementation in another language.  
+The Orbs smart contract SDK is a framework for building decentralized applications over the Orbs blockchain. These applications are made of smart contracts written in the [Go](https://en.wikipedia.org/wiki/Go_(programming_language)) programming language.
 
-> **Note** While the Orbs smart contract SDK is stable, it is still under development; there may be breaking changes.
+> Note: While the Orbs smart contract SDK is stable, it is still under development; there may be breaking changes.
 
-## Table of Contents
+Support for additional programming languages like JavaScript is under way, [contact us](FeatureRequest@orbs.com) for more information.
 
-* [Quick start](#Quick-Start)
-* [Deploying your first contract](#Deploying-your-first-contract)
-* [Next steps](#Next-steps)
 &nbsp;
 
+## Table of contents
 
-## Quick Start
+* [Quick start](#quick-start)
+* [Deploying your first contract](#deploying-your-first-contract)
+* [Next steps](#next-steps)
 
-### Prerequisites
+&nbsp;
 
-- For mac - [brew](https://brew.sh/) should be installed.
-- [Go](https://golang.org/doc/install) 1.10+ is installed. 
+## Quick start
+
+### Prerequisites (Mac)
+
+* Make sure [brew](https://brew.sh/) is available on your machine.
+
+* Make sure [Go language](https://golang.org/doc/install) 1.10+ is installed on your machine.
    
-   > Verify installation by typing into the terminal `go version`<br/> 
-   > The full guide to install Go can be found [here](https://golang.org/doc/install)). 
+    > Verify the installation by running in terminal `go version`
 
-- Please Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
+* To test contracts locally, make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
 
 ### Installation 
 
-1. Download the Orbs smart contract SDK by typing into the terminal: 
-```go get -u github.com/orbs-network/orbs-contract-sdk/...```</br>
+1. Download the Orbs smart contract SDK by running in terminal:
 
-   > If you're new to Go, it is recommended to download the SDK to the Go workspace.
+    ```
+    go get -u github.com/orbs-network/orbs-contract-sdk/...
+    ```
 
-   > The SDK includes [examples](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) - those
-     will be download to  ~/github.com/orbs-network/orbs-contract-sdk/go/examples on your computer.
-   
-2. Install [Gamma]((GAMMA.md))- the local orbs blockchain and CLI tool: simply type into the terminal
+   > It will be downloaded to your Go workspace, typically `~/go/src/github.com/orbs-network/orbs-contract-sdk`<br>[Example contracts](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) will be at `~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples`
 
-```
-  brew install orbs-network/devtools/gamma-cli
+2. Install [Gamma](GAMMA.md), a personal Orbs blockchain running locally, by running in terminal:
 
-```
-> Verify by typing into the terminal: `gamma-cli version`
+    ```
+    brew install orbs-network/devtools/gamma-cli
+    ```
+    
+    > To verify the installation, run in terminal `gamma-cli version`
+
+&nbsp;
 
 ## Deploying your first contract
 
 ### 1. Write a simple contract
 
-Let's write a simple counter contract. This will be our code[`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
+Let's write a simple example that implements a counter. This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
+
 ```go
 package main
 
@@ -74,26 +80,25 @@ func get() uint64 {
 }
 ```
 
-### 2. Start the Gamma server local blockchain 
+### 2. Start Gamma server
 
-       Type into the terminal:
+We'll test our contract on Gamma server - a locally running blockchain. Start it from terminal:
+
 ```
-    gamma-cli start-local
+gamma-cli start-local
 ```
-> A message that Orbs Gamma blockchain is running with the port it is listening to.
-> To stop the gamma server, type command `gamma-cli stop-local`
 
-### 2. Deploy the contract
+### 3. Deploy the contract
 
-To deploy the counter contract,  type into the terminal:
+To deploy the counter contract, run in terminal:
+
 ```
 gamma-cli deploy -name MyCounter -code counter.go
 ```
 
-> For a successful deploy, response should contain **`"ExecutionResult": "SUCCESS"`**.
+> If the deploy is successful, you'll see a response similar to this:
 
-> Output example:
-```go
+```json
 {
   "RequestStatus": "COMPLETED",
   "TxId": "7Y4urVmKvunYsxh7kKhUoQ72XjSJcdkBxxzBcauC9icC9gzMy8mPDcg",
@@ -104,9 +109,10 @@ gamma-cli deploy -name MyCounter -code counter.go
   "BlockTimestamp": "2018-12-05T13:05:51.347Z"
 }
 ```
-### 3. Send a transaction to increment the counter
 
-Write the contract's method arguments in a json file named [`add-25.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/add-25.json). See json: 
+### 4. Send a transaction to increment the counter
+
+Write the transaction details in a JSON file named [`add-25.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/add-25.json)
 
 ```json
 {
@@ -121,20 +127,19 @@ Write the contract's method arguments in a json file named [`add-25.json`](https
 }
 ```
 
-To increment the counter by 75, for example, please type into the terminal:
-```
-// sending 
-gamma-cli send-tx -i add-25.json -signer user1
-gamma-cli send-tx -i add-25.json -signer user1
-gamma-cli send-tx -i add-25.json -signer user1
-```
->  `send-tx` is used when the smart contract method may change contract's state. 
-   The transaction will be added to the blockchain under consensus.
->  `user 1`, from orbs-test-keys.json file, represent the private key that signes the transaction.
+To increment the counter by 75, let's send this transaction 3 times from terminal:
 
-### 4. Read the counter value
+```
+gamma-cli send-tx -i add-25.json -signer user1
+gamma-cli send-tx -i add-25.json -signer user1
+gamma-cli send-tx -i add-25.json -signer user1
+```
 
-Write the contract's method arguments in a json file named [`get.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/get.json):
+> Note: The transaction will be signed by `user1`, an example account found in `orbs-test-keys.json`
+
+### 5. Read the counter value
+
+Write the query details in a JSON file named [`get.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/get.json)
 
 ```json
 {
@@ -144,20 +149,35 @@ Write the contract's method arguments in a json file named [`get.json`](https://
 }
 ```
 
-To read the counter value from contract's state type into the terminal:
+This query will read the counter value from the contract's state. Send it from terminal:
+
 ```
 gamma-cli read -i get.json
 ```
+
+> Note: Transactions that change state require consensus by several nodes. Reading state is a simpler action that doesn't require consensus.
+
+### 6. Stop Gamma server
+
+Since we're done testing, the server is no longer needed. Let's stop it from terminal:
+
+```
+gamma-cli stop-local
+```
+
 &nbsp;
 
 ## Next steps
 
-- Explore more contract examples in Go  - https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples.
-- Explore Gamma, local Orbs blockchain - [link](https://github.com/orbs-network/orbs-contract-sdk/blob/master/GAMMA.md) 
-    >you can also type in the terminal `gamma-cli help`
-- Explore the API of the SDK - [link](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/sdk)
-- client SDK Go - [more information](https://github.com/orbs-network/orbs-client-sdk-go)
+* Explore more examples of contracts [here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples).
 
+* Read more about Gamma, the local Orbs blockchain, [here](https://github.com/orbs-network/orbs-contract-sdk/blob/master/GAMMA.md).
+
+    > You can also run in terminal `gamma-cli help`
+    
+* Explore the API of the SDK [here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/sdk).
+
+* After your contracts are deployed to test net or main net, build clients that access them using the [Orbs Client SDK](https://github.com/orbs-network/orbs-client-sdk-go).
 
 ## License
 
