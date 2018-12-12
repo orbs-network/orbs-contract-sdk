@@ -48,7 +48,7 @@ Gamma is a personal Orbs blockchain that allows developers to easily test, run a
     gamma-cli stop-local
     ```
     
-    > Note: The local blockchain instance is running in-memory. The next time you start the instance, all contracts and state will disappear.
+    > Note: The local blockchain instance is running in-memory. The next time you start the instance, all contracts and state will disappear from memory and you will need to deploy them again.
 
 &nbsp;
 
