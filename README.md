@@ -127,7 +127,7 @@ Write the transaction details in a JSON file named [`add-25.json`](https://githu
 }
 ```
 
-To increment the counter by 75, let's send this transaction 3 times. Run in terminal:
+To increment the counter by 75, let's send this transaction 3 times from terminal:
 
 ```
 gamma-cli send-tx -i add-25.json -signer user1
