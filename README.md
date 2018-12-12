@@ -38,7 +38,7 @@ Support for additional programming languages like JavaScript is under way, [cont
 
    > It will be downloaded to your Go workspace, typically `~/go/src/github.com/orbs-network/orbs-contract-sdk`
 
-   > The SDK [example contracts](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) will be found at `~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples` on your computer.
+   > [Example contracts](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) will be at `~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples`
 
 2. Install [Gamma](GAMMA.md), a personal Orbs blockchain running locally, by running in terminal:
 
