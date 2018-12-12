@@ -137,15 +137,15 @@ See https://github.com/orbs-network/orbs-contract-sdk for more info.
 
 &nbsp;
 
-## Advanced
+## Advanced use
 
-#### Starting and stopping the server
+### Starting and stopping the server
 
 The server runs locally and listens on port 8080 by default, although a custom port can be given as argument. The local server instance is a full blockchain network made from several nodes which communicate using the actual consensus protocol. 
 
 When transactions are not sent, the nodes will keep closing empty blocks. It is therefore recommended to stop the server when it's not needed with the `gamma-cli stop-local` command.
 
-#### Test keys and accounts
+### Test keys and accounts
 
 When first launching Gamma server a batch of 10 testing accounts (public keys, private keys and addresses) will automatically be created and saved under `orbs-test-keys.json` in the local directory. Please note that these keys are for testing only and should not be used in secure production environments.
 
@@ -153,7 +153,7 @@ To replace the keys with a new batch of 10 accounts run `gamma-cli gen-test-keys
 
 Every account in the file is given an ID. The default IDs are `user1` to `user10`. You can change the IDs by editing the file directly.
 
-#### Deploying smart contracts
+### Deploying smart contracts
 
 To deploy a smart contract run the command `gamma-cli deploy` and provide the contract name. You will also need to provide the source code for the contract.
 
@@ -161,7 +161,7 @@ Contracts are immutable. If you want to update the code for a contract, deploy i
 
 Note that Gamma server is an in-memory blockchain. When you stop the instance with `gamma-cli stop-local` all contracts will disappear.
 
-#### Sending transactions and calling contracts
+### Sending transactions and calling contracts
 
 Send transactions to contracts (write operations) by running `gamma-cli send-tx` and call contracts (read operations) by running `gamma-cli read`.
 
@@ -196,7 +196,7 @@ In addition to these primitives, `gamma-cli` supports several aliases for conven
 
 * `gamma:keys-file-address` - An account address by ID. The value should be an account ID from `orbs-test-keys.json`. An alias for the type `bytes` which means it matches the `[]byte` type in go contracts and `Uint8Array` type in js contracts. Used to pass the account address in raw form.
 
-#### Working with multiple environments
+### Working with multiple environments
 
 The command line tool supports multiple environments such as local and test net. To configure multiple environments create a file named `orbs-gamma-config.json` in the local directory, with the following format:
 
