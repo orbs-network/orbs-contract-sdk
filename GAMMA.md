@@ -1,54 +1,56 @@
 # Gamma - Personal Orbs Blockchain for Developers 
 
-Gamma is a personal Orbs blockchain to empower developers to easily and efficiently deploy, run & test smart contracts.</br>
-**Gamma-server** runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine.
+Gamma is a personal Orbs blockchain that allows developers to easily test, run and deploy smart contracts.
 
-**Gamma-CLI*** -  command line tool helps developers interact with a Gamma server instance running on their machine. 
+`Gamma server` - runs an in-memory virtual chain on top of an Orbs blockchain with several nodes on your local machine.
+
+`gamma-cli` - command line tool for developers to interact with a Gamma server instance running on their machine. 
 
 &nbsp;
 
-## Getting Started...
+## Getting started
 
-### Prerequisites
-- For mac - [brew](https://brew.sh/) should be installed.
+### Prerequisites (Mac)
 
-- [Go](https://golang.org/doc/install) 1.10+ is installed. 
-   
-   > Verify installation by typing in terminal `go version`<br/> 
-   >The full guide to install Go can be found [here](https://golang.org/doc/install)). 
+* Make sure [brew](https://brew.sh/) is available on your machine.
 
-- Please Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
+* Make sure [Docker](https://docs.docker.com/docker-for-mac/install/) is installed on your machine.
 
-- Orbs smart contract SDK is installed. installation instructions [here].(https://github.com/orbs-network/orbs-contract-sdk/blob/master/README.md#installation).
+* If you're planning to develop your own smart contracts in Go, install the [Orbs Smart Contract SDK](https://github.com/orbs-network/orbs-contract-sdk#installation).
 
 &nbsp;
 
 ## Installation
-To install gamma-cli you can simply run this command in your terminal using brew:
-```
+
+1. To install the command line tool, run the following command in terminal:
+
+    ```
     brew install orbs-network/devtools/gamma-cli
-```
-> To verify type in terminal `gamma-cli version`, see it matches tha latest [version]() </br>
-> Note that in the first time both gamma-cli and gamma-server will be installed. 
+    ```
+    
+    > To verify the installation, run in terminal `gamma-cli version`
+    
+2. Gamma server will automatically be installed the first time you start it with `gamma-cli start-local`
 
+&nbsp;
 
-## Start & stop Gamma server 
+## Starting and stopping Gamma server 
 
-Start Gamma server by typing in terminal:
+* Start Gamma server by running in terminal:
+
     ```
     gamma-cli start-local
     ```
 
-When finished, stop Gamma server by typing in terminal:
-     
+* When finished working with the server, stop it by running in terminal:
+
     ```
     gamma-cli stop-local
     ```
-   > Note that local blockchain instance is running in-memory.
-   > The next time you start the instance, all contracts and state will disappear.
+    
+    > Note: The local blockchain instance is running in-memory. The next time you start the instance, all contracts and state will disappear.
 
 &nbsp;
-
 
 ## Commands
 
@@ -118,13 +120,28 @@ See https://github.com/orbs-network/orbs-contract-sdk for more info.
 ```
 
 &nbsp;
-## Workflows
+
+## Upgrading to latest versions
+
+* Upgrade to the latest version of `gamma-cli` by running in terminal:
+
+    ```
+    brew upgrade gamma-cli
+    ```
+
+* Upgrade to the latest version of Gamma server by running in terminal:
+
+    ```
+    gamma-cli upgrade-server
+    ```
+
+&nbsp;
+
+## Advanced
 
 #### Starting and stopping the server
 
-Start the server with `gamma-cli start-local` and stop it with `gamma-cli stop-local`. The server runs locally and listens on port 8080 by default, although a custom port can be given as argument.
-
-The local server instance is a full blockchain network made from several nodes which communicate using an actual consensus protocol. 
+The server runs locally and listens on port 8080 by default, although a custom port can be given as argument. The local server instance is a full blockchain network made from several nodes which communicate using the actual consensus protocol. 
 
 When transactions are not sent, the nodes will keep closing empty blocks. It is therefore recommended to stop the server when it's not needed with the `gamma-cli stop-local` command.
 
@@ -212,29 +229,6 @@ If a config file does not exist, the default environment is `local` with virtual
 
 &nbsp;
 
+## Building the tools from source
 
-## Building from source
-
-All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only. If you're interested in building the tools from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go.
-
-
-## Upgrading to latest versions
-
-- To upgrade to the latest gamma-cli version
-
-    ```
-    brew upgrade gamma-cli
-    ```
-
-- To Upgrade to latest version of Gamma server with:
-
-    ```
-    gamma-cli upgrade-server
-    ```
-
-&nbsp;
-
-## current version
-- gamma cli version v0.5 (beta)
-- gamma-server version v0.7 (beta)
-
+All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only. If you're interested in building the tools by yourself from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go.
