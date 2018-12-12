@@ -52,7 +52,7 @@ Support for additional programming languages like JavaScript is under way, [cont
 
 ### 1. Write a simple contract
 
-Let's write a simple counter contract. This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
+Let's write a simple example that implements a counter. This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
 
 ```go
 package main
