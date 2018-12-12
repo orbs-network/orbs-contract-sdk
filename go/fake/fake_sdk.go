@@ -2,7 +2,6 @@ package fake
 
 import (
 	"encoding/hex"
-	"github.com/orbs-network/go-mock"
 	"github.com/orbs-network/orbs-contract-sdk/go/context"
 	"github.com/pkg/errors"
 	"math/rand"
@@ -28,8 +27,6 @@ type serviceStub struct {
 }
 
 type mockHandler struct {
-	mock.Mock
-
 	signerAddress []byte
 	callerAddress []byte
 
@@ -126,15 +123,24 @@ func InServiceScope(callerAddress []byte, f func(mockery Mockery)) {
 }
 
 func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) {
+	handler := aFakeSdkFor(signerAddress, callerAddress)
+	cid := context.ContextId(43)
+	context.PushContext(cid, handler, scope)
+	f(handler)
+	context.PopContext(cid)
+}
+
+func aFakeSdkFor(signerAddress []byte, callerAddress []byte) *mockHandler {
 	handler := &mockHandler{
 		signerAddress: signerAddress,
 		callerAddress: callerAddress,
 		state:         make(stateMap),
 	}
-	cid := context.ContextId(43)
-	context.PushContext(cid, handler, scope)
-	f(handler)
-	context.PopContext(cid)
+	return handler
+}
+
+func aFakeSdk() *mockHandler {
+	return aFakeSdkFor([]byte{}, []byte{})
 }
 
 func AnAddress() (address []byte) {
