@@ -157,6 +157,14 @@ gamma-cli read -i get.json
 
 > Note: Transactions that change state require consensus by several nodes. Reading state is a simpler action that doesn't require consensus.
 
+### 6. Stop Gamma server
+
+Since we're done testing, the server is no longer needed. Let's stop it from terminal:
+
+```
+gamma-cli stop-local
+```
+
 &nbsp;
 
 ## Next steps
