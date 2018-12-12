@@ -25,3 +25,22 @@ func TestReadValueFromLog(t *testing.T) {
 	})
 }
 
+func TestCallEthereumMethod(t *testing.T) {
+	address := "a"
+	abi := "b"
+	methodName := "c"
+	arg1 := 1
+	arg2 := true
+
+	InServiceScope(AnAddress(), func(m Mockery) {
+
+		m.MockEthereumCallMethod(address, abi, methodName, func(out interface{}) {
+			out.(*event).value = "bar"
+		}, arg1, arg2)
+
+		v := callEthereumMethod(address, abi, methodName, arg1, arg2)
+
+		require.Equal(t, "bar", v, "did not get expected value from method call")
+
+	})
+}

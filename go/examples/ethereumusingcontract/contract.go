@@ -20,3 +20,9 @@ func readValueFromLog(address string, abi string, txid string, eventName string)
 	ethereum.GetTransactionLog(address, abi, txid, eventName, &event)
 	return event.value
 }
+
+func callEthereumMethod(address string, abi string, methodName string, args ...interface{}) string {
+	var event event
+	ethereum.CallMethod(address, abi, methodName, &event, args...)
+	return event.value
+}
