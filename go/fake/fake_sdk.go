@@ -14,16 +14,25 @@ type Mockery interface {
 	MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{}))
 	MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
 	MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{})
+	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
+	VerifyMocks()
 }
 
 type ethereumStub struct {
 	key        []interface{}
 	outMutator func(interface{})
+	satisfied  bool
+}
+
+type eventStub struct {
+	key       []interface{}
+	satisfied bool
 }
 
 type serviceStub struct {
-	key []interface{}
-	out []interface{}
+	key       []interface{}
+	out       []interface{}
+	satisfied bool
 }
 
 type mockHandler struct {
@@ -33,6 +42,7 @@ type mockHandler struct {
 	state         stateMap
 	ethereumStubs []ethereumStub
 	serviceStubs  []serviceStub
+	eventStubs    []eventStub
 }
 
 func (m *mockHandler) SdkStateReadBytesByAddress(ctx context.ContextId, permissionScope context.PermissionScope, address []byte) []byte {
@@ -48,8 +58,10 @@ func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScop
 	key = append(key, serviceName, methodName)
 	key = append(key, args...)
 
-	for _, stub := range m.serviceStubs {
+	for i, stub := range m.serviceStubs {
 		if keyEquals(stub.key, key) {
+			m.serviceStubs[i].satisfied = true
+			stub.satisfied = true
 			return stub.out
 		}
 	}
@@ -62,8 +74,9 @@ func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionSco
 	key = append(key, contractAddress, jsonAbi, methodName)
 	key = append(key, args...)
 
-	for _, stub := range m.ethereumStubs {
+	for i, stub := range m.ethereumStubs {
 		if keyEquals(stub.key, key) {
+			m.ethereumStubs[i].satisfied = true
 			stub.outMutator(out)
 			return
 		}
@@ -76,14 +89,14 @@ func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permis
 	var key []interface{}
 	key = append(key, contractAddress, jsonAbi, ethTransactionId, eventName)
 
-	for _, stub := range m.ethereumStubs {
+	for i, stub := range m.ethereumStubs {
 		if keyEquals(stub.key, key) {
+			m.ethereumStubs[i].satisfied = true
 			stub.outMutator(out)
 			return
 		}
 	}
 	panic(errors.Errorf("No Ethereum logs stubbed for address %s, jsonAbi %s, txHash %s, event name %s", contractAddress, jsonAbi, ethTransactionId, eventName))
-
 }
 
 func (m *mockHandler) SdkAddressGetSignerAddress(ctx context.ContextId, permissionScope context.PermissionScope) []byte {
@@ -94,11 +107,20 @@ func (m *mockHandler) SdkAddressGetCallerAddress(ctx context.ContextId, permissi
 	return m.callerAddress
 }
 
-
 func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope context.PermissionScope, eventFunctionSignature interface{}, args ...interface{}) {
-	panic("implement me")
-}
+	var key []interface{}
+	//	key = append(key, eventFunctionSignature) // is there a way to equal funcs?
+	key = append(key, args...)
 
+	for i, stub := range m.eventStubs {
+		if keyEquals(stub.key, key) {
+			m.eventStubs[i].satisfied = true
+			return
+		}
+	}
+
+	panic(errors.Errorf("No Emit Event stubbed for func %s, arguments %v", eventFunctionSignature, args))
+}
 
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{})) {
 	var key []interface{}
@@ -118,6 +140,31 @@ func (m *mockHandler) MockServiceCallMethod(serviceName string, methodName strin
 	key = append(key, serviceName, methodName)
 	key = append(key, args...)
 	m.serviceStubs = append(m.serviceStubs, serviceStub{key: key, out: out})
+}
+
+func (m *mockHandler) MockEmitEvent(eventFunctionSignature interface{}, args ...interface{}) {
+	var key []interface{}
+	//	key = append(key, eventFunctionSignature) // is there a way to equal funcs?
+	key = append(key, args...)
+	m.eventStubs = append(m.eventStubs, eventStub{key: key})
+}
+
+func (m *mockHandler) VerifyMocks() {
+	for _, stub := range m.eventStubs {
+		if !stub.satisfied {
+			panic(errors.Errorf("emit event mock set but not called"))
+		}
+	}
+	for _, stub := range m.serviceStubs {
+		if !stub.satisfied {
+			panic(errors.Errorf("service call mock set but not called"))
+		}
+	}
+	for _, stub := range m.ethereumStubs {
+		if !stub.satisfied {
+			panic(errors.Errorf("ethereum mock set but not called"))
+		}
+	}
 }
 
 func InSystemScope(signerAddress []byte, f func(mockery Mockery)) {

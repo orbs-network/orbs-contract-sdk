@@ -138,7 +138,6 @@ func TestMockHandler_SdkServiceCallMethod_Success(t *testing.T) {
 
 	require.Equal(t, out, s.SdkServiceCallMethod(0, 0, serviceName, methodName, arg1, arg2))
 }
-
 func TestMockHandler_SdkEventsEmitEvent_Unstubbed(t *testing.T) {
 	s := aFakeSdk()
 
@@ -147,3 +146,105 @@ func TestMockHandler_SdkEventsEmitEvent_Unstubbed(t *testing.T) {
 	}, "unstubbed event emit did not panic")
 }
 
+func TestMockHandler_SdkEventsEmitEvent_Success(t *testing.T) {
+	s := aFakeSdk()
+
+	f := func(i int, s string) {}
+	arg1 := 1
+	arg2 := "c"
+	s.MockEmitEvent(f, arg1, arg2)
+
+	require.NotPanics(t, func() { s.SdkEventsEmitEvent(0, 0, f, arg1, arg2) })
+}
+
+func TestMockHandler_SdkEventsEmitEvent_Partial(t *testing.T) {
+	s := aFakeSdk()
+
+	f := func(i int, s string) {}
+	arg1 := 1
+	arg2 := "c"
+	s.MockEmitEvent(f, arg1, arg2)
+
+	require.Panics(t, func() {
+		s.SdkEventsEmitEvent(0, 0, f, arg1, "d")
+	}, "partially stubbed event emit did not panic")
+}
+
+func TestMockHandler_Verify_CallMethodSuccess(t *testing.T) {
+	s := aFakeSdk()
+	serviceName := "a"
+	methodName := "b"
+	arg1 := "c"
+	arg2 := 1
+	out := []interface{}{true, "z"}
+
+	s.MockServiceCallMethod(serviceName, methodName, out, arg1, arg2)
+	s.SdkServiceCallMethod(0, 0, serviceName, methodName, arg1, arg2)
+
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_Verify_CallMethodMissing(t *testing.T) {
+	s := aFakeSdk()
+	serviceName := "a"
+	methodName := "b"
+	arg1 := "c"
+	arg2 := 1
+	out := []interface{}{true, "z"}
+
+	s.MockServiceCallMethod(serviceName, methodName, out, arg1, arg2)
+
+	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
+}
+
+func TestMockHandler_Verify_EmitSuccess(t *testing.T) {
+	s := aFakeSdk()
+
+	f := func(i int, s string) {}
+	arg1 := 1
+	arg2 := "c"
+	s.MockEmitEvent(f, arg1, arg2)
+	s.SdkEventsEmitEvent(0, 0, f, arg1, arg2)
+
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_Verify_EmitMissing(t *testing.T) {
+	s := aFakeSdk()
+
+	f := func(i int, s string) {}
+	arg1 := 1
+	arg2 := "c"
+	s.MockEmitEvent(f, arg1, arg2)
+
+	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
+}
+
+func TestMockHandler_Verify_EthereumSuccess(t *testing.T) {
+	s := aFakeSdk()
+	address := "a"
+	abi := "b"
+	txHash := "c"
+	eventName := "e"
+	s.MockEthereumLog(address, abi, txHash, eventName, func(out interface{}) {
+		out.(*foo).bar = "baz"
+	})
+
+	var out foo
+	s.SdkEthereumGetTransactionLog(0, 0, address, abi, txHash, eventName, &out)
+
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_Verify_EthereumMissing(t *testing.T) {
+	s := aFakeSdk()
+	address := "a"
+	abi := "b"
+	txHash := "c"
+	eventName := "e"
+	s.MockEthereumLog(address, abi, txHash, eventName, func(out interface{}) {
+		out.(*foo).bar = "baz"
+	})
+
+	require.Panics(t, func() { s.VerifyMocks() }, "missing call to ethereum should have failed verify")
+}
