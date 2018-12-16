@@ -138,3 +138,12 @@ func TestMockHandler_SdkServiceCallMethod_Success(t *testing.T) {
 
 	require.Equal(t, out, s.SdkServiceCallMethod(0, 0, serviceName, methodName, arg1, arg2))
 }
+
+func TestMockHandler_SdkEventsEmitEvent_Unstubbed(t *testing.T) {
+	s := aFakeSdk()
+
+	require.Panics(t, func() {
+		s.SdkEventsEmitEvent(0, 0, func() {}, 1)
+	}, "unstubbed event emit did not panic")
+}
+

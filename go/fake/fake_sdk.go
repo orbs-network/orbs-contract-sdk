@@ -94,6 +94,12 @@ func (m *mockHandler) SdkAddressGetCallerAddress(ctx context.ContextId, permissi
 	return m.callerAddress
 }
 
+
+func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope context.PermissionScope, eventFunctionSignature interface{}, args ...interface{}) {
+	panic("implement me")
+}
+
+
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{})) {
 	var key []interface{}
 	key = append(key, address, abiJson, ethTxHash, eventName)
