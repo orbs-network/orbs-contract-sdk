@@ -13,7 +13,7 @@ func TestReadValueFromLog(t *testing.T) {
 	txid := "c"
 	eventName := "d"
 
-	InServiceScope(AnAddress(), func(m Mockery) {
+	InServiceScope(nil, nil, func(m Mockery) {
 
 		m.MockEthereumLog(address, abi, txid, eventName, func(out interface{}) {
 			out.(*event).Value = "foo"
@@ -32,7 +32,7 @@ func TestCallEthereumMethod(t *testing.T) {
 	arg1 := 1
 	arg2 := true
 
-	InServiceScope(AnAddress(), func(m Mockery) {
+	InServiceScope(nil, nil, func(m Mockery) {
 
 		m.MockEthereumCallMethod(address, abi, methodName, func(out interface{}) {
 			out.(*event).Value = "bar"

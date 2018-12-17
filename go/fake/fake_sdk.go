@@ -164,15 +164,21 @@ func (m *mockHandler) VerifyMocks() {
 	}
 }
 
-func InSystemScope(signerAddress []byte, f func(mockery Mockery)) {
-	inScope(signerAddress, []byte{}, context.PERMISSION_SCOPE_SYSTEM, f)
+func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) {
+	inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SYSTEM, f)
 }
 
-func InServiceScope(callerAddress []byte, f func(mockery Mockery)) {
-	inScope([]byte{}, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
+func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) {
+	inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
 }
 
 func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) {
+	if signerAddress == nil {
+		signerAddress = AnAddress()
+	}
+	if callerAddress == nil {
+		callerAddress = AnAddress()
+	}
 	handler := aFakeSdkFor(signerAddress, callerAddress)
 	cid := context.ContextId(43)
 	context.PushContext(cid, handler, scope)
