@@ -40,9 +40,9 @@ type mockHandler struct {
 	callerAddress []byte
 
 	state         stateMap
-	ethereumStubs []ethereumStub
-	serviceStubs  []serviceStub
-	eventStubs    []eventStub
+	ethereumStubs []*ethereumStub
+	serviceStubs  []*serviceStub
+	eventStubs    []*eventStub
 }
 
 func (m *mockHandler) SdkStateReadBytesByAddress(ctx context.ContextId, permissionScope context.PermissionScope, address []byte) []byte {
@@ -58,9 +58,8 @@ func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScop
 	key = append(key, serviceName, methodName)
 	key = append(key, args...)
 
-	for i, stub := range m.serviceStubs {
+	for _, stub := range m.serviceStubs {
 		if keyEquals(stub.key, key) {
-			m.serviceStubs[i].satisfied = true
 			stub.satisfied = true
 			return stub.out
 		}
@@ -74,9 +73,9 @@ func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionSco
 	key = append(key, contractAddress, jsonAbi, methodName)
 	key = append(key, args...)
 
-	for i, stub := range m.ethereumStubs {
+	for _, stub := range m.ethereumStubs {
 		if keyEquals(stub.key, key) {
-			m.ethereumStubs[i].satisfied = true
+			stub.satisfied = true
 			stub.outMutator(out)
 			return
 		}
@@ -89,9 +88,9 @@ func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permis
 	var key []interface{}
 	key = append(key, contractAddress, jsonAbi, ethTransactionId, eventName)
 
-	for i, stub := range m.ethereumStubs {
+	for _, stub := range m.ethereumStubs {
 		if keyEquals(stub.key, key) {
-			m.ethereumStubs[i].satisfied = true
+			stub.satisfied = true
 			stub.outMutator(out)
 			return
 		}
@@ -109,12 +108,11 @@ func (m *mockHandler) SdkAddressGetCallerAddress(ctx context.ContextId, permissi
 
 func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope context.PermissionScope, eventFunctionSignature interface{}, args ...interface{}) {
 	var key []interface{}
-	//	key = append(key, eventFunctionSignature) // is there a way to equal funcs?
 	key = append(key, args...)
 
-	for i, stub := range m.eventStubs {
+	for _, stub := range m.eventStubs {
 		if keyEquals(stub.key, key) {
-			m.eventStubs[i].satisfied = true
+			stub.satisfied = true
 			return
 		}
 	}
@@ -125,28 +123,27 @@ func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope 
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{})) {
 	var key []interface{}
 	key = append(key, address, abiJson, ethTxHash, eventName)
-	m.ethereumStubs = append(m.ethereumStubs, ethereumStub{key: key, outMutator: outMutator})
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator})
 }
 
 func (m *mockHandler) MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{}) {
 	var key []interface{}
 	key = append(key, address, abiJson, methodName)
 	key = append(key, args...)
-	m.ethereumStubs = append(m.ethereumStubs, ethereumStub{key: key, outMutator: outMutator})
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator})
 }
 
 func (m *mockHandler) MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{}) {
 	var key []interface{}
 	key = append(key, serviceName, methodName)
 	key = append(key, args...)
-	m.serviceStubs = append(m.serviceStubs, serviceStub{key: key, out: out})
+	m.serviceStubs = append(m.serviceStubs, &serviceStub{key: key, out: out})
 }
 
 func (m *mockHandler) MockEmitEvent(eventFunctionSignature interface{}, args ...interface{}) {
 	var key []interface{}
-	//	key = append(key, eventFunctionSignature) // is there a way to equal funcs?
 	key = append(key, args...)
-	m.eventStubs = append(m.eventStubs, eventStub{key: key})
+	m.eventStubs = append(m.eventStubs, &eventStub{key: key})
 }
 
 func (m *mockHandler) VerifyMocks() {
@@ -180,6 +177,7 @@ func inScope(signerAddress []byte, callerAddress []byte, scope context.Permissio
 	cid := context.ContextId(43)
 	context.PushContext(cid, handler, scope)
 	f(handler)
+	handler.VerifyMocks()
 	context.PopContext(cid)
 }
 
