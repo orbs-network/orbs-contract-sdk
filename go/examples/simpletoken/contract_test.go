@@ -10,7 +10,7 @@ import (
 func TestInit(t *testing.T) {
 	ownerAddress := AnAddress()
 
-	InSystemScope(ownerAddress, func(m Mockery) {
+	InSystemScope(ownerAddress, nil,  func(m Mockery) {
 		_init()
 
 		require.EqualValues(t, TOTAL_SUPPLY, state.ReadUint64ByAddress(ownerAddress))
@@ -21,7 +21,7 @@ func TestTransfer_NotEnoughBalance(t *testing.T) {
 	caller := AnAddress()
 	recipient := AnAddress()
 
-	InServiceScope(caller, func(m Mockery) {
+	InServiceScope(nil, caller, func(m Mockery) {
 		state.WriteUint64ByAddress(caller, 10)
 		require.Panics(t, func() {
 			transfer(20, recipient)
@@ -33,7 +33,7 @@ func TestTransfer_NoSourceAddress(t *testing.T) {
 	caller := AnAddress()
 	recipient := AnAddress()
 
-	InServiceScope(caller, func(m Mockery) {
+	InServiceScope(nil, caller, func(m Mockery) {
 		require.Panics(t, func() {
 			transfer(20, recipient)
 		})
@@ -44,7 +44,7 @@ func TestTransfer_Success(t *testing.T) {
 	recipient := AnAddress()
 	caller := AnAddress()
 
-	InServiceScope(caller, func(m Mockery) {
+	InServiceScope(nil, caller, func(m Mockery) {
 		state.WriteUint64ByAddress(caller, 20)
 		transfer(20, recipient)
 
@@ -54,7 +54,7 @@ func TestTransfer_Success(t *testing.T) {
 }
 
 func TestGetBalance_NoAddress(t *testing.T) {
-	InServiceScope(AnAddress(), func(m Mockery) {
+	InServiceScope(nil, nil, func(m Mockery) {
 		require.Zero(t, getBalance(AnAddress()))
 	})
 }
@@ -62,7 +62,7 @@ func TestGetBalance_NoAddress(t *testing.T) {
 func TestGetBalance_Success(t *testing.T) {
 	address := AnAddress()
 	balance := uint64(42)
-	InServiceScope(AnAddress(), func(m Mockery) {
+	InServiceScope(nil, nil, func(m Mockery) {
 		state.WriteUint64ByAddress(address, balance)
 		require.EqualValues(t, balance, getBalance(address))
 	})
