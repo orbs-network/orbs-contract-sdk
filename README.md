@@ -13,6 +13,7 @@ Support for additional programming languages like JavaScript is under way, [cont
 * [Quick start](#quick-start)
 * [Deploying your first contract](#deploying-your-first-contract)
 * [Next steps](#next-steps)
+* [Detailed documentation](#detailed-documentation)
 
 &nbsp;
 
@@ -178,6 +179,16 @@ gamma-cli stop-local
 * Explore the API of the SDK [here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/sdk).
 
 * After your contracts are deployed to test net or main net, build clients that access them using the [Orbs Client SDK](https://github.com/orbs-network/orbs-client-sdk-go).
+
+&nbsp;
+
+## Detailed documentation
+
+The detailed documentation website for Orbs Contract SDK is available here:
+
+https://orbs.gitbook.io
+
+&nbsp;
 
 ## License
 
