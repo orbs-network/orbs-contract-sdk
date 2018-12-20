@@ -234,3 +234,11 @@ If a config file does not exist, the default environment is `local` with virtual
 All developer tools (Gamma server and `gamma-cli`) are provided as binaries for convenience only.
 
 If you're interested in building the tools by yourself from source, find Gamma server as part of the node core in https://github.com/orbs-network/orbs-network-go and `gamma-cli` as part of the client SDK in https://github.com/orbs-network/orbs-client-sdk-go.
+
+&nbsp;
+
+## Detailed documentation
+
+The detailed documentation website for Gamma is available here:
+
+https://orbs.gitbook.io
