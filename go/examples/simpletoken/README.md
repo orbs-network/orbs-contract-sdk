@@ -16,7 +16,7 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
 
 1. Make sure `gamma-cli` and Gamma are [installed](../../../GAMMA.md).
 
-2. Make sure a Go dev environment is [installed](../../../README.md#Getting-started).
+2. Make sure a Go dev environment is [installed](../../../README.md).
 
 3. Run the following in terminal:
 
@@ -32,12 +32,12 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
     ```
     cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/simpletoken/test
     gamma-cli start-local
-    gamma-cli deploy -name MySimpleToken -code ../contract.go -signer user1
-    gamma-cli read -i get-user1-balance.json
-    gamma-cli read -i get-user2-balance.json
-    gamma-cli send-tx -i transfer-15-to-user2.json -signer user1
-    gamma-cli read -i get-user1-balance.json
-    gamma-cli read -i get-user2-balance.json
+    gamma-cli deploy ../contract.go -name MySimpleToken -signer user1
+    gamma-cli run-query get-user1-balance.json
+    gamma-cli run-query get-user2-balance.json
+    gamma-cli send-tx transfer-15-to-user2.json -signer user1
+    gamma-cli run-query get-user1-balance.json
+    gamma-cli run-query get-user2-balance.json
     gamma-cli stop-local
     ```
     
@@ -46,11 +46,11 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
     ```
     cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/simpletoken/test
     gamma-cli start-local
-    gamma-cli deploy -name MySimpleToken -code ../contract.go -signer user1
-    gamma-cli read -i get-user1-balance.json
-    gamma-cli read -i get-user2-balance.json
-    gamma-cli send-tx -i transfer-1500-to-user2.json -signer user1
-    gamma-cli read -i get-user1-balance.json
-    gamma-cli read -i get-user2-balance.json
+    gamma-cli deploy ../contract.go -name MySimpleToken -signer user1
+    gamma-cli run-query get-user1-balance.json
+    gamma-cli run-query get-user2-balance.json
+    gamma-cli send-tx transfer-1500-to-user2.json -signer user1
+    gamma-cli run-query get-user1-balance.json
+    gamma-cli run-query get-user2-balance.json
     gamma-cli stop-local
     ```

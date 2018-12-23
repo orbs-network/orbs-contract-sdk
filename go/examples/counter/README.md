@@ -14,7 +14,7 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
 
 1. Make sure `gamma-cli` and Gamma are [installed](../../../GAMMA.md).
 
-2. Make sure a Go dev environment is [installed](../../../README.md#Getting-started).
+2. Make sure a Go dev environment is [installed](../../../README.md).
 
 3. Run the following in terminal:
 
@@ -28,11 +28,11 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
     ```
     cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/counter/test
     gamma-cli start-local
-    gamma-cli deploy -name MyCounter -code ../contract.go
-    gamma-cli read -i get.json
-    gamma-cli send-tx -i add-25.json
-    gamma-cli send-tx -i add-25.json
-    gamma-cli send-tx -i add-25.json
-    gamma-cli read -i get.json
+    gamma-cli deploy ../contract.go -name MyCounter
+    gamma-cli run-query get.json
+    gamma-cli send-tx add-25.json
+    gamma-cli send-tx add-25.json
+    gamma-cli send-tx add-25.json
+    gamma-cli run-query get.json
     gamma-cli stop-local
     ```

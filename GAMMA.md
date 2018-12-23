@@ -62,30 +62,37 @@ gamma-cli COMMAND [OPTIONS]
 Commands:
 
   start-local      start a local Orbs personal blockchain instance listening on port
-                   options: -port <PORT> -wait
+                   options: -port <PORT>
                    example: gamma-cli start-local -port 8080
 
   stop-local       stop a locally running Orbs personal blockchain instance
 
   gen-test-keys    generate a new batch of 10 test keys and store in orbs-test-keys.json (default filename)
-                   options: -keys <OUTPUT_FILE>
+                   options: -keys [OUTPUT_FILE]
                    example: gamma-cli gen-test-keys -keys orbs-test-keys.json
 
-  deploy           deploy a smart contract with the code specified in contract.go (default filename)
-                   options: -name <CONTRACT_NAME> -code <CODE_FILE> -signer <ID_FROM_KEYS_JSON>
-                   example: gamma-cli deploy -name MyToken -code contract.go -signer user1
+  deploy           deploy a smart contract with the code specified in the source file <CODE_FILE>
+                   options: <CODE_FILE> -name [CONTRACT_NAME] -signer [ID_FROM_KEYS_JSON]
+                   example: gamma-cli deploy MyToken.go -signer user1
+                            gamma-cli deploy contract.go -name MyToken
 
-  send-tx          sign and send the transaction specified in input.json (default filename)
-                   options: -i <INPUT_FILE> -signer <ID_FROM_KEYS_JSON>
-                   example: gamma-cli send-tx -i transfer.json -signer user1
+  send-tx          sign and send the transaction specified in the JSON file <INPUT_FILE>
+                   options: <INPUT_FILE> -arg# [OVERRIDE_ARG_#] -signer [ID_FROM_KEYS_JSON]
+                   example: gamma-cli send-tx transfer.json -signer user1
+                            gamma-cli send-tx transfer.json -arg2 b3d1caa2b3680e2c8feffa269c207c553fbbc828
 
-  read             read state or run a read-only contract method as specified in input.json (default filename)
-                   options: -i <INPUT_FILE> -signer <ID_FROM_KEYS_JSON>
-                   example: gamma-cli read -i get-balance.json -signer user1
+  run-query        read state or run a read-only contract method as specified in the JSON file <INPUT_FILE>
+                   options: <INPUT_FILE> -arg# [OVERRIDE_ARG_#] -signer [ID_FROM_KEYS_JSON]
+                   example: gamma-cli run-query get-balance.json -signer user1
+                            gamma-cli run-query get-balance.json -arg1 b3d1caa2b3680e2c8feffa269c207c553fbbc828
 
-  status           get the current status of a sent transaction
-                   options: -txid <TX_ID>
-                   example: gamma-cli status -txid nXAmGL2peGvXkrDxC2cFaZwhykfMGFGj1DUJ9eDFRdSnNgCpQ69MQz
+  get-status       get the current status of a sent transaction with txid <TX_ID> (from send-tx response)
+                   options: <TX_ID>
+                   example: gamma-cli get-status nXAmGL2peGvXkrDxC2cFaZwhykfMGFGj1DUJ9eDFRdSnNgCpQ69MQz
+
+  tx-proof         get cryptographic proof for transaction receipt with txid <TX_ID> (from send-tx response)
+                   options: <TX_ID>
+                   example: gamma-cli tx-proof nXAmGL2peGvXkrDxC2cFaZwhykfMGFGj1DUJ9eDFRdSnNgCpQ69MQz
 
   upgrade-server   upgrade to the latest version of Gamma server
 
@@ -96,22 +103,18 @@ Commands:
 
 Options:
 
-  -code string
-    	source file for the smart contract being deployed, normally .go or .js file (default "contract.go")
+  -config string
+    	path to config file (default "orbs-gamma-config.json")
   -env string
-    	environment from orbs-gamma-config.json containing server connection details (default "local")
-  -i string
-    	name of the json input file (default "input.json")
+    	environment from config file containing server connection details (default "local")
   -keys string
     	name of the json file containing test keys (default "orbs-test-keys.json")
   -name string
     	name of the smart contract being deployed
   -port int
-    	listening port for Gamma server (default 8080)
+    	listening port for Gamma server (default "8080")
   -signer string
     	id of the signing key from the test key json (default "user1")
-  -txid string
-    	TxId of a previously sent transaction, given in the response of send-tx
   -wait
     	wait until Gamma server is ready and listening
 
@@ -222,7 +225,7 @@ The command line tool supports multiple environments such as local and test net.
 You can choose the active environment by passing the `-env` command line argument to every command. For example:
 
 ```
-gamma-cli send-tx -i transfer.json -signer user1 -env testnet2
+gamma-cli send-tx transfer.json -signer user1 -env testnet2
 ```
 
 If a config file does not exist, the default environment is `local` with virtual chain `42` and the endpoint `localhost`.

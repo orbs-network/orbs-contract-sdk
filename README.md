@@ -2,7 +2,7 @@
 
 The Orbs smart contract SDK is a framework for building decentralized applications over the Orbs blockchain. These applications are made of smart contracts written in the [Go](https://en.wikipedia.org/wiki/Go_(programming_language)) programming language.
 
-> Note: While the Orbs smart contract SDK is stable, it is still under development; there may be breaking changes.
+> Note: While the Orbs smart contract SDK is stable, it is still under active development; there may be breaking changes.
 
 Support for additional programming languages like JavaScript is under way, [contact us](FeatureRequest@orbs.com) for more information.
 
@@ -13,7 +13,7 @@ Support for additional programming languages like JavaScript is under way, [cont
 * [Quick start](#quick-start)
 * [Deploying your first contract](#deploying-your-first-contract)
 * [Next steps](#next-steps)
-* [Detailed documentation](#detailed-documentation)
+* [Detailed documentation](https://orbs.gitbook.io)
 
 &nbsp;
 
@@ -94,7 +94,7 @@ gamma-cli start-local
 To deploy the counter contract, run in terminal:
 
 ```
-gamma-cli deploy -name MyCounter -code counter.go
+gamma-cli deploy counter.go -name MyCounter
 ```
 
 > If the deploy is successful, you'll see a response similar to this:
@@ -131,9 +131,9 @@ Write the transaction details in a JSON file named [`add-25.json`](https://githu
 To increment the counter by 75, let's send this transaction 3 times from terminal:
 
 ```
-gamma-cli send-tx -i add-25.json -signer user1
-gamma-cli send-tx -i add-25.json -signer user1
-gamma-cli send-tx -i add-25.json -signer user1
+gamma-cli send-tx add-25.json -signer user1
+gamma-cli send-tx add-25.json -signer user1
+gamma-cli send-tx add-25.json -signer user1
 ```
 
 > Note: The transaction will be signed by `user1`, an example account found in `orbs-test-keys.json`
@@ -153,10 +153,10 @@ Write the query details in a JSON file named [`get.json`](https://github.com/orb
 This query will read the counter value from the contract's state. Send it from terminal:
 
 ```
-gamma-cli read -i get.json
+gamma-cli run-query get.json
 ```
 
-> Note: Transactions that change state require consensus by several nodes. Reading state is a simpler action that doesn't require consensus.
+> Note: Transactions that change state require consensus by several nodes. Reading state with queries is a simpler action that doesn't require consensus.
 
 ### 6. Stop Gamma server
 
