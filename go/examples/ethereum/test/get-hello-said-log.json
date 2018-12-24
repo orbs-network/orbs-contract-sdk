@@ -1,0 +1,14 @@
+{
+  "ContractName": "MyCrossChain",
+  "MethodName": "getEthereumHelloSaidLog",
+  "Arguments": [
+    {
+      "Type": "string",
+      "Value": "0x66c8bC6e162e45Da2Fc3337cF2164CA5E43CA4c5"
+    },
+    {
+      "Type": "string",
+      "Value": "0x734c2bb544c90d7b178cdfa18e60d8d002c4e9158e716000f67dbaed72d1a093"
+    }
+  ]
+}

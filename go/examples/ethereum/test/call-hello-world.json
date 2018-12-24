@@ -1,0 +1,10 @@
+{
+  "ContractName": "MyCrossChain",
+  "MethodName": "callEthereumHelloWorld",
+  "Arguments": [
+    {
+      "Type": "string",
+      "Value": "0x66c8bC6e162e45Da2Fc3337cF2164CA5E43CA4c5"
+    }
+  ]
+}
