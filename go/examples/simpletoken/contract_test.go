@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "github.com/orbs-network/orbs-contract-sdk/go/fake"
 	"github.com/orbs-network/orbs-contract-sdk/go/sdk/state"
+	. "github.com/orbs-network/orbs-contract-sdk/go/testing/unit"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -10,7 +10,7 @@ import (
 func TestInit(t *testing.T) {
 	ownerAddress := AnAddress()
 
-	InSystemScope(ownerAddress, nil,  func(m Mockery) {
+	InSystemScope(ownerAddress, nil, func(m Mockery) {
 		_init()
 
 		require.EqualValues(t, TOTAL_SUPPLY, state.ReadUint64ByAddress(ownerAddress))
@@ -67,4 +67,3 @@ func TestGetBalance_Success(t *testing.T) {
 		require.EqualValues(t, balance, getBalance(address))
 	})
 }
-

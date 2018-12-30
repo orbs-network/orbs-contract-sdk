@@ -40,6 +40,7 @@ func (c *cli) Run(args string) string {
 		fmt.Printf("Make sure gamma-cli is installed, found in your $PATH and working in terminal.\nSee instructions in https://github.com/orbs-network/orbs-contract-sdk/blob/master/GAMMA.md\n\n")
 		panic(fmt.Sprintf("gamma-cli failed: %s", err.Error()))
 	}
+
 	return string(out)
 }
 
