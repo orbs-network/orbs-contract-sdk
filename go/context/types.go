@@ -1,6 +1,6 @@
 package context
 
-type ContextId uint32 // TODO: change to []byte (in protos too)
+type ContextId []byte
 
 type PermissionScope uint16
 

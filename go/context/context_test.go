@@ -1,34 +1,38 @@
 package context
 
 import (
+	"bytes"
 	"sync"
 	"testing"
 	"time"
 )
 
+var EXAMPLE_CONTEXT = []byte{0x17, 0x18}
+var EXAMPLE_CONTEXT2 = []byte{0x17, 0x19}
+
 func TestPushPop(t *testing.T) {
-	PushContext(17, nil, PERMISSION_SCOPE_SERVICE)
+	PushContext(EXAMPLE_CONTEXT, nil, PERMISSION_SCOPE_SERVICE)
 
 	cid, h, perm := GetContext()
-	if cid != 17 || h != nil || perm != PERMISSION_SCOPE_SERVICE {
+	if !bytes.Equal(cid, EXAMPLE_CONTEXT) || h != nil || perm != PERMISSION_SCOPE_SERVICE {
 		t.Fatalf("Read context (1) is incorrect")
 	}
 
-	PushContext(17, nil, PERMISSION_SCOPE_SYSTEM)
+	PushContext(EXAMPLE_CONTEXT, nil, PERMISSION_SCOPE_SYSTEM)
 
 	cid, h, perm = GetContext()
-	if cid != 17 || h != nil || perm != PERMISSION_SCOPE_SYSTEM {
+	if !bytes.Equal(cid, EXAMPLE_CONTEXT) || h != nil || perm != PERMISSION_SCOPE_SYSTEM {
 		t.Fatalf("Read context (2) is incorrect")
 	}
 
-	PopContext(17)
+	PopContext(EXAMPLE_CONTEXT)
 
 	cid, h, perm = GetContext()
-	if cid != 17 || h != nil || perm != PERMISSION_SCOPE_SERVICE {
+	if !bytes.Equal(cid, EXAMPLE_CONTEXT) || h != nil || perm != PERMISSION_SCOPE_SERVICE {
 		t.Fatalf("Read context (1) is incorrect")
 	}
 
-	PopContext(17)
+	PopContext(EXAMPLE_CONTEXT)
 }
 
 func TestPushDifferentContextIdsOnSameGoroutinePanics(t *testing.T) {
@@ -39,15 +43,15 @@ func TestPushDifferentContextIdsOnSameGoroutinePanics(t *testing.T) {
 		}
 	}()
 
-	PushContext(17, nil, PERMISSION_SCOPE_SERVICE)
-	PushContext(29, nil, PERMISSION_SCOPE_SYSTEM)
+	PushContext(EXAMPLE_CONTEXT, nil, PERMISSION_SCOPE_SERVICE)
+	PushContext(EXAMPLE_CONTEXT2, nil, PERMISSION_SCOPE_SYSTEM)
 }
 
 func TestConcurrency(t *testing.T) {
 	var wg sync.WaitGroup
 	for i := 0; i < 20; i++ {
 
-		contextId := ContextId(i + 17)
+		contextId := ContextId([]byte{0x17, byte(i + 17)})
 		wg.Add(1)
 
 		go func() {
@@ -65,7 +69,7 @@ func TestConcurrency(t *testing.T) {
 			time.Sleep(5 * time.Millisecond)
 
 			cid, _, _ := GetContext()
-			if cid != contextId {
+			if !bytes.Equal(cid, contextId) {
 				t.Fatalf("GetContext returned wrong context id")
 			}
 

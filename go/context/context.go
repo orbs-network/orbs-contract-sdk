@@ -1,6 +1,7 @@
 package context
 
 import (
+	"bytes"
 	"github.com/orbs-network/orbs-contract-sdk/go/context/g"
 	"sync"
 	"unsafe"
@@ -22,7 +23,7 @@ func PushContext(contextId ContextId, handler SdkHandler, permissionScope Permis
 
 	activeContext := activeContexts[gid]
 	if activeContext != nil {
-		if activeContext.contextId != contextId {
+		if !bytes.Equal(activeContext.contextId, contextId) {
 			panic("PushContext: multiple contexts found")
 		}
 		activeContext.permissionStack = append(activeContext.permissionStack, permissionScope)
@@ -42,7 +43,7 @@ func PopContext(contextId ContextId) {
 
 	activeContext := activeContexts[gid]
 	if activeContext != nil {
-		if activeContext.contextId != contextId {
+		if !bytes.Equal(activeContext.contextId, contextId) {
 			panic("PopContext: multiple contexts found")
 		}
 		if len(activeContext.permissionStack) <= 1 {
