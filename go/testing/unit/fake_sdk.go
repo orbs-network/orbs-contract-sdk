@@ -10,6 +10,8 @@ import (
 
 type stateMap map[string][]byte
 
+var EXAMPLE_CONTEXT_ID = []byte{0x43}
+
 type Mockery interface {
 	MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{}))
 	MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
@@ -180,7 +182,7 @@ func inScope(signerAddress []byte, callerAddress []byte, scope context.Permissio
 		callerAddress = AnAddress()
 	}
 	handler := aFakeSdkFor(signerAddress, callerAddress)
-	cid := context.ContextId(43)
+	cid := context.ContextId(EXAMPLE_CONTEXT_ID)
 	context.PushContext(cid, handler, scope)
 	f(handler)
 	handler.VerifyMocks()
