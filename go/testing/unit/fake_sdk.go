@@ -108,6 +108,16 @@ func (m *mockHandler) SdkAddressGetCallerAddress(ctx context.ContextId, permissi
 	return m.callerAddress
 }
 
+func (m *mockHandler) SdkAddressGetOwnAddress(ctx context.ContextId, permissionScope context.PermissionScope) []byte {
+	panic("Not implemented")
+	return []byte{}
+}
+
+func (m *mockHandler) SdkAddressGetContractAddress(ctx context.ContextId, permissionScope context.PermissionScope, contractName string) []byte {
+	panic("Not implemented")
+	return []byte{}
+}
+
 func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope context.PermissionScope, eventFunctionSignature interface{}, args ...interface{}) {
 	var key []interface{}
 	key = append(key, args...)
@@ -120,6 +130,16 @@ func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope 
 	}
 
 	panic(errors.Errorf("No Emit Event stubbed for func %s, arguments %v", eventFunctionSignature, args))
+}
+
+func (m *mockHandler) SdkEnvGetBlockHeight(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
+	panic("Not implemented")
+	return 0
+}
+
+func (m *mockHandler) SdkEnvGetBlockTimestamp(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
+	panic("Not implemented")
+	return 0
 }
 
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{})) {

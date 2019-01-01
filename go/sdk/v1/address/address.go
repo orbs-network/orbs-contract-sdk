@@ -20,3 +20,13 @@ func GetCallerAddress() []byte {
 	contextId, handler, permissionScope := context.GetContext()
 	return handler.SdkAddressGetCallerAddress(contextId, permissionScope)
 }
+
+func GetOwnAddress() []byte {
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkAddressGetOwnAddress(contextId, permissionScope)
+}
+
+func GetContractAddress(contractName string) []byte {
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkAddressGetContractAddress(contextId, permissionScope, contractName)
+}

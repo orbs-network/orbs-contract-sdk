@@ -19,4 +19,10 @@ type SdkHandler interface {
 	// address
 	SdkAddressGetSignerAddress(ctx ContextId, permissionScope PermissionScope) []byte
 	SdkAddressGetCallerAddress(ctx ContextId, permissionScope PermissionScope) []byte
+	SdkAddressGetOwnAddress(ctx ContextId, permissionScope PermissionScope) []byte
+	SdkAddressGetContractAddress(ctx ContextId, permissionScope PermissionScope, contractName string) []byte
+
+	// env
+	SdkEnvGetBlockHeight(ctx ContextId, permissionScope PermissionScope) uint64
+	SdkEnvGetBlockTimestamp(ctx ContextId, permissionScope PermissionScope) uint64
 }
