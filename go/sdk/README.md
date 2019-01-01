@@ -1,3 +1,1 @@
-# Orbs Go Contract SDK API
-
-Documentation coming soon
+This folder is deprecated - its entire contents except the folder `/v1` will soon be deleted
