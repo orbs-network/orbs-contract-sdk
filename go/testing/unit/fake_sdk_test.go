@@ -9,17 +9,17 @@ type foo struct {
 	bar string
 }
 
-func TestMockHandler_SdkStateReadBytesByAddress_NoValue(t *testing.T) {
+func TestMockHandler_SdkStateReadBytes_NoValue(t *testing.T) {
 	s := aFakeSdk()
-	require.Zero(t, s.SdkStateReadBytesByAddress(EXAMPLE_CONTEXT_ID, 0, AnAddress()), "read from uninitialized address did not return zero")
+	require.Zero(t, s.SdkStateReadBytes(EXAMPLE_CONTEXT_ID, 0, AnAddress()), "read from uninitialized address did not return zero")
 }
 
-func TestMockHandler_SdkStateReadBytesByAddress_Success(t *testing.T) {
+func TestMockHandler_SdkStateReadBytes_Success(t *testing.T) {
 	s := aFakeSdk()
 	a := AnAddress()
 	v := []byte{42}
-	s.SdkStateWriteBytesByAddress(EXAMPLE_CONTEXT_ID, 0, a, v)
-	require.Equal(t, v, s.SdkStateReadBytesByAddress(EXAMPLE_CONTEXT_ID, 0, a), "read from initialized address did not return expected value")
+	s.SdkStateWriteBytes(EXAMPLE_CONTEXT_ID, 0, a, v)
+	require.Equal(t, v, s.SdkStateReadBytes(EXAMPLE_CONTEXT_ID, 0, a), "read from initialized address did not return expected value")
 }
 
 func TestMockHandler_SdkAddressGetCallerAddress(t *testing.T) {

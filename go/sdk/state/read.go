@@ -1,13 +1,13 @@
 package state
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/context"
 	"encoding/binary"
+	"github.com/orbs-network/orbs-contract-sdk/go/context"
 )
 
 func ReadBytesByAddress(address []byte) []byte {
 	contextId, handler, permissionScope := context.GetContext()
-	return handler.SdkStateReadBytesByAddress(contextId, permissionScope, address)
+	return handler.SdkStateReadBytes(contextId, permissionScope, address)
 }
 
 func ReadBytesByKey(key string) []byte {

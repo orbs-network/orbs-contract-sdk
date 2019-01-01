@@ -47,12 +47,12 @@ type mockHandler struct {
 	eventStubs    []*eventStub
 }
 
-func (m *mockHandler) SdkStateReadBytesByAddress(ctx context.ContextId, permissionScope context.PermissionScope, address []byte) []byte {
-	return m.state[hex.EncodeToString(address)]
+func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte) []byte {
+	return m.state[hex.EncodeToString(key)]
 }
 
-func (m *mockHandler) SdkStateWriteBytesByAddress(ctx context.ContextId, permissionScope context.PermissionScope, address []byte, value []byte) {
-	m.state[hex.EncodeToString(address)] = value
+func (m *mockHandler) SdkStateWriteBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte, value []byte) {
+	m.state[hex.EncodeToString(key)] = value
 }
 
 func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScope context.PermissionScope, serviceName string, methodName string, args ...interface{}) []interface{} {

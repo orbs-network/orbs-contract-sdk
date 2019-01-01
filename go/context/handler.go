@@ -3,8 +3,8 @@ package context
 type SdkHandler interface {
 
 	// state
-	SdkStateReadBytesByAddress(ctx ContextId, permissionScope PermissionScope, address []byte) []byte
-	SdkStateWriteBytesByAddress(ctx ContextId, permissionScope PermissionScope, address []byte, value []byte)
+	SdkStateReadBytes(ctx ContextId, permissionScope PermissionScope, key []byte) []byte
+	SdkStateWriteBytes(ctx ContextId, permissionScope PermissionScope, key []byte, value []byte)
 
 	// service
 	SdkServiceCallMethod(ctx ContextId, permissionScope PermissionScope, serviceName string, methodName string, args ...interface{}) []interface{}
