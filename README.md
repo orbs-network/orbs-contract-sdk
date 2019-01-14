@@ -10,10 +10,10 @@ Support for additional programming languages like JavaScript is under way, [cont
 
 ## Table of contents
 
+* [Detailed documentation](https://orbs.gitbook.io)
 * [Quick start](#quick-start)
 * [Deploying your first contract](#deploying-your-first-contract)
 * [Next steps](#next-steps)
-* [Detailed documentation](https://orbs.gitbook.io)
 
 &nbsp;
 
@@ -39,7 +39,7 @@ Support for additional programming languages like JavaScript is under way, [cont
 
    > It will be downloaded to your Go workspace, typically `~/go/src/github.com/orbs-network/orbs-contract-sdk`<br>[Example contracts](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) will be at `~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples`
 
-2. Install [Gamma](GAMMA.md), a personal Orbs blockchain running locally, by running in terminal:
+2. Install [Gamma](https://github.com/orbs-network/gamma-cli), a personal Orbs blockchain running locally, by running in terminal:
 
     ```
     brew install orbs-network/devtools/gamma-cli
@@ -172,7 +172,7 @@ gamma-cli stop-local
 
 * Explore more examples of contracts [here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples).
 
-* Read more about Gamma, the local Orbs blockchain, [here](https://github.com/orbs-network/orbs-contract-sdk/blob/master/GAMMA.md).
+* Read more about Gamma, the local Orbs blockchain, [here](https://github.com/orbs-network/gamma-cli).
 
     > You can also run in terminal `gamma-cli help`
     
