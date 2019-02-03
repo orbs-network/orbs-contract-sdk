@@ -24,4 +24,9 @@ func TestTokenTransfer(t *testing.T) {
 	if !strings.Contains(out, `"Value": "5000"`) {
 		t.Fatal("funds are not present for user2 after transfer")
 	}
+
+	out = gammaCli.Run("send-tx transfer-invalid-user.json")
+	if !strings.Contains(out, `"ExecutionResult": "ERROR_SMART_CONTRACT"`) {
+		t.Fatal("executing with invalid user worked")
+	}
 }

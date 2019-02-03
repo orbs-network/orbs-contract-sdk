@@ -1,0 +1,18 @@
+{
+  "ContractName": "OrbsERC20",
+  "MethodName": "transferFrom",
+  "Arguments": [
+    {
+      "Type": "gamma:keys-file-address",
+      "Value": "user1"
+    },
+    {
+      "Type": "gamma:keys-file-address",
+      "Value": "user3"
+    },
+    {
+      "Type": "uint64",
+      "Value": "2000"
+    }
+  ]
+}
