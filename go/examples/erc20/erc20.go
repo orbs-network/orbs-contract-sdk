@@ -16,7 +16,7 @@ func _init() {
 	state.WriteString([]byte("symbol"), "O20")
 	state.WriteString([]byte("name"), "OrbsERC20Token")
 	state.WriteUint32([]byte("decimals"), 18)
-	_mint(address.GetSignerAddress(), 1000000000000000)
+	_mint(address.GetSignerAddress(), 1000000000000000000)
 }
 
 //ERC20Detailed - optional parts of the EIP20 spec

@@ -7,7 +7,7 @@ import (
 )
 
 func TestAllowance(t *testing.T) {
-	gammaCli := gamma.Cli().StartExperimental()
+	gammaCli := gamma.Cli().Start()
 	defer gammaCli.Stop()
 
 	out := gammaCli.Run("deploy ../erc20.go -name OrbsERC20 -signer user1")

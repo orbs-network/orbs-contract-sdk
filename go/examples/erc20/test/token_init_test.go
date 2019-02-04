@@ -7,7 +7,7 @@ import (
 )
 
 func TestTokenInit(t *testing.T) {
-	gammaCli := gamma.Cli().StartExperimental()
+	gammaCli := gamma.Cli().Start()
 	defer gammaCli.Stop()
 
 	out := gammaCli.Run("deploy ../erc20.go -name OrbsERC20 -signer user1")
@@ -20,7 +20,7 @@ func TestTokenInit(t *testing.T) {
 	}
 
 	out = gammaCli.Run("run-query balanceOf-user1.json")
-	if !strings.Contains(out, `"Value": "1000000000000000"`) {
+	if !strings.Contains(out, `"Value": "1000000000000000000"`) {
 		t.Fatal("initial get failed")
 	}
 }
