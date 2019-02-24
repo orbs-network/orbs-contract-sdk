@@ -26,6 +26,7 @@ func TestGetLogsOnEthereum(t *testing.T) {
 	if !strings.Contains(out, `"Value": "John Snow"`) {
 		t.Fatal("crosschain get logs failed")
 	}
+	//TODO(v1): add expectations for block number and txIndex
 }
 
 func extractTxHashFromTruffleOutput(out string) string {

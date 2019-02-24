@@ -60,7 +60,7 @@ type HelloSaidEthereumEvent struct {
 	Amount *big.Int
 }
 
-func getEthereumHelloSaidLog(ethContractAddress string, ethTxHash string) string {
+func getEthereumHelloSaidLog(ethContractAddress string, ethTxHash string) (string, uint64, uint32) {
 	jsonAbi := `
 	[
     {
@@ -83,8 +83,8 @@ func getEthereumHelloSaidLog(ethContractAddress string, ethTxHash string) string
   ]
 	`
 	event := HelloSaidEthereumEvent{}
-	ethereum.GetTransactionLog(ethContractAddress, jsonAbi, ethTxHash, "HelloSaid", &event)
-	return nullTermString(event.Name[:])
+	ethBlockNumber, ethTxIndex := ethereum.GetTransactionLog(ethContractAddress, jsonAbi, ethTxHash, "HelloSaid", &event)
+	return nullTermString(event.Name[:]), ethBlockNumber, ethTxIndex
 }
 
 func nullTermString(cstr []byte) string {

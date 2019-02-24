@@ -14,7 +14,7 @@ type SdkHandler interface {
 
 	// ethereum
 	SdkEthereumCallMethod(ctx ContextId, permissionScope PermissionScope, contractAddress string, jsonAbi string, methodName string, out interface{}, args ...interface{})
-	SdkEthereumGetTransactionLog(ctx ContextId, permissionScope PermissionScope, contractAddress string, jsonAbi string, ethTransactionId string, eventName string, out interface{})
+	SdkEthereumGetTransactionLog(ctx ContextId, permissionScope PermissionScope, ethContractAddress string, jsonAbi string, ethTxHash string, eventName string, out interface{}) (ethBlockNumber uint64, ethTxIndex uint32)
 
 	// address
 	SdkAddressGetSignerAddress(ctx ContextId, permissionScope PermissionScope) []byte
