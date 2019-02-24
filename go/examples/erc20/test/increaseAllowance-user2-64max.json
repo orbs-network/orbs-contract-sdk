@@ -1,0 +1,14 @@
+{
+  "ContractName": "OrbsERC20",
+  "MethodName": "increaseAllowance",
+  "Arguments": [
+    {
+      "Type": "gamma:keys-file-address",
+      "Value": "user2"
+    },
+    {
+      "Type": "uint64",
+      "Value": "18446744073709551615"
+    }
+  ]
+}

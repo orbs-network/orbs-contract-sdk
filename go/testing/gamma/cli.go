@@ -53,6 +53,15 @@ func (c *cli) Start() *cli {
 	return c
 }
 
+func (c *cli) StartExperimental() *cli {
+	if c.isStarted {
+		return c
+	}
+	c.isStarted = true
+	c.Run("start-local -wait -env experimental")
+	return c
+}
+
 func (c *cli) Stop() {
 	if !c.isStarted {
 		return

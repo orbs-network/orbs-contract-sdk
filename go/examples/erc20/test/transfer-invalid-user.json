@@ -1,0 +1,14 @@
+{
+  "ContractName": "OrbsERC20",
+  "MethodName": "transfer",
+  "Arguments": [
+    {
+      "Type": "bytes",
+      "Value": "00"
+    },
+    {
+      "Type": "uint64",
+      "Value": "5000"
+    }
+  ]
+}
