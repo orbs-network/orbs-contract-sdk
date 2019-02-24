@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-var PUBLIC = sdk.Export(readValueFromLog, callEthereumHelloWorld, getEthereumHelloSaidLog)
+var PUBLIC = sdk.Export(readValueFromLog, callEthereumHelloWorld, getEthereumHelloSaidLog, getEthereumBlockNumber)
 var SYSTEM = sdk.Export(_init)
 
 type event struct {
@@ -18,6 +18,7 @@ func _init() {
 }
 
 // TODO(talkol): this should not take arguments for simplicity, see new function used for gamma test
+// best to delete this function and unit test getEthereumHelloSaidLog() instead
 func readValueFromLog(address string, abi string, txid string, eventName string) string {
 	var event event
 	ethereum.GetTransactionLog(address, abi, txid, eventName, &event)
@@ -25,6 +26,7 @@ func readValueFromLog(address string, abi string, txid string, eventName string)
 }
 
 // TODO(talkol): this should not take arguments for simplicity, see new function used for gamma test
+// best to delete this function and unit test callEthereumHelloWorld() instead
 func callEthereumMethod(address string, abi string, methodName string, args ...interface{}) string {
 	var event event
 	ethereum.CallMethod(address, abi, methodName, &event, args...)
@@ -85,6 +87,10 @@ func getEthereumHelloSaidLog(ethContractAddress string, ethTxHash string) (strin
 	event := HelloSaidEthereumEvent{}
 	ethBlockNumber, ethTxIndex := ethereum.GetTransactionLog(ethContractAddress, jsonAbi, ethTxHash, "HelloSaid", &event)
 	return nullTermString(event.Name[:]), ethBlockNumber, ethTxIndex
+}
+
+func getEthereumBlockNumber() uint64 {
+	return ethereum.GetBlockNumber()
 }
 
 func nullTermString(cstr []byte) string {

@@ -27,6 +27,7 @@ func TestGetLogsOnEthereum(t *testing.T) {
 		t.Fatal("crosschain get logs failed")
 	}
 	//TODO(v1): add expectations for block number and txIndex
+	t.Log(out)
 }
 
 func extractTxHashFromTruffleOutput(out string) string {
