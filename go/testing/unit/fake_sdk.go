@@ -13,7 +13,7 @@ type stateMap map[string][]byte
 var EXAMPLE_CONTEXT_ID = []byte{0x43}
 
 type Mockery interface {
-	MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{}))
+	MockEthereumLog(ethTxHash string, abiJson string, eventName string, outMutator func(out interface{}))
 	MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
 	MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{})
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
@@ -86,9 +86,9 @@ func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionSco
 	panic(errors.Errorf("No Ethereum call stubbed for address %s, jsonAbi %s, method name %s, args %+v", contractAddress, jsonAbi, methodName, args))
 }
 
-func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permissionScope context.PermissionScope, contractAddress string, jsonAbi string, ethTransactionId string, eventName string, out interface{}) {
+func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permissionScope context.PermissionScope, ethTxHash string, jsonAbi string, eventName string, out interface{}) {
 	var key []interface{}
-	key = append(key, contractAddress, jsonAbi, ethTransactionId, eventName)
+	key = append(key, ethTxHash, jsonAbi, eventName)
 
 	for _, stub := range m.ethereumStubs {
 		if keyEquals(stub.key, key) {
@@ -142,9 +142,9 @@ func (m *mockHandler) SdkEnvGetBlockTimestamp(ctx context.ContextId, permissionS
 	return 0
 }
 
-func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{})) {
+func (m *mockHandler) MockEthereumLog(ethTxHash string, abiJson string, eventName string, outMutator func(out interface{})) {
 	var key []interface{}
-	key = append(key, address, abiJson, ethTxHash, eventName)
+	key = append(key, ethTxHash, abiJson, eventName)
 	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator})
 }
 

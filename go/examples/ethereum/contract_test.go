@@ -7,19 +7,17 @@ import (
 )
 
 func TestReadValueFromLog(t *testing.T) {
-
-	address := "a"
 	abi := "b"
 	txid := "c"
 	eventName := "d"
 
 	InServiceScope(nil, nil, func(m Mockery) {
 
-		m.MockEthereumLog(address, abi, txid, eventName, func(out interface{}) {
+		m.MockEthereumLog(txid, abi, eventName, func(out interface{}) {
 			out.(*event).Value = "foo"
 		})
 
-		v := readValueFromLog(address, abi, txid, eventName)
+		v := readValueFromLog(txid, abi, eventName)
 
 		require.Equal(t, "foo", v, "did not get expected Value from log")
 	})

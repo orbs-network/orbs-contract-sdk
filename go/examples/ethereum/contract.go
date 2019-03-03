@@ -19,9 +19,9 @@ func _init() {
 
 // TODO(talkol): this should not take arguments for simplicity, see new function used for gamma test
 // best to delete this function and unit test getEthereumHelloSaidLog() instead
-func readValueFromLog(address string, abi string, txid string, eventName string) string {
+func readValueFromLog(txid string, abi string, eventName string) string {
 	var event event
-	ethereum.GetTransactionLog(address, abi, txid, eventName, &event)
+	ethereum.GetTransactionLog(txid, abi, eventName, &event)
 	return event.Value
 }
 
@@ -62,7 +62,7 @@ type HelloSaidEthereumEvent struct {
 	Amount *big.Int
 }
 
-func getEthereumHelloSaidLog(ethContractAddress string, ethTxHash string) (string, uint64, uint32) {
+func getEthereumHelloSaidLog(ethTxHash string) (string, uint64, uint32) {
 	jsonAbi := `
 	[
     {
@@ -85,7 +85,7 @@ func getEthereumHelloSaidLog(ethContractAddress string, ethTxHash string) (strin
   ]
 	`
 	event := HelloSaidEthereumEvent{}
-	ethBlockNumber, ethTxIndex := ethereum.GetTransactionLog(ethContractAddress, jsonAbi, ethTxHash, "HelloSaid", &event)
+	ethBlockNumber, ethTxIndex := ethereum.GetTransactionLog(ethTxHash, jsonAbi, "HelloSaid", &event)
 	return nullTermString(event.Name[:]), ethBlockNumber, ethTxIndex
 }
 

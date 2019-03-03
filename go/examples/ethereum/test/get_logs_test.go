@@ -14,7 +14,6 @@ func TestGetLogsOnEthereum(t *testing.T) {
 
 	truffleCli := truffle.Cli("./EthereumContract")
 	out := truffleCli.Run("exec emit-event.js")
-	ethContractAddress := extractAddressFromTruffleOutput(out)
 	ethTxHash := extractTxHashFromTruffleOutput(out)
 
 	out = gammaCli.Run("deploy ../contract.go -name MyCrossChain")
@@ -22,7 +21,7 @@ func TestGetLogsOnEthereum(t *testing.T) {
 		t.Fatal("deploy failed")
 	}
 
-	out = gammaCli.Run("run-query get-hello-said-log.json -arg1 " + ethContractAddress + " -arg2 " + ethTxHash)
+	out = gammaCli.Run("run-query get-hello-said-log.json -arg1 " + ethTxHash)
 	if !strings.Contains(out, `"Value": "John Snow"`) {
 		t.Fatal("crosschain get logs failed")
 	}
