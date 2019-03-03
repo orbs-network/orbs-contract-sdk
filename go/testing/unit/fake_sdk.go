@@ -13,17 +13,21 @@ type stateMap map[string][]byte
 var EXAMPLE_CONTEXT_ID = []byte{0x43}
 
 type Mockery interface {
-	MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{}))
+	MockEthereumGetBlockNumber(block int)                                                                                                                           // TODO get return valus
+	MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outEthBlockNumber int, outEthTxIndex int, outMutator func(out interface{})) // TODO get return valus
 	MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
+	MockEthereumCallMethodAtBlock(blockNumber uint64, address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
 	MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{})
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
 	VerifyMocks()
 }
 
 type ethereumStub struct {
-	key        []interface{}
-	outMutator func(interface{})
-	satisfied  bool
+	key         []interface{}
+	outMutator  func(interface{})
+	blockHeight uint64
+	txIndex     uint32
+	satisfied   bool
 }
 
 type eventStub struct {
@@ -70,9 +74,9 @@ func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScop
 	panic(errors.Errorf("No service call stubbed for service %s, method name %s, args %+v", serviceName, methodName, args))
 }
 
-func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionScope context.PermissionScope, contractAddress string, jsonAbi string, methodName string, out interface{}, args ...interface{}) {
+func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionScope context.PermissionScope, ethContractAddress string, jsonAbi string, ethBlockNumber uint64, methodName string, out interface{}, args ...interface{}) {
 	var key []interface{}
-	key = append(key, contractAddress, jsonAbi, methodName)
+	key = append(key, ethContractAddress, jsonAbi, methodName, ethBlockNumber)
 	key = append(key, args...)
 
 	for _, stub := range m.ethereumStubs {
@@ -83,10 +87,24 @@ func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionSco
 		}
 	}
 
-	panic(errors.Errorf("No Ethereum call stubbed for address %s, jsonAbi %s, method name %s, args %+v", contractAddress, jsonAbi, methodName, args))
+	panic(errors.Errorf("No Ethereum call stubbed for address %s, jsonAbi %s, method name %s, block number %d, args %+v", ethContractAddress, jsonAbi, methodName, ethBlockNumber, args))
 }
 
-func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permissionScope context.PermissionScope, contractAddress string, jsonAbi string, ethTransactionId string, eventName string, out interface{}) {
+func (m *mockHandler) SdkEthereumGetBlockNumber(ctx context.ContextId, permissionScope context.PermissionScope) (ethBlockNumber uint64) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockNumber")
+
+	for _, stub := range m.ethereumStubs {
+		if keyEquals(stub.key, key) {
+			stub.satisfied = true
+			return stub.blockHeight
+		}
+	}
+
+	panic(errors.Errorf("No Ethereum call stubbed for GetBlockNumber"))
+}
+
+func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permissionScope context.PermissionScope, contractAddress string, jsonAbi string, ethTransactionId string, eventName string, out interface{}) (ethBlockNumber uint64, ethTxIndex uint32) {
 	var key []interface{}
 	key = append(key, contractAddress, jsonAbi, ethTransactionId, eventName)
 
@@ -94,7 +112,7 @@ func (m *mockHandler) SdkEthereumGetTransactionLog(ctx context.ContextId, permis
 		if keyEquals(stub.key, key) {
 			stub.satisfied = true
 			stub.outMutator(out)
-			return
+			return stub.blockHeight, stub.txIndex
 		}
 	}
 	panic(errors.Errorf("No Ethereum logs stubbed for address %s, jsonAbi %s, txHash %s, event name %s", contractAddress, jsonAbi, ethTransactionId, eventName))
@@ -142,10 +160,10 @@ func (m *mockHandler) SdkEnvGetBlockTimestamp(ctx context.ContextId, permissionS
 	return 0
 }
 
-func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outMutator func(out interface{})) {
+func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outEthBlockNumber int, outEthTxIndex int, outMutator func(out interface{})) {
 	var key []interface{}
 	key = append(key, address, abiJson, ethTxHash, eventName)
-	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator})
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator, blockHeight: uint64(outEthBlockNumber), txIndex: uint32(outEthTxIndex)})
 }
 
 func (m *mockHandler) MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{}) {
@@ -153,6 +171,19 @@ func (m *mockHandler) MockEthereumCallMethod(address string, abiJson string, met
 	key = append(key, address, abiJson, methodName)
 	key = append(key, args...)
 	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator})
+}
+
+func (m *mockHandler) MockEthereumCallMethodAtBlock(blockNumber uint64, address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{}) {
+	var key []interface{}
+	key = append(key, address, abiJson, methodName, blockNumber)
+	key = append(key, args...)
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: outMutator})
+}
+
+func (m *mockHandler) MockEthereumGetBlockNumber(block int) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockNumber")
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockHeight: uint64(block)})
 }
 
 func (m *mockHandler) MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{}) {
@@ -202,7 +233,7 @@ func inScope(signerAddress []byte, callerAddress []byte, scope context.Permissio
 		callerAddress = AnAddress()
 	}
 	handler := aFakeSdkFor(signerAddress, callerAddress)
-	cid := context.ContextId(EXAMPLE_CONTEXT_ID)
+	cid := context.ContextId([]byte{byte(rand.Int())})
 	context.PushContext(cid, handler, scope)
 	f(handler)
 	handler.VerifyMocks()
