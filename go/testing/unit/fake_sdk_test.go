@@ -37,7 +37,7 @@ func TestMockHandler_SdkAddressGetSignerAddress(t *testing.T) {
 func TestMockHandler_SdkEthereumCallMethod_NotStubbed(t *testing.T) {
 	s := aFakeSdk()
 	require.Panics(t, func() {
-		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, "a", "b", "c", "d", nil)
+		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, "a", "b", 12, "c", "d", nil)
 	}, "call to unstubbed method did not panic")
 }
 
@@ -51,7 +51,7 @@ func TestMockHandler_SdkEthereumCallMethod_PartialMatch(t *testing.T) {
 	})
 	require.Panics(t, func() {
 		var out foo
-		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, methodName, &out, 1, 2)
+		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, 12, methodName, &out, 1, 2)
 	}, "call to partially stubbed method did not panic")
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to ethereum should have failed verify")
 }
@@ -66,7 +66,7 @@ func TestMockHandler_SdkEthereumCallMethod_Success(t *testing.T) {
 	}, 1, 2)
 
 	var out foo
-	s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, methodName, &out, 1, 2)
+	s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, 0, methodName, &out, 1, 2)
 
 	require.Equal(t, out.bar, "baz", "did not get expected value from stubbed method")
 	require.NotPanics(t, func() { s.VerifyMocks() })
@@ -75,37 +75,35 @@ func TestMockHandler_SdkEthereumCallMethod_Success(t *testing.T) {
 func TestMockHandler_SdkEthereumGetTransactionLog_NotStubbed(t *testing.T) {
 	s := aFakeSdk()
 	require.Panics(t, func() {
-		s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, "a", "b", "c", "d", nil)
+		s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, "a", "b", "c", nil)
 	}, "call to unstubbed method did not panic")
 }
 
 func TestMockHandler_SdkEthereumGetTransactionLog_PartialMatch(t *testing.T) {
 	s := aFakeSdk()
-	address := "a"
 	abi := "b"
 	txHash := "c"
-	s.MockEthereumLog(address, abi, txHash, "e1", func(out interface{}) {
+	s.MockEthereumLog(txHash, abi, "e1", 1, 2, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	})
 	require.Panics(t, func() {
 		var out foo
-		s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, "e2", &out)
+		s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, txHash, abi, "e2", &out)
 	}, "call to partially stubbed method did not panic")
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to ethereum should have failed verify")
 }
 
 func TestMockHandler_SdkEthereumGetTransactionLog_Success(t *testing.T) {
 	s := aFakeSdk()
-	address := "a"
 	abi := "b"
 	txHash := "c"
 	eventName := "e"
-	s.MockEthereumLog(address, abi, txHash, eventName, func(out interface{}) {
+	s.MockEthereumLog(txHash, abi, eventName, 1, 2, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	})
 
 	var out foo
-	s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
+	s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, txHash, abi, eventName, &out)
 	require.Equal(t, out.bar, "baz", "did not get expected value from stubbed method")
 	require.NotPanics(t, func() { s.VerifyMocks() })
 }
