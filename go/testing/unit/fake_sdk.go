@@ -6,6 +6,7 @@ import (
 	"github.com/pkg/errors"
 	"math/rand"
 	"reflect"
+	"time"
 )
 
 type stateMap map[string][]byte
@@ -45,10 +46,11 @@ type mockHandler struct {
 	signerAddress []byte
 	callerAddress []byte
 
-	state         stateMap
-	ethereumStubs []*ethereumStub
-	serviceStubs  []*serviceStub
-	eventStubs    []*eventStub
+	state          stateMap
+	ethereumStubs  []*ethereumStub
+	serviceStubs   []*serviceStub
+	eventStubs     []*eventStub
+	ethBlockNumber uint64
 }
 
 func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte) []byte {
@@ -76,11 +78,14 @@ func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScop
 
 func (m *mockHandler) SdkEthereumCallMethod(ctx context.ContextId, permissionScope context.PermissionScope, ethContractAddress string, jsonAbi string, ethBlockNumber uint64, methodName string, out interface{}, args ...interface{}) {
 	var key []interface{}
+	var keyWithoutBlockNumber []interface{}
 	key = append(key, ethContractAddress, jsonAbi, methodName, ethBlockNumber)
 	key = append(key, args...)
+	keyWithoutBlockNumber = append(keyWithoutBlockNumber, ethContractAddress, jsonAbi, methodName)
+	keyWithoutBlockNumber = append(keyWithoutBlockNumber, args...)
 
 	for _, stub := range m.ethereumStubs {
-		if keyEquals(stub.key, key) {
+		if keyEquals(stub.key, key) || keyEquals(stub.key, keyWithoutBlockNumber) {
 			stub.satisfied = true
 			stub.outMutator(out)
 			return
@@ -151,13 +156,12 @@ func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope 
 }
 
 func (m *mockHandler) SdkEnvGetBlockHeight(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
-	panic("Not implemented")
-	return 0
+	m.ethBlockNumber++
+	return m.ethBlockNumber
 }
 
 func (m *mockHandler) SdkEnvGetBlockTimestamp(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
-	panic("Not implemented")
-	return 0
+	return uint64(time.Now().UnixNano())
 }
 
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outEthBlockNumber int, outEthTxIndex int, outMutator func(out interface{})) {

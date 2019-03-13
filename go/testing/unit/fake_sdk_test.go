@@ -3,6 +3,7 @@ package unit
 import (
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 type foo struct {
@@ -37,7 +38,7 @@ func TestMockHandler_SdkAddressGetSignerAddress(t *testing.T) {
 func TestMockHandler_SdkEthereumCallMethod_NotStubbed(t *testing.T) {
 	s := aFakeSdk()
 	require.Panics(t, func() {
-		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, "a", "b", "c", "d", nil)
+		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, "a", "b", 1, "c", "d", nil)
 	}, "call to unstubbed method did not panic")
 }
 
@@ -51,7 +52,7 @@ func TestMockHandler_SdkEthereumCallMethod_PartialMatch(t *testing.T) {
 	})
 	require.Panics(t, func() {
 		var out foo
-		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, methodName, &out, 1, 2)
+		s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, 1, methodName, &out, 1, 2)
 	}, "call to partially stubbed method did not panic")
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to ethereum should have failed verify")
 }
@@ -61,12 +62,12 @@ func TestMockHandler_SdkEthereumCallMethod_Success(t *testing.T) {
 	address := "a"
 	abi := "b"
 	methodName := "c"
-	s.MockEthereumCallMethod(address, abi, methodName, func(out interface{}) {
+	s.MockEthereumCallMethod(address, abi,  methodName, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	}, 1, 2)
 
 	var out foo
-	s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, methodName, &out, 1, 2)
+	s.SdkEthereumCallMethod(EXAMPLE_CONTEXT_ID, 0, address, abi, 1, methodName, &out, 1, 2)
 
 	require.Equal(t, out.bar, "baz", "did not get expected value from stubbed method")
 	require.NotPanics(t, func() { s.VerifyMocks() })
@@ -84,7 +85,7 @@ func TestMockHandler_SdkEthereumGetTransactionLog_PartialMatch(t *testing.T) {
 	address := "a"
 	abi := "b"
 	txHash := "c"
-	s.MockEthereumLog(address, abi, txHash, "e1", func(out interface{}) {
+	s.MockEthereumLog(address, abi, txHash, "e1", 17, 42, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	})
 	require.Panics(t, func() {
@@ -100,13 +101,16 @@ func TestMockHandler_SdkEthereumGetTransactionLog_Success(t *testing.T) {
 	abi := "b"
 	txHash := "c"
 	eventName := "e"
-	s.MockEthereumLog(address, abi, txHash, eventName, func(out interface{}) {
+	s.MockEthereumLog(address, abi, txHash, eventName, 17, 42, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	})
 
 	var out foo
-	s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
+	bh, txidx :=  s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
 	require.Equal(t, out.bar, "baz", "did not get expected value from stubbed method")
+	require.EqualValues(t, 17, bh, "block height should be 17")
+	require.EqualValues(t, 42, txidx, "transaction index should be 42")
+
 	require.NotPanics(t, func() { s.VerifyMocks() })
 }
 
@@ -178,3 +182,20 @@ func TestMockHandler_SdkEventsEmitEvent_Partial(t *testing.T) {
 	}, "partially stubbed event emit did not panic")
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
 }
+
+
+func TestMockHandler_SdkEnvGetBlockHeight(t *testing.T) {
+	s := aFakeSdk()
+	b1 := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
+	b2 := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
+
+	require.EqualValues(t, 1, b1, "first block should be 1")
+	require.EqualValues(t, 2, b2, "second block should be 2")
+}
+
+func TestMockHandler_SdkEnvGetBlockTimestamp(t *testing.T) {
+	s := aFakeSdk()
+	ts := s.SdkEnvGetBlockTimestamp(EXAMPLE_CONTEXT_ID, 0)
+	require.InDelta(t, uint64(time.Now().UnixNano()), ts, float64(time.Second), "expected current block time to be around 1 second from current time")
+}
+
