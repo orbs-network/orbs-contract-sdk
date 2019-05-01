@@ -210,26 +210,35 @@ func TestMockHandler_SdkEnvGetBlockTimestamp(t *testing.T) {
 func Test_InScope(t *testing.T) {
 	caller := AnAddress()
 
-	emptyStateDiffs := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+	emptyStateDiffs, zeroReads, zeroWrites := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
 	})
 	require.Empty(t, emptyStateDiffs)
+	require.Zero(t, zeroReads, zeroWrites)
 
-	stateDiffs := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+	stateDiffs, singleRead, singleWrite := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+		state.ReadString([]byte("some key"))
 		state.WriteString([]byte("hello"), "world")
 	})
 
+	require.EqualValues(t, 1, singleRead)
+	require.EqualValues(t, 1, singleWrite)
 	require.Len(t, stateDiffs, 1)
 	require.EqualValues(t, &StateDiff{
 		Key: []byte("hello"),
 		Value: []byte("world"),
 	}, stateDiffs[0])
 
-	orderedStateDiffs := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+	orderedStateDiffs, multipleReads, multipleWrites := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
 		state.WriteString([]byte("1974"), "Diamond Dogs")
 		state.WriteString([]byte("1976"), "Station to Station")
 		state.WriteString([]byte("1969"), "Space Oddity")
+
+		state.ReadString([]byte("1976"))
+		state.ReadString([]byte("1969"))
 	})
 
+	require.EqualValues(t, 2, multipleReads)
+	require.EqualValues(t, 3, multipleWrites)
 	require.Len(t, orderedStateDiffs, 3)
 	require.EqualValues(t, []byte("1974"), orderedStateDiffs[0].Key)
 	require.EqualValues(t, []byte("1976"), orderedStateDiffs[1].Key)

@@ -52,8 +52,10 @@ type mockHandler struct {
 	signerAddress []byte
 	callerAddress []byte
 
-	state          stateMap
+	state         stateMap
 	stateKeyOrder []string
+	stateReads    uint64
+	stateWrites   uint64
 
 	ethereumStubs  []*ethereumStub
 	serviceStubs   []*serviceStub
@@ -67,10 +69,12 @@ type StateDiff struct {
 }
 
 func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte) []byte {
+	m.stateReads += 1
 	return m.state[hex.EncodeToString(key)]
 }
 
 func (m *mockHandler) SdkStateWriteBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte, value []byte) {
+	m.stateWrites += 1
 	hexKey := hex.EncodeToString(key)
 	m.stateKeyOrder = append(m.stateKeyOrder, hexKey)
 	m.state[hexKey] = value
@@ -249,15 +253,15 @@ func (m	*mockHandler) getStateDiffs() []*StateDiff {
 	return diffs
 }
 
-func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) []*StateDiff {
+func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) (diffs []*StateDiff, reads uint64, writes uint64) {
 	return inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SYSTEM, f)
 }
 
-func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) []*StateDiff {
+func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) (diffs []*StateDiff, reads uint64, writes uint64) {
 	return inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
 }
 
-func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) []*StateDiff {
+func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) (diffs []*StateDiff, reads uint64, writes uint64) {
 	if signerAddress == nil {
 		signerAddress = AnAddress()
 	}
@@ -271,7 +275,7 @@ func inScope(signerAddress []byte, callerAddress []byte, scope context.Permissio
 	handler.VerifyMocks()
 	context.PopContext(cid)
 
-	return handler.getStateDiffs()
+	return handler.getStateDiffs(), handler.stateReads, handler.stateWrites
 }
 
 func aFakeSdkFor(signerAddress []byte, callerAddress []byte) *mockHandler {
