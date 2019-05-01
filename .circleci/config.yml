@@ -6,6 +6,7 @@ jobs:
     resource_class: large
     working_directory: /go/src/github.com/orbs-network/orbs-contract-sdk
     steps:
+      - setup_remote_docker
       - checkout
       - run: ./git-submodule-checkout.sh
       - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
