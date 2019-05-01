@@ -53,10 +53,17 @@ type mockHandler struct {
 	callerAddress []byte
 
 	state          stateMap
+	stateKeyOrder []string
+
 	ethereumStubs  []*ethereumStub
 	serviceStubs   []*serviceStub
 	eventStubs     []*eventStub
 	ethBlockNumber uint64
+}
+
+type StateDiff struct {
+	Key []byte
+	Value []byte
 }
 
 func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte) []byte {
@@ -64,7 +71,9 @@ func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope c
 }
 
 func (m *mockHandler) SdkStateWriteBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte, value []byte) {
-	m.state[hex.EncodeToString(key)] = value
+	hexKey := hex.EncodeToString(key)
+	m.stateKeyOrder = append(m.stateKeyOrder, hexKey)
+	m.state[hexKey] = value
 }
 
 func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScope context.PermissionScope, serviceName string, methodName string, args ...interface{}) []interface{} {
@@ -227,15 +236,28 @@ func (m *mockHandler) VerifyMocks() {
 	}
 }
 
-func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) {
-	inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SYSTEM, f)
+func (m	*mockHandler) getStateDiffs() []*StateDiff {
+	var diffs []*StateDiff
+
+	for _, k := range m.stateKeyOrder {
+		byteKey, _ := hex.DecodeString(k)
+		diffs = append(diffs, &StateDiff{
+			Key: byteKey,
+			Value: m.state[k],
+		})
+	}
+	return diffs
 }
 
-func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) {
-	inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
+func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) []*StateDiff {
+	return inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SYSTEM, f)
 }
 
-func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) {
+func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) []*StateDiff {
+	return inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
+}
+
+func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) []*StateDiff {
 	if signerAddress == nil {
 		signerAddress = AnAddress()
 	}
@@ -248,6 +270,8 @@ func inScope(signerAddress []byte, callerAddress []byte, scope context.Permissio
 	f(handler)
 	handler.VerifyMocks()
 	context.PopContext(cid)
+
+	return handler.getStateDiffs()
 }
 
 func aFakeSdkFor(signerAddress []byte, callerAddress []byte) *mockHandler {

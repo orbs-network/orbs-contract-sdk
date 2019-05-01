@@ -7,6 +7,8 @@
 package unit
 
 import (
+	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/v1/state"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -205,3 +207,31 @@ func TestMockHandler_SdkEnvGetBlockTimestamp(t *testing.T) {
 	require.InDelta(t, uint64(time.Now().UnixNano()), ts, float64(time.Second), "expected current block time to be around 1 second from current time")
 }
 
+func Test_InScope(t *testing.T) {
+	caller := AnAddress()
+
+	emptyStateDiffs := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+	})
+	require.Empty(t, emptyStateDiffs)
+
+	stateDiffs := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+		state.WriteString([]byte("hello"), "world")
+	})
+
+	require.Len(t, stateDiffs, 1)
+	require.EqualValues(t, &StateDiff{
+		Key: []byte("hello"),
+		Value: []byte("world"),
+	}, stateDiffs[0])
+
+	orderedStateDiffs := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+		state.WriteString([]byte("1974"), "Diamond Dogs")
+		state.WriteString([]byte("1976"), "Station to Station")
+		state.WriteString([]byte("1969"), "Space Oddity")
+	})
+
+	require.Len(t, orderedStateDiffs, 3)
+	require.EqualValues(t, []byte("1974"), orderedStateDiffs[0].Key)
+	require.EqualValues(t, []byte("1976"), orderedStateDiffs[1].Key)
+	require.EqualValues(t, []byte("1969"), orderedStateDiffs[2].Key)
+}
