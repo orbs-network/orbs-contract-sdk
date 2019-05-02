@@ -14,6 +14,9 @@ import (
 )
 
 func TestGetBlockNumberOnEthereum(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping on CI")
+	}
 	gammaCli := gamma.Cli().Start()
 	defer gammaCli.Stop()
 

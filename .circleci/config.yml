@@ -13,6 +13,7 @@ jobs:
       - run: sudo apt-get install -y nodejs
       - run: sudo npm install -g truffle
       - run: curl -L https://github.com/orbs-network/gamma-cli/releases/download/v0.6.7/gammacli-linux-x86-64-v0.6.7.tar.gz -o gammacli.tgz && tar zxvf gammacli.tgz && sudo mv _bin/gamma-cli /usr/bin/
+      - run: gamma-cli upgrade-server && gamma-cli upgrade-server -env experimental
       - run: go test ./go/... -v -failfast
 
 workflows:
