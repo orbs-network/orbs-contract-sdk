@@ -9,4 +9,4 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     environment:
       LOCAL_IP: $LOCAL_IP
-    command: sh -c "gamma-cli upgrade-server && gamma-cli upgrade-server -env experimental && go test ./go/... -v"
+    command: sh -c "gamma-cli upgrade-server && gamma-cli upgrade-server -env experimental && gamma-cli start-local -wait && go test ./go/... -v"
