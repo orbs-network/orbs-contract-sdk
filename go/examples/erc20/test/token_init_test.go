@@ -7,25 +7,17 @@
 package test
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/testing/gamma"
-	"strings"
+	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestTokenInit(t *testing.T) {
-	gammaCli := gamma.Cli()
+	sender, _ := orbs.CreateAccount()
 
-	out := gammaCli.Run("deploy ../erc20.go -name OrbsERC20 -signer user1")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("deploy failed")
-	}
+	h := newHarness()
+	response := h.deployContract(t, sender)
+	require.Len(t, response.OutputEvents, 1, "initial transfer (mint) did not fire during init")
 
-	if !strings.Contains(out, `"EventName": "Transfer",`) {
-		t.Fatal("initial transfer (mint) did not fire during init")
-	}
-
-	out = gammaCli.Run("run-query balanceOf-user1.json")
-	if !strings.Contains(out, `"Value": "1000000000000000000"`) {
-		t.Fatal("initial get failed")
-	}
+	require.EqualValues(t, 1000000000000000000, h.balanceOf(t, sender))
 }
