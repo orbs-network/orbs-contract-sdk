@@ -9,18 +9,14 @@ package test
 import (
 	"github.com/orbs-network/orbs-contract-sdk/go/testing/ethereum"
 	"github.com/orbs-network/orbs-contract-sdk/go/testing/gamma"
-	"os"
 	"regexp"
 	"strings"
 	"testing"
 )
 
 func TestCallMethodOnEthereum(t *testing.T) {
-	if os.Getenv("CI") != "" {
-		t.Skip("Skipping on CI")
-	}
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	t.Skip("skipped because it uses Ethreum")
+	gammaCli := gamma.Cli()
 
 	truffleCli := truffle.Cli("./EthereumContract")
 	out := truffleCli.Run("exec deploy-new.js")

@@ -7,42 +7,28 @@
 package test
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/testing/gamma"
-	"strings"
+	"github.com/orbs-network/orbs-client-sdk-go/codec"
+	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestSuccessfulTransfer(t *testing.T) {
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	user1, _ := orbs.CreateAccount()
+	user2, _ := orbs.CreateAccount()
 
-	out := gammaCli.Run("deploy ../contract.go -name MySimpleToken -signer user1")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("deploy failed")
-	}
 
-	out = gammaCli.Run("run-query get-user1-balance.json")
-	if !strings.Contains(out, `"Value": "1000"`) {
-		t.Fatal("initial user1 balance failed")
-	}
+	h := newHarness()
+	h.deployContract(t, user1)
 
-	out = gammaCli.Run("run-query get-user2-balance.json")
-	if !strings.Contains(out, `"Value": "0"`) {
-		t.Fatal("initial user2 balance failed")
-	}
+	require.EqualValues(t, 1000, h.getBalance(t, user1))
+	require.EqualValues(t, 0, h.getBalance(t, user2))
 
-	out = gammaCli.Run("send-tx transfer-15-to-user2.json -signer user1")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("transfer failed")
-	}
+	result, err := h.transfer(t, user1, user2, uint64(15))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("run-query get-user1-balance.json")
-	if !strings.Contains(out, `"Value": "985"`) {
-		t.Fatal("final user1 balance failed")
-	}
 
-	out = gammaCli.Run("run-query get-user2-balance.json")
-	if !strings.Contains(out, `"Value": "15"`) {
-		t.Fatal("final user2 balance failed")
-	}
+	require.EqualValues(t, 985, h.getBalance(t, user1))
+	require.EqualValues(t, 15, h.getBalance(t, user2))
 }

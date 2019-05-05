@@ -9,19 +9,14 @@ package test
 import (
 	"github.com/orbs-network/orbs-contract-sdk/go/testing/ethereum"
 	"github.com/orbs-network/orbs-contract-sdk/go/testing/gamma"
-	"os"
 	"regexp"
 	"strings"
 	"testing"
 )
 
 func TestGetLogsOnEthereum(t *testing.T) {
-	if os.Getenv("CI") != "" {
-		t.Skip("Skipping on CI")
-	}
-	t.Skip()
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	t.Skip("Skipped because it uses Ethereum")
+	gammaCli := gamma.Cli()
 
 	truffleCli := truffle.Cli("./EthereumContract")
 	out := truffleCli.Run("exec emit-event.js")

@@ -13,8 +13,7 @@ import (
 )
 
 func TestCounterIncrement(t *testing.T) {
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	gammaCli := gamma.Cli()
 
 	out := gammaCli.Run("deploy ../contract.go -name MyCounter")
 	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
