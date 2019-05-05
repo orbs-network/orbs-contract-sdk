@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/orbs-network/orbs-client-sdk-go/codec"
 	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -18,7 +19,7 @@ type harness struct {
 
 func newHarness() *harness {
 	return &harness{
-		client: orbs.NewClient("http://localhost:8080", 42, codec.NETWORK_TYPE_TEST_NET),
+		client: orbs.NewClient(test.GetGammaEndpoint(), 42, codec.NETWORK_TYPE_TEST_NET),
 		contractName: fmt.Sprintf("MySimpleToken%d", time.Now().UnixNano()),
 	}
 }

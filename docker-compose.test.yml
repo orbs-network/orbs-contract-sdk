@@ -1,0 +1,12 @@
+version: "3"
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    privileged: true
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      LOCAL_IP: $LOCAL_IP
+    command: sh -c "gamma-cli upgrade-server && gamma-cli upgrade-server -env experimental && go test ./go/... -v"
