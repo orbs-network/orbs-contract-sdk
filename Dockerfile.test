@@ -1,9 +1,5 @@
 FROM golang:1.10-alpine
 
-RUN apk add --no-cache docker curl
-
-RUN curl -L https://github.com/orbs-network/gamma-cli/releases/download/v0.6.7/gammacli-linux-x86-64-v0.6.7.tar.gz -o gammacli.tgz && tar zxvf gammacli.tgz && mv _bin/gamma-cli /usr/bin/
-
 WORKDIR /go/src/github.com/orbs-network/orbs-contract-sdk/
 
 ADD . /go/src/github.com/orbs-network/orbs-contract-sdk/
