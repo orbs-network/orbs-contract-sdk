@@ -49,8 +49,57 @@ func (h *harness) balanceOf(t *testing.T, sender *orbs.OrbsAccount) interface{} 
 	return queryResponse.OutputArguments[0]
 }
 
+func (h *harness) allowance(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount) interface{} {
+	query, err := h.client.CreateQuery(sender.PublicKey, h.contractName, "allowance", sender.AddressAsBytes(), receiver.AddressAsBytes())
+	require.NoError(t, err)
+
+	queryResponse, err := h.client.SendQuery(query)
+	require.NoError(t, err)
+
+	return queryResponse.OutputArguments[0]
+}
+
+func (h *harness) allowedTransfer(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount) interface{} {
+	query, err := h.client.CreateQuery(sender.PublicKey, h.contractName, "allowedTransfer", sender.AddressAsBytes(), receiver.AddressAsBytes())
+	require.NoError(t, err)
+
+	queryResponse, err := h.client.SendQuery(query)
+	require.NoError(t, err)
+
+	return queryResponse.OutputArguments[0]
+}
+
 func (h *harness) transfer(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount, sum uint64) (*codec.SendTransactionResponse, error) {
 	tx, _, err := h.client.CreateTransaction(sender.PublicKey, sender.PrivateKey, h.contractName, "transfer", receiver.AddressAsBytes(), sum)
+	require.NoError(t, err)
+
+	return h.client.SendTransaction(tx)
+}
+
+func (h *harness) transferFrom(t *testing.T, signer *orbs.OrbsAccount, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount, sum uint64) (*codec.SendTransactionResponse, error) {
+	tx, _, err := h.client.CreateTransaction(signer.PublicKey, signer.PrivateKey, h.contractName, "transferFrom", sender.AddressAsBytes(), receiver.AddressAsBytes(), sum)
+	require.NoError(t, err)
+
+	return h.client.SendTransaction(tx)
+}
+
+
+func (h *harness) approve(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount, sum uint64) (*codec.SendTransactionResponse, error) {
+	tx, _, err := h.client.CreateTransaction(sender.PublicKey, sender.PrivateKey, h.contractName, "approve", receiver.AddressAsBytes(), sum)
+	require.NoError(t, err)
+
+	return h.client.SendTransaction(tx)
+}
+
+func (h *harness) increaseAllowance(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount, sum uint64) (*codec.SendTransactionResponse, error) {
+	tx, _, err := h.client.CreateTransaction(sender.PublicKey, sender.PrivateKey, h.contractName, "increaseAllowance", receiver.AddressAsBytes(), sum)
+	require.NoError(t, err)
+
+	return h.client.SendTransaction(tx)
+}
+
+func (h *harness) decreaseAllowance(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount, sum uint64) (*codec.SendTransactionResponse, error) {
+	tx, _, err := h.client.CreateTransaction(sender.PublicKey, sender.PrivateKey, h.contractName, "decreaseAllowance", receiver.AddressAsBytes(), sum)
 	require.NoError(t, err)
 
 	return h.client.SendTransaction(tx)
