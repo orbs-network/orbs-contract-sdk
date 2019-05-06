@@ -76,7 +76,17 @@ func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope c
 func (m *mockHandler) SdkStateWriteBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte, value []byte) {
 	m.stateWrites += 1
 	hexKey := hex.EncodeToString(key)
-	m.stateKeyOrder = append(m.stateKeyOrder, hexKey)
+
+	shouldUpdate := true
+	for _, key := range m.stateKeyOrder {
+		if key == hexKey {
+			shouldUpdate = false
+		}
+	}
+
+	if shouldUpdate {
+		m.stateKeyOrder = append(m.stateKeyOrder, hexKey)
+	}
 	m.state[hexKey] = value
 }
 

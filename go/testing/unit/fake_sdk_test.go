@@ -231,6 +231,7 @@ func Test_InScope(t *testing.T) {
 	orderedStateDiffs, multipleReads, multipleWrites := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
 		state.WriteString([]byte("1974"), "Diamond Dogs")
 		state.WriteString([]byte("1976"), "Station to Station")
+		state.WriteString([]byte("1969"), "Hunky Dory")
 		state.WriteString([]byte("1969"), "Space Oddity")
 
 		state.ReadString([]byte("1976"))
@@ -238,7 +239,7 @@ func Test_InScope(t *testing.T) {
 	})
 
 	require.EqualValues(t, 2, multipleReads)
-	require.EqualValues(t, 3, multipleWrites)
+	require.EqualValues(t, 4, multipleWrites)
 	require.Len(t, orderedStateDiffs, 3)
 	require.EqualValues(t, []byte("1974"), orderedStateDiffs[0].Key)
 	require.EqualValues(t, []byte("1976"), orderedStateDiffs[1].Key)
