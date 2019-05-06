@@ -7,10 +7,12 @@
 package test
 
 import (
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
 	"github.com/orbs-network/orbs-client-sdk-go/codec"
 	"github.com/orbs-network/orbs-client-sdk-go/orbs"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestCounterIncrement(t *testing.T) {
@@ -33,5 +35,7 @@ func TestCounterIncrement(t *testing.T) {
 	require.NoError(t, err)
 	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	require.EqualValues(t, 75, h.get(t, sender))
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return h.get(t, sender) == uint64(75)
+	}))
 }

@@ -8,8 +8,10 @@ package test
 
 import (
 	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestTokenInit(t *testing.T) {
@@ -19,5 +21,7 @@ func TestTokenInit(t *testing.T) {
 	response := h.deployContract(t, sender)
 	require.Len(t, response.OutputEvents, 1, "initial transfer (mint) did not fire during init")
 
-	require.EqualValues(t, 1000000000000000000, h.balanceOf(t, sender))
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return h.balanceOf(t, sender) == uint64(1000000000000000000)
+	}))
 }

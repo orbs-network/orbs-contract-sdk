@@ -7,10 +7,12 @@
 package test
 
 import (
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
 	"github.com/orbs-network/orbs-client-sdk-go/codec"
 	"github.com/orbs-network/orbs-client-sdk-go/orbs"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestTokenTransfer(t *testing.T) {
@@ -25,7 +27,9 @@ func TestTokenTransfer(t *testing.T) {
 	require.NoError(t, err)
 	require.EqualValues(t, "Transfer", response.OutputEvents[0].EventName)
 
-	require.EqualValues(t, 5000, h.balanceOf(t, user2))
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return h.balanceOf(t, user2) == uint64(5000)
+	}))
 
 	invalidUser, _ := orbs.CreateAccount()
 	invalidUser.Address = "123"

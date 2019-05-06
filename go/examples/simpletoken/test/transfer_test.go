@@ -9,8 +9,10 @@ package test
 import (
 	"github.com/orbs-network/orbs-client-sdk-go/codec"
 	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestSuccessfulTransfer(t *testing.T) {
@@ -29,6 +31,11 @@ func TestSuccessfulTransfer(t *testing.T) {
 	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
 
-	require.EqualValues(t, 985, h.getBalance(t, user1))
-	require.EqualValues(t, 15, h.getBalance(t, user2))
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return uint64(985) == h.getBalance(t, user1)
+	}))
+
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return uint64(15) == h.getBalance(t, user2)
+	}))
 }

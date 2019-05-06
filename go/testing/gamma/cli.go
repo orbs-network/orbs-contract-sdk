@@ -8,6 +8,8 @@ package gamma
 
 import (
 	"fmt"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
+	"net/http"
 	"os/exec"
 	"strings"
 	"time"
@@ -58,6 +60,8 @@ func (c *cli) Start() *cli {
 	c.isStarted = true
 	c.Run("start-local -wait")
 
+	waitUntilGammaIsUp()
+
 	return c
 }
 
@@ -92,4 +96,17 @@ func waitUntilGammaShutdown() {
 	}
 
 	time.Sleep(1*time.Second)
+}
+
+func waitUntilGammaIsUp() {
+	for i := 0; i < 30 ; i++ {
+		time.Sleep(1*time.Second)
+
+		res, err := http.Get(test.GetGammaEndpoint() + "/metrics")
+		if err == nil && res.StatusCode == http.StatusOK {
+			break
+		} else {
+			fmt.Println(fmt.Sprintf("Waiting for gamma: %s", err))
+		}
+	}
 }

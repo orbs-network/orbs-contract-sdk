@@ -9,8 +9,10 @@ package test
 import (
 	"github.com/orbs-network/orbs-client-sdk-go/codec"
 	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
 	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestAllowance(t *testing.T) {
@@ -28,7 +30,9 @@ func TestAllowance(t *testing.T) {
 		require.NoError(t, err)
 		require.EqualValues(t, "Approval", response.OutputEvents[0].EventName)
 
-		require.EqualValues(t, 3000, h.allowance(t, user1, user2))
+		require.True(t, test.Eventually(1*time.Second, func() bool {
+			return uint64(3000) == h.allowance(t, user1, user2)
+		}))
 	})
 
 	// test relies on setup done in previous
@@ -37,7 +41,10 @@ func TestAllowance(t *testing.T) {
 		require.NoError(t, err)
 		require.EqualValues(t, "Approval", response.OutputEvents[0].EventName)
 		require.EqualValues(t, 4000, response.OutputEvents[0].Arguments[2], "event data incorrect")
-		require.EqualValues(t, 4000, h.allowance(t, user1, user2))
+
+		require.True(t, test.Eventually(1*time.Second, func() bool {
+			return uint64(4000) == h.allowance(t, user1, user2)
+		}))
 
 		response, err = h.increaseAllowance(t, user1, user2, 18446744073709551615)
 		require.NoError(t, err)
@@ -54,7 +61,11 @@ func TestAllowance(t *testing.T) {
 		require.EqualValuesf(t, codec.EXECUTION_RESULT_SUCCESS, response.ExecutionResult, "decrease allowance failed")
 		require.EqualValues(t, "Approval", response.OutputEvents[0].EventName)
 		require.EqualValues(t, 3000, response.OutputEvents[0].Arguments[2], "event data incorrect")
-		require.EqualValues(t, 3000, h.allowance(t, user1, user2))
+
+
+		require.True(t, test.Eventually(1*time.Second, func() bool {
+			return uint64(3000) == h.allowance(t, user1, user2)
+		}))
 	})
 
 	t.Run("AllowedTransfer", func (t *testing.T) {
