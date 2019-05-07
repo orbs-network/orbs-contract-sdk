@@ -21,36 +21,11 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
 3. Run the following in terminal:
 
     ```
-    cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/simpletoken/test
+    gamma-cli start-local -wait
     go test
     ```
-    
-4. If you wish to run the `gamma-cli` commands manually instead (and not through the test), run the following in terminal:
 
-    A working transfer scenario:
+## End to end testing
 
-    ```
-    cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/simpletoken/test
-    gamma-cli start-local
-    gamma-cli deploy ../contract.go -name MySimpleToken -signer user1
-    gamma-cli run-query get-user1-balance.json
-    gamma-cli run-query get-user2-balance.json
-    gamma-cli send-tx transfer-15-to-user2.json -signer user1
-    gamma-cli run-query get-user1-balance.json
-    gamma-cli run-query get-user2-balance.json
-    gamma-cli stop-local
-    ```
-    
-    A failure when trying to send with insufficient funds:
-    
-    ```
-    cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/simpletoken/test
-    gamma-cli start-local
-    gamma-cli deploy ../contract.go -name MySimpleToken -signer user1
-    gamma-cli run-query get-user1-balance.json
-    gamma-cli run-query get-user2-balance.json
-    gamma-cli send-tx transfer-1500-to-user2.json -signer user1
-    gamma-cli run-query get-user1-balance.json
-    gamma-cli run-query get-user2-balance.json
-    gamma-cli stop-local
-    ```
+All examples have end to end tests written in Go using [Orbs client SDK for GO](https://github.com/orbs-network/orbs-client-sdk-go/).
+`tests/harness.go` introduces a very simple wrapper for the contract and is used in the end to end test.
