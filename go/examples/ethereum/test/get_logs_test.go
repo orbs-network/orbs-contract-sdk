@@ -15,8 +15,8 @@ import (
 )
 
 func TestGetLogsOnEthereum(t *testing.T) {
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	t.Skip("Skipped because it uses Ethereum")
+	gammaCli := gamma.Cli()
 
 	truffleCli := truffle.Cli("./EthereumContract")
 	out := truffleCli.Run("exec emit-event.js")

@@ -18,10 +18,11 @@ func TestReadValueFromLog(t *testing.T) {
 	abi := "b"
 	txid := "c"
 	eventName := "d"
+	outEthBlockNumber := 1
+	outhEthTxIndex := 0
 
 	InServiceScope(nil, nil, func(m Mockery) {
-
-		m.MockEthereumLog(address, abi, txid, eventName, func(out interface{}) {
+		m.MockEthereumLog(address, abi, txid, eventName, outEthBlockNumber, outhEthTxIndex, func(out interface{}) {
 			out.(*event).Value = "foo"
 		})
 

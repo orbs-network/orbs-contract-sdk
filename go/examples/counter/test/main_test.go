@@ -7,42 +7,35 @@
 package test
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/testing/gamma"
-	"strings"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
+	"github.com/orbs-network/orbs-client-sdk-go/codec"
+	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestCounterIncrement(t *testing.T) {
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	sender, _ := orbs.CreateAccount()
 
-	out := gammaCli.Run("deploy ../contract.go -name MyCounter")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("deploy failed")
-	}
+	h := newHarness()
+	h.deployContract(t, sender)
 
-	out = gammaCli.Run("run-query get.json")
-	if !strings.Contains(out, `"Value": "0"`) {
-		t.Fatal("initial get failed")
-	}
+	require.EqualValues(t, 0, h.get(t, sender))
 
-	out = gammaCli.Run("send-tx add-25.json")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("first add 25 failed")
-	}
+	result, err := h.add(t, sender, uint64(25))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("send-tx add-25.json")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("second add 25 failed")
-	}
+	result, err = h.add(t, sender, uint64(25))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("send-tx add-25.json")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("third add 25 failed")
-	}
+	result, err = h.add(t, sender, uint64(25))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("run-query get.json")
-	if !strings.Contains(out, `"Value": "75"`) {
-		t.Fatal("final get failed")
-	}
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return h.get(t, sender) == uint64(75)
+	}))
 }
