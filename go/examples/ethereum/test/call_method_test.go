@@ -15,8 +15,8 @@ import (
 )
 
 func TestCallMethodOnEthereum(t *testing.T) {
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	t.Skip("skipped because it uses Ethreum")
+	gammaCli := gamma.Cli()
 
 	truffleCli := truffle.Cli("./EthereumContract")
 	out := truffleCli.Run("exec deploy-new.js")
