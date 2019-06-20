@@ -193,6 +193,10 @@ func (m *mockHandler) SdkEnvGetBlockTimestamp(ctx context.ContextId, permissionS
 	return uint64(time.Now().UnixNano())
 }
 
+func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionScope context.PermissionScope) uint32 {
+	return 42
+}
+
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outEthBlockNumber int, outEthTxIndex int, outMutator func(out interface{})) {
 	var key []interface{}
 	key = append(key, address, abiJson, ethTxHash, eventName)

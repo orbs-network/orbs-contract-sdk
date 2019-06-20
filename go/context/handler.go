@@ -32,4 +32,5 @@ type SdkHandler interface {
 	// env
 	SdkEnvGetBlockHeight(ctx ContextId, permissionScope PermissionScope) uint64
 	SdkEnvGetBlockTimestamp(ctx ContextId, permissionScope PermissionScope) uint64
+	SdkEnvGetVirtualChainId(ctx ContextId, permissionScope PermissionScope) uint32
 }
