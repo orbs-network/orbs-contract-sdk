@@ -5,10 +5,8 @@ import (
 	"reflect"
 )
 
-type Serializer func(compositeKey string, item interface{}) error
-type Deserializer func(compositeKey string, item interface{}) error
-type Deleter func(compositeKey string, item interface{})
-
+// Takes struct as parameter:
+// SerializeStruct("key", Value{})
 func SerializeStruct(compositeKey string, item interface{}) error {
 	meta := reflect.ValueOf(item)
 
@@ -33,6 +31,8 @@ func SerializeStruct(compositeKey string, item interface{}) error {
 	return nil
 }
 
+// Takes pointer as parameter:
+// DeserializeStruct("key", &Value{})
 func DeserializeStruct(compositeKey string, value interface{}) error {
 	meta := reflect.ValueOf(value).Elem()
 	for i := 0; i < meta.NumField(); i++ {
@@ -49,7 +49,10 @@ func DeserializeStruct(compositeKey string, value interface{}) error {
 		case reflect.Uint32:
 			fValue.Set(reflect.ValueOf(ReadUint32(key)))
 		case reflect.Slice:
-			fValue.Set(reflect.ValueOf(ReadBytes(key)))
+			bytes := ReadBytes(key)
+			if len(bytes) > 0 { // to preserve require.EqualValues checks
+				fValue.Set(reflect.ValueOf(bytes))
+			}
 		default:
 			return errors.Errorf("failed to deserialize key %s with type %s", key, v)
 		}
@@ -58,10 +61,23 @@ func DeserializeStruct(compositeKey string, value interface{}) error {
 	return nil
 }
 
+// Takes struct as parameter:
+// DeleteStruct("key", Value{})
 func DeleteStruct(compositeKey string, value interface{}) {
 	meta := reflect.ValueOf(value)
 	for i := 0; i < meta.NumField(); i++ {
 		key := Key(compositeKey, "$"+meta.Type().Field(i).Name)
 		Clear(key)
+	}
+}
+
+// Takes struct as parameter:
+// RenameStruct("key", Value{})
+func RenameStruct(oldCompositeKey, newCompositeKey string, value interface{}) {
+	meta := reflect.ValueOf(value)
+	for i := 0; i < meta.NumField(); i++ {
+		oldKey := Key(oldCompositeKey, "$"+meta.Type().Field(i).Name)
+		newKey := Key(newCompositeKey, "$"+meta.Type().Field(i).Name)
+		Rename(oldKey, newKey)
 	}
 }

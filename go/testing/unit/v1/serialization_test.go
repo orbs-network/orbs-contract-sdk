@@ -71,6 +71,18 @@ func Test_SerializeStructWithError(t *testing.T) {
 	})
 }
 
+func Test_DeserializeEmptyStruct(t *testing.T) {
+	caller := AnAddress()
+
+	InServiceScope(nil, caller, func(m Mockery) {
+		value := Album{}
+		err := state.DeserializeStruct("best-album", &value)
+		require.NoError(t, err)
+
+		require.EqualValues(t, Album{}, value)
+	})
+}
+
 func Test_DeserializeStructWithError(t *testing.T) {
 	caller := AnAddress()
 
@@ -116,4 +128,37 @@ func Test_DeleteStruct(t *testing.T) {
 		{[]byte("best-album$Year"), []byte{}},
 		{[]byte("best-album$Artwork"), []byte{}},
 	}, diffs)
+}
+
+func Test_RenameStruct(t *testing.T) {
+	caller := AnAddress()
+
+	InServiceScope(nil, caller, func(m Mockery) {
+		diamondDogs := Album{
+			"Diamond Dogs",
+			"David Bowie",
+			1974,
+			[]byte{1, 2, 3},
+		}
+
+		err := state.SerializeStruct("best-album", diamondDogs)
+		require.NoError(t, err)
+
+		value := Album{}
+		err = state.DeserializeStruct("best-album", &value)
+		require.NoError(t, err)
+		require.EqualValues(t, diamondDogs, value)
+
+		state.RenameStruct("best-album", "the-best-album", value)
+
+		oldValue := Album{}
+		err = state.DeserializeStruct("best-album", &oldValue)
+		require.NoError(t, err)
+		require.EqualValues(t, Album{}, oldValue)
+
+		newValue := Album{}
+		err = state.DeserializeStruct("the-best-album", &newValue)
+		require.NoError(t, err)
+		require.EqualValues(t, diamondDogs, newValue)
+	})
 }
