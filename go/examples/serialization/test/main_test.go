@@ -22,8 +22,6 @@ func TestPhoneBook(t *testing.T) {
 	h := newHarness()
 	h.deployContract(t, sender)
 
-	require.EqualValues(t, 0, h.get(t, sender))
-
 	payload := map[string]interface{}{
 		"FirstName": "Huckleberry",
 		"LastName": "Finn",
@@ -36,6 +34,12 @@ func TestPhoneBook(t *testing.T) {
 	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
 	require.True(t, test.Eventually(1*time.Second, func() bool {
-		return h.get(t, sender) == uint64(75)
+		value := h.get(t, sender)
+		var m map[string]interface{}
+		if err = json.Unmarshal([]byte(value.(string)), &m); err == nil {
+			return m["FirstName"] == "Huckleberry" && m["LastName"] == "Finn" && m["Phone"] == 1234567.0
+		}
+
+		return false
 	}))
 }

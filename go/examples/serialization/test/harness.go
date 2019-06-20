@@ -34,13 +34,12 @@ func (h *harness) deployContract(t *testing.T, sender *orbs.OrbsAccount) {
 
 	deployResponse, err := h.client.SendTransaction(deployTx)
 	require.NoError(t, err)
-	fmt.Println(deployResponse.OutputArguments)
 
 	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, deployResponse.ExecutionResult)
 }
 
 func (h *harness) get(t *testing.T, sender *orbs.OrbsAccount) interface{} {
-	query, err := h.client.CreateQuery(sender.PublicKey, h.contractName, "get")
+	query, err := h.client.CreateQuery(sender.PublicKey, h.contractName, "get", sender.Address)
 	require.NoError(t, err)
 
 	queryResponse, err := h.client.SendQuery(query)
