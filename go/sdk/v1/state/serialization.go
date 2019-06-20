@@ -7,17 +7,9 @@ import (
 
 type Serializer func(compositeKey string, item interface{}) error
 type Deserializer func(compositeKey string, item interface{}) error
-type Deleter func(compositeKey string, item interface{}) error
+type Deleter func(compositeKey string, item interface{})
 
 func SerializeStruct(compositeKey string, item interface{}) error {
-	return serializeStruct(compositeKey, item)
-}
-
-func DeserializeStruct(compositeKey string, base interface{}) error {
-	return deserializeStruct(base, compositeKey)
-}
-
-func serializeStruct(compositeKey string, item interface{}) error {
 	meta := reflect.ValueOf(item)
 
 	for i := 0; i < meta.NumField(); i++ {
@@ -41,8 +33,8 @@ func serializeStruct(compositeKey string, item interface{}) error {
 	return nil
 }
 
-func deserializeStruct(base interface{}, compositeKey string) (err error) {
-	meta := reflect.ValueOf(base).Elem()
+func DeserializeStruct(compositeKey string, value interface{}) error {
+	meta := reflect.ValueOf(value).Elem()
 	for i := 0; i < meta.NumField(); i++ {
 		f := meta.Field(i)
 		key := Key(compositeKey, "$", meta.Type().Field(i).Name)
@@ -63,18 +55,13 @@ func deserializeStruct(base interface{}, compositeKey string) (err error) {
 		}
 	}
 
-	return
+	return nil
 }
 
-//
-//func DefaultStructDeleter(base interface{}) Deleter {
-//	meta := reflect.ValueOf(base)
-//	return func(compositeKey []byte) {
-//
-//		for i := 0; i < meta.NumField(); i++ {
-//			key := Key(compositeKey, "%"+meta.Type().Field(i).Name)
-//			Clear(key)
-//		}
-//
-//	}
-//}
+func DeleteStruct(compositeKey string, value interface{}) {
+	meta := reflect.ValueOf(value)
+	for i := 0; i < meta.NumField(); i++ {
+		key := Key(compositeKey, "$"+meta.Type().Field(i).Name)
+		Clear(key)
+	}
+}

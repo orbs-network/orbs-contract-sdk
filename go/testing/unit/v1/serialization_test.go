@@ -92,3 +92,28 @@ func Test_DeserializeStructWithError(t *testing.T) {
 		require.EqualError(t, err, "failed to deserialize key best-album$UnserializableField with type interface")
 	})
 }
+
+func Test_DeleteStruct(t *testing.T) {
+	caller := AnAddress()
+
+	diffs, _, _ := InServiceScope(nil, caller, func(m Mockery) {
+		diamondDogs := Album{
+			"Diamond Dogs",
+			"David Bowie",
+			1974,
+			[]byte{1, 2, 3},
+		}
+
+		err := state.SerializeStruct("best-album", diamondDogs)
+		require.NoError(t, err)
+
+		state.DeleteStruct("best-album", diamondDogs)
+	})
+
+	require.EqualValues(t, []*StateDiff{
+		{[]byte("best-album$Title"), []byte{}},
+		{[]byte("best-album$Artist"), []byte{}},
+		{[]byte("best-album$Year"), []byte{}},
+		{[]byte("best-album$Artwork"), []byte{}},
+	}, diffs)
+}
