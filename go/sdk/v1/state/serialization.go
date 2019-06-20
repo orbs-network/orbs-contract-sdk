@@ -1,7 +1,7 @@
 package state
 
 import (
-	"github.com/pkg/errors"
+	"fmt"
 	"reflect"
 )
 
@@ -24,7 +24,7 @@ func SerializeStruct(compositeKey string, item interface{}) error {
 		case reflect.Slice:
 			WriteBytes(key, f.Interface().([]byte))
 		default:
-			return errors.Errorf("failed to serialize key %s with type %s", key, v)
+			return fmt.Errorf("failed to serialize key %s with type %s", key, v)
 		}
 	}
 
@@ -54,7 +54,7 @@ func DeserializeStruct(compositeKey string, value interface{}) error {
 				fValue.Set(reflect.ValueOf(bytes))
 			}
 		default:
-			return errors.Errorf("failed to deserialize key %s with type %s", key, v)
+			return fmt.Errorf("failed to deserialize key %s with type %s", key, v)
 		}
 	}
 
