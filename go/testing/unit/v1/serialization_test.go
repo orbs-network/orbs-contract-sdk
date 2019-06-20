@@ -27,11 +27,11 @@ func Test_SerializeStruct(t *testing.T) {
 			[]byte{1, 2, 3},
 		}
 
-		err := state.SerializeStruct([]byte("best-album"), diamondDogs)
+		err := state.SerializeStruct("best-album", diamondDogs)
 		require.NoError(t, err)
 
 		value := Album{}
-		err = state.DeserializeStruct([]byte("best-album"), &value)
+		err = state.DeserializeStruct("best-album", &value)
 		require.NoError(t, err)
 
 		require.EqualValues(t, diamondDogs, value)
@@ -66,7 +66,7 @@ func Test_SerializeStructWithError(t *testing.T) {
 			time.Now(),
 		}
 
-		err := state.SerializeStruct([]byte("best-album"), diamondDogs)
+		err := state.SerializeStruct("best-album", diamondDogs)
 		require.EqualError(t, err, "failed to serialize key best-album$UnserializableField with type interface")
 	})
 }
@@ -82,13 +82,13 @@ func Test_DeserializeStructWithError(t *testing.T) {
 			[]byte{1, 2, 3},
 		}
 
-		err := state.SerializeStruct([]byte("best-album"), diamondDogs)
+		err := state.SerializeStruct("best-album", diamondDogs)
 		require.NoError(t, err)
 
 		state.WriteBytes([]byte("best-album$Year"), []byte("completely broken garbage data"))
 
 		value := UnserializableAlbum{}
-		err = state.DeserializeStruct([]byte("best-album"), &value)
+		err = state.DeserializeStruct("best-album", &value)
 		require.EqualError(t, err, "failed to deserialize key best-album$UnserializableField with type interface")
 	})
 }
