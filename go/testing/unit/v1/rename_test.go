@@ -22,3 +22,13 @@ func TestRename(t *testing.T) {
 		require.Empty(t, state.ReadString([]byte("artist")))
 	})
 }
+
+func TestRenameWithNonExistentKey(t *testing.T) {
+	caller := AnAddress()
+
+	InServiceScope(nil, caller, func(m Mockery) {
+		require.NotPanics(t, func() {
+			state.Rename([]byte("artist"), []byte("performer"))
+		})
+	})
+}
