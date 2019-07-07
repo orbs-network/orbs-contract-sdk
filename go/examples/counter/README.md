@@ -19,20 +19,11 @@ Gamma is a local Orbs blockchain instance for smart contract developers. Use Gam
 3. Run the following in terminal:
 
     ```
-    cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/counter/test
+    gamma-cli start-local -wait
     go test
     ```
-    
-4. If you wish to run the `gamma-cli` commands manually instead (and not through the test), run the following in terminal:
 
-    ```
-    cd ~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples/counter/test
-    gamma-cli start-local
-    gamma-cli deploy ../contract.go -name MyCounter
-    gamma-cli run-query get.json
-    gamma-cli send-tx add-25.json
-    gamma-cli send-tx add-25.json
-    gamma-cli send-tx add-25.json
-    gamma-cli run-query get.json
-    gamma-cli stop-local
-    ```
+## End to end testing
+
+All examples have end to end tests written in Go using [Orbs client SDK for GO](https://github.com/orbs-network/orbs-client-sdk-go/).
+`tests/harness.go` introduces a very simple wrapper for the contract and is used in the end to end test.

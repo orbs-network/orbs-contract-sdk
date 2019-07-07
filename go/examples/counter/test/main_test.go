@@ -1,42 +1,41 @@
+// Copyright 2019 the orbs-contract-sdk authors
+// This file is part of the orbs-contract-sdk library in the Orbs project.
+//
+// This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.
+// The above notice should be included in all copies or substantial portions of the software.
+
 package test
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/testing/gamma"
-	"strings"
+	"github.com/orbs-network/orbs-client-sdk-go/codec"
+	"github.com/orbs-network/orbs-client-sdk-go/orbs"
+	"github.com/orbs-network/orbs-contract-sdk/go/examples/test"
+	"github.com/stretchr/testify/require"
 	"testing"
+	"time"
 )
 
 func TestCounterIncrement(t *testing.T) {
-	gammaCli := gamma.Cli().Start()
-	defer gammaCli.Stop()
+	sender, _ := orbs.CreateAccount()
 
-	out := gammaCli.Run("deploy ../contract.go -name MyCounter")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("deploy failed")
-	}
+	h := newHarness()
+	h.deployContract(t, sender)
 
-	out = gammaCli.Run("run-query get.json")
-	if !strings.Contains(out, `"Value": "0"`) {
-		t.Fatal("initial get failed")
-	}
+	require.EqualValues(t, 0, h.get(t, sender))
 
-	out = gammaCli.Run("send-tx add-25.json")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("first add 25 failed")
-	}
+	result, err := h.add(t, sender, uint64(25))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("send-tx add-25.json")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("second add 25 failed")
-	}
+	result, err = h.add(t, sender, uint64(25))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("send-tx add-25.json")
-	if !strings.Contains(out, `"ExecutionResult": "SUCCESS"`) {
-		t.Fatal("third add 25 failed")
-	}
+	result, err = h.add(t, sender, uint64(25))
+	require.NoError(t, err)
+	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
 
-	out = gammaCli.Run("run-query get.json")
-	if !strings.Contains(out, `"Value": "75"`) {
-		t.Fatal("final get failed")
-	}
+	require.True(t, test.Eventually(1*time.Second, func() bool {
+		return h.get(t, sender) == uint64(75)
+	}))
 }

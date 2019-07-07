@@ -1,3 +1,9 @@
+// Copyright 2019 the orbs-contract-sdk authors
+// This file is part of the orbs-contract-sdk library in the Orbs project.
+//
+// This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.
+// The above notice should be included in all copies or substantial portions of the software.
+
 package unit
 
 import (
@@ -50,20 +56,42 @@ type mockHandler struct {
 	signerAddress []byte
 	callerAddress []byte
 
-	state             stateMap
-	ethereumStubs     []*ethereumStub
-	serviceStubs      []*serviceStub
-	eventStubs        []*eventStub
-	ethBlockNumber    uint64
-	ethBlockTimestamp uint64
+	state         stateMap
+	stateKeyOrder []string
+	stateReads    uint64
+	stateWrites   uint64
+
+	ethereumStubs  []*ethereumStub
+	serviceStubs   []*serviceStub
+	eventStubs     []*eventStub
+	ethBlockNumber uint64
+}
+
+type StateDiff struct {
+	Key   []byte
+	Value []byte
 }
 
 func (m *mockHandler) SdkStateReadBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte) []byte {
+	m.stateReads += 1
 	return m.state[hex.EncodeToString(key)]
 }
 
 func (m *mockHandler) SdkStateWriteBytes(ctx context.ContextId, permissionScope context.PermissionScope, key []byte, value []byte) {
-	m.state[hex.EncodeToString(key)] = value
+	m.stateWrites += 1
+	hexKey := hex.EncodeToString(key)
+
+	shouldUpdate := true
+	for _, key := range m.stateKeyOrder {
+		if key == hexKey {
+			shouldUpdate = false
+		}
+	}
+
+	if shouldUpdate {
+		m.stateKeyOrder = append(m.stateKeyOrder, hexKey)
+	}
+	m.state[hexKey] = value
 }
 
 func (m *mockHandler) SdkServiceCallMethod(ctx context.ContextId, permissionScope context.PermissionScope, serviceName string, methodName string, args ...interface{}) []interface{} {
@@ -290,15 +318,28 @@ func (m *mockHandler) VerifyMocks() {
 	}
 }
 
-func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) {
-	inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SYSTEM, f)
+func (m *mockHandler) getStateDiffs() []*StateDiff {
+	var diffs []*StateDiff
+
+	for _, k := range m.stateKeyOrder {
+		byteKey, _ := hex.DecodeString(k)
+		diffs = append(diffs, &StateDiff{
+			Key:   byteKey,
+			Value: m.state[k],
+		})
+	}
+	return diffs
 }
 
-func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) {
-	inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
+func InSystemScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) (diffs []*StateDiff, reads uint64, writes uint64) {
+	return inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SYSTEM, f)
 }
 
-func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) {
+func InServiceScope(signerAddress []byte, callerAddress []byte, f func(mockery Mockery)) (diffs []*StateDiff, reads uint64, writes uint64) {
+	return inScope(signerAddress, callerAddress, context.PERMISSION_SCOPE_SERVICE, f)
+}
+
+func inScope(signerAddress []byte, callerAddress []byte, scope context.PermissionScope, f func(mockery Mockery)) (diffs []*StateDiff, reads uint64, writes uint64) {
 	if signerAddress == nil {
 		signerAddress = AnAddress()
 	}
@@ -311,6 +352,8 @@ func inScope(signerAddress []byte, callerAddress []byte, scope context.Permissio
 	f(handler)
 	handler.VerifyMocks()
 	context.PopContext(cid)
+
+	return handler.getStateDiffs(), handler.stateReads, handler.stateWrites
 }
 
 func aFakeSdkFor(signerAddress []byte, callerAddress []byte) *mockHandler {

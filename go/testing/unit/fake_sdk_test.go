@@ -1,6 +1,14 @@
+// Copyright 2019 the orbs-contract-sdk authors
+// This file is part of the orbs-contract-sdk library in the Orbs project.
+//
+// This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.
+// The above notice should be included in all copies or substantial portions of the software.
+
 package unit
 
 import (
+	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/v1/state"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -62,7 +70,7 @@ func TestMockHandler_SdkEthereumCallMethod_Success(t *testing.T) {
 	address := "a"
 	abi := "b"
 	methodName := "c"
-	s.MockEthereumCallMethod(address, abi,  methodName, func(out interface{}) {
+	s.MockEthereumCallMethod(address, abi, methodName, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	}, 1, 2)
 
@@ -106,7 +114,7 @@ func TestMockHandler_SdkEthereumGetTransactionLog_Success(t *testing.T) {
 	})
 
 	var out foo
-	bh, txidx :=  s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
+	bh, txidx := s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
 	require.Equal(t, out.bar, "baz", "did not get expected value from stubbed method")
 	require.EqualValues(t, 17, bh, "block height should be 17")
 	require.EqualValues(t, 42, txidx, "transaction index should be 42")
@@ -183,7 +191,6 @@ func TestMockHandler_SdkEventsEmitEvent_Partial(t *testing.T) {
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
 }
 
-
 func TestMockHandler_SdkEnvGetBlockHeight(t *testing.T) {
 	s := aFakeSdk()
 	b1 := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
@@ -199,3 +206,41 @@ func TestMockHandler_SdkEnvGetBlockTimestamp(t *testing.T) {
 	require.InDelta(t, uint64(time.Now().UnixNano()), ts, float64(time.Second), "expected current block time to be around 1 second from current time")
 }
 
+func Test_InScope(t *testing.T) {
+	caller := AnAddress()
+
+	emptyStateDiffs, zeroReads, zeroWrites := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+	})
+	require.Empty(t, emptyStateDiffs)
+	require.Zero(t, zeroReads, zeroWrites)
+
+	stateDiffs, singleRead, singleWrite := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+		state.ReadString([]byte("some key"))
+		state.WriteString([]byte("hello"), "world")
+	})
+
+	require.EqualValues(t, 1, singleRead)
+	require.EqualValues(t, 1, singleWrite)
+	require.Len(t, stateDiffs, 1)
+	require.EqualValues(t, &StateDiff{
+		Key:   []byte("hello"),
+		Value: []byte("world"),
+	}, stateDiffs[0])
+
+	orderedStateDiffs, multipleReads, multipleWrites := inScope(nil, caller, context.PERMISSION_SCOPE_SERVICE, func(mockery Mockery) {
+		state.WriteString([]byte("1974"), "Diamond Dogs")
+		state.WriteString([]byte("1976"), "Station to Station")
+		state.WriteString([]byte("1969"), "Hunky Dory")
+		state.WriteString([]byte("1969"), "Space Oddity")
+
+		state.ReadString([]byte("1976"))
+		state.ReadString([]byte("1969"))
+	})
+
+	require.EqualValues(t, 2, multipleReads)
+	require.EqualValues(t, 4, multipleWrites)
+	require.Len(t, orderedStateDiffs, 3)
+	require.EqualValues(t, []byte("1974"), orderedStateDiffs[0].Key)
+	require.EqualValues(t, []byte("1976"), orderedStateDiffs[1].Key)
+	require.EqualValues(t, []byte("1969"), orderedStateDiffs[2].Key)
+}
