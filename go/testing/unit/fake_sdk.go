@@ -271,7 +271,7 @@ func (m *mockHandler) MockEthereumGetBlockNumber(block int) {
 
 func (m *mockHandler) MockEthereumGetBlockNumberByTime(block int, timestamp int) {
 	var key []interface{}
-	key = append(key, "SdkEthereumGetBlockNumberByTime", block)
+	key = append(key, "SdkEthereumGetBlockNumberByTime", uint64(timestamp))
 	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockHeight: uint64(block), blockTimestamp: uint64(timestamp)})
 }
 
@@ -283,7 +283,7 @@ func (m *mockHandler) MockEthereumGetBlockTime(timestamp int) {
 
 func (m *mockHandler) MockEthereumGetBlockTimeByNumber(block int, timestamp int) {
 	var key []interface{}
-	key = append(key, "SdkEthereumGetBlockTimeByNumber", timestamp)
+	key = append(key, "SdkEthereumGetBlockTimeByNumber", uint64(block))
 	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockHeight: uint64(block), blockTimestamp: uint64(timestamp)})
 }
 
