@@ -23,7 +23,7 @@ func TestAllowance(t *testing.T) {
 	h := newHarness()
 	h.deployContract(t, user1)
 
-	t.Run("SimpleAllowance", func (t *testing.T) {
+	t.Run("SimpleAllowance", func(t *testing.T) {
 		require.EqualValues(t, 0, h.allowance(t, user1, user2))
 
 		response, err := h.approve(t, user1, user2, 3000)
@@ -36,7 +36,7 @@ func TestAllowance(t *testing.T) {
 	})
 
 	// test relies on setup done in previous
-	t.Run("IncreaseAllowance", func (t *testing.T) {
+	t.Run("IncreaseAllowance", func(t *testing.T) {
 		response, err := h.increaseAllowance(t, user1, user2, 1000)
 		require.NoError(t, err)
 		require.EqualValues(t, "Approval", response.OutputEvents[0].EventName)
@@ -51,7 +51,7 @@ func TestAllowance(t *testing.T) {
 		require.EqualValuesf(t, codec.EXECUTION_RESULT_ERROR_SMART_CONTRACT, response.ExecutionResult, "integer overflow on increaseAllowance")
 	})
 
-	t.Run("DecreaseAllowance", func (t *testing.T) {
+	t.Run("DecreaseAllowance", func(t *testing.T) {
 		response, err := h.decreaseAllowance(t, user1, user2, 18446744073709551615)
 		require.NoError(t, err)
 		require.EqualValuesf(t, codec.EXECUTION_RESULT_ERROR_SMART_CONTRACT, response.ExecutionResult, "integer overflow on decreaseAllowance")
@@ -62,13 +62,12 @@ func TestAllowance(t *testing.T) {
 		require.EqualValues(t, "Approval", response.OutputEvents[0].EventName)
 		require.EqualValues(t, 3000, response.OutputEvents[0].Arguments[2], "event data incorrect")
 
-
 		require.True(t, test.Eventually(1*time.Second, func() bool {
 			return uint64(3000) == h.allowance(t, user1, user2)
 		}))
 	})
 
-	t.Run("AllowedTransfer", func (t *testing.T) {
+	t.Run("AllowedTransfer", func(t *testing.T) {
 		response, err := h.approve(t, user1, user2, 3000)
 		require.NoError(t, err)
 		require.EqualValues(t, "Approval", response.OutputEvents[0].EventName)

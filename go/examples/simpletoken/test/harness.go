@@ -12,14 +12,13 @@ import (
 )
 
 type harness struct {
-	client *orbs.OrbsClient
+	client       *orbs.OrbsClient
 	contractName string
 }
 
-
 func newHarness() *harness {
 	return &harness{
-		client: orbs.NewClient(test.GetGammaEndpoint(), 42, codec.NETWORK_TYPE_TEST_NET),
+		client:       orbs.NewClient(test.GetGammaEndpoint(), 42, codec.NETWORK_TYPE_TEST_NET),
 		contractName: fmt.Sprintf("MySimpleToken%d", time.Now().UnixNano()),
 	}
 }

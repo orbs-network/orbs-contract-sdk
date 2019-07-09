@@ -85,8 +85,8 @@ func (c *cli) Stop() {
 }
 
 func waitUntilGammaShutdown() {
-	for i := 0; i < 5 ; i++ {
-		time.Sleep(1*time.Second)
+	for i := 0; i < 5; i++ {
+		time.Sleep(1 * time.Second)
 
 		out, _ := exec.Command("docker", "ps", "-a").CombinedOutput()
 		fmt.Println("OUT", string(out))
@@ -95,12 +95,12 @@ func waitUntilGammaShutdown() {
 		}
 	}
 
-	time.Sleep(1*time.Second)
+	time.Sleep(1 * time.Second)
 }
 
 func waitUntilGammaIsUp() {
-	for i := 0; i < 30 ; i++ {
-		time.Sleep(1*time.Second)
+	for i := 0; i < 30; i++ {
+		time.Sleep(1 * time.Second)
 
 		res, err := http.Get(test.GetGammaEndpoint() + "/metrics")
 		if err == nil && res.StatusCode == http.StatusOK {

@@ -19,7 +19,6 @@ func TestSuccessfulTransfer(t *testing.T) {
 	user1, _ := orbs.CreateAccount()
 	user2, _ := orbs.CreateAccount()
 
-
 	h := newHarness()
 	h.deployContract(t, user1)
 
@@ -29,7 +28,6 @@ func TestSuccessfulTransfer(t *testing.T) {
 	result, err := h.transfer(t, user1, user2, uint64(15))
 	require.NoError(t, err)
 	require.EqualValues(t, codec.EXECUTION_RESULT_SUCCESS, result.ExecutionResult)
-
 
 	require.True(t, test.Eventually(1*time.Second, func() bool {
 		return uint64(985) == h.getBalance(t, user1)

@@ -37,8 +37,8 @@ func name() string {
 func decimals() uint32 {
 	return state.ReadUint32([]byte("decimals"))
 }
-// End of ERC20Detailed
 
+// End of ERC20Detailed
 
 // ERC20
 func totalSupply() (amount uint64) {

@@ -17,7 +17,6 @@ func TestTransferWithInsufficientFunds(t *testing.T) {
 	user1, _ := orbs.CreateAccount()
 	user2, _ := orbs.CreateAccount()
 
-
 	h := newHarness()
 	h.deployContract(t, user1)
 

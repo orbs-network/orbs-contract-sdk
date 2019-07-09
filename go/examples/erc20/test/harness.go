@@ -12,19 +12,18 @@ import (
 )
 
 type harness struct {
-	client *orbs.OrbsClient
+	client       *orbs.OrbsClient
 	contractName string
 }
 
-
 func newHarness() *harness {
 	return &harness{
-		client: orbs.NewClient(test.GetGammaEndpoint(), 42, codec.NETWORK_TYPE_TEST_NET),
+		client:       orbs.NewClient(test.GetGammaEndpoint(), 42, codec.NETWORK_TYPE_TEST_NET),
 		contractName: fmt.Sprintf("MyERC20%d", time.Now().UnixNano()),
 	}
 }
 
-func (h *harness) deployContract(t *testing.T, sender *orbs.OrbsAccount) (*codec.SendTransactionResponse) {
+func (h *harness) deployContract(t *testing.T, sender *orbs.OrbsAccount) *codec.SendTransactionResponse {
 	contractSource, err := ioutil.ReadFile("../erc20.go")
 	require.NoError(t, err)
 
@@ -83,7 +82,6 @@ func (h *harness) transferFrom(t *testing.T, signer *orbs.OrbsAccount, sender *o
 
 	return h.client.SendTransaction(tx)
 }
-
 
 func (h *harness) approve(t *testing.T, sender *orbs.OrbsAccount, receiver *orbs.OrbsAccount, sum uint64) (*codec.SendTransactionResponse, error) {
 	tx, _, err := h.client.CreateTransaction(sender.PublicKey, sender.PrivateKey, h.contractName, "approve", receiver.AddressAsBytes(), sum)

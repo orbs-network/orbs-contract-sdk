@@ -20,7 +20,10 @@ type stateMap map[string][]byte
 var EXAMPLE_CONTEXT_ID = []byte{0x43}
 
 type Mockery interface {
-	MockEthereumGetBlockNumber(block int)                                                                                                                           // TODO get return valus
+	MockEthereumGetBlockNumber(block int)
+	MockEthereumGetBlockNumberByTime(block int, timestamp int)
+	MockEthereumGetBlockTime(timestamp int)
+	MockEthereumGetBlockTimeByNumber(block int, timestamp int)
 	MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outEthBlockNumber int, outEthTxIndex int, outMutator func(out interface{})) // TODO get return valus
 	MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
 	MockEthereumCallMethodAtBlock(blockNumber uint64, address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
@@ -30,11 +33,12 @@ type Mockery interface {
 }
 
 type ethereumStub struct {
-	key         []interface{}
-	outMutator  func(interface{})
-	blockHeight uint64
-	txIndex     uint32
-	satisfied   bool
+	key            []interface{}
+	outMutator     func(interface{})
+	blockHeight    uint64
+	blockTimestamp uint64
+	txIndex        uint32
+	satisfied      bool
 }
 
 type eventStub struct {
@@ -64,7 +68,7 @@ type mockHandler struct {
 }
 
 type StateDiff struct {
-	Key []byte
+	Key   []byte
 	Value []byte
 }
 
@@ -132,6 +136,48 @@ func (m *mockHandler) SdkEthereumGetBlockNumber(ctx context.ContextId, permissio
 		if keyEquals(stub.key, key) {
 			stub.satisfied = true
 			return stub.blockHeight
+		}
+	}
+
+	panic(errors.Errorf("No Ethereum call stubbed for GetBlockNumber"))
+}
+
+func (m *mockHandler) SdkEthereumGetBlockNumberByTime(ctx context.ContextId, permissionScope context.PermissionScope, ethTimestamp uint64) (ethBlockNumber uint64) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockNumberByTime", ethTimestamp)
+
+	for _, stub := range m.ethereumStubs {
+		if keyEquals(stub.key, key) {
+			stub.satisfied = true
+			return stub.blockHeight
+		}
+	}
+
+	panic(errors.Errorf("No Ethereum call stubbed for GetBlockNumberByTime"))
+}
+
+func (m *mockHandler) SdkEthereumGetBlockTime(ctx context.ContextId, permissionScope context.PermissionScope) (ethTimestamp uint64) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockTime")
+
+	for _, stub := range m.ethereumStubs {
+		if keyEquals(stub.key, key) {
+			stub.satisfied = true
+			return stub.blockTimestamp
+		}
+	}
+
+	panic(errors.Errorf("No Ethereum call stubbed for GetBlockTime"))
+}
+
+func (m *mockHandler) SdkEthereumGetBlockTimeByNumber(ctx context.ContextId, permissionScope context.PermissionScope, ethBlockNumber uint64) (ethTimestamp uint64) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockTimeByNumber", ethBlockNumber)
+
+	for _, stub := range m.ethereumStubs {
+		if keyEquals(stub.key, key) {
+			stub.satisfied = true
+			return stub.blockTimestamp
 		}
 	}
 
@@ -223,6 +269,24 @@ func (m *mockHandler) MockEthereumGetBlockNumber(block int) {
 	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockHeight: uint64(block)})
 }
 
+func (m *mockHandler) MockEthereumGetBlockNumberByTime(block int, timestamp int) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockNumberByTime", uint64(timestamp))
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockHeight: uint64(block), blockTimestamp: uint64(timestamp)})
+}
+
+func (m *mockHandler) MockEthereumGetBlockTime(timestamp int) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockTime")
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockTimestamp: uint64(timestamp)})
+}
+
+func (m *mockHandler) MockEthereumGetBlockTimeByNumber(block int, timestamp int) {
+	var key []interface{}
+	key = append(key, "SdkEthereumGetBlockTimeByNumber", uint64(block))
+	m.ethereumStubs = append(m.ethereumStubs, &ethereumStub{key: key, outMutator: nil, blockHeight: uint64(block), blockTimestamp: uint64(timestamp)})
+}
+
 func (m *mockHandler) MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{}) {
 	var key []interface{}
 	key = append(key, serviceName, methodName)
@@ -254,13 +318,13 @@ func (m *mockHandler) VerifyMocks() {
 	}
 }
 
-func (m	*mockHandler) getStateDiffs() []*StateDiff {
+func (m *mockHandler) getStateDiffs() []*StateDiff {
 	var diffs []*StateDiff
 
 	for _, k := range m.stateKeyOrder {
 		byteKey, _ := hex.DecodeString(k)
 		diffs = append(diffs, &StateDiff{
-			Key: byteKey,
+			Key:   byteKey,
 			Value: m.state[k],
 		})
 	}

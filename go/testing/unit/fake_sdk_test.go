@@ -70,7 +70,7 @@ func TestMockHandler_SdkEthereumCallMethod_Success(t *testing.T) {
 	address := "a"
 	abi := "b"
 	methodName := "c"
-	s.MockEthereumCallMethod(address, abi,  methodName, func(out interface{}) {
+	s.MockEthereumCallMethod(address, abi, methodName, func(out interface{}) {
 		out.(*foo).bar = "baz"
 	}, 1, 2)
 
@@ -114,11 +114,105 @@ func TestMockHandler_SdkEthereumGetTransactionLog_Success(t *testing.T) {
 	})
 
 	var out foo
-	bh, txidx :=  s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
+	bh, txidx := s.SdkEthereumGetTransactionLog(EXAMPLE_CONTEXT_ID, 0, address, abi, txHash, eventName, &out)
 	require.Equal(t, out.bar, "baz", "did not get expected value from stubbed method")
 	require.EqualValues(t, 17, bh, "block height should be 17")
 	require.EqualValues(t, 42, txidx, "transaction index should be 42")
 
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_SdkEthereumGetBlock_NotStubbed(t *testing.T) {
+	s := aFakeSdk()
+	require.Panics(t, func() {
+		s.SdkEthereumGetBlockNumber(EXAMPLE_CONTEXT_ID, 0)
+	}, "call to unstubbed method did not panic")
+}
+
+func TestMockHandler_SdkEthereumGetBlock_Success(t *testing.T) {
+	s := aFakeSdk()
+	blockNumber := 7
+	s.MockEthereumGetBlockNumber(blockNumber)
+
+	out := s.SdkEthereumGetBlockNumber(EXAMPLE_CONTEXT_ID, 0)
+	require.EqualValues(t, blockNumber, out, "block number should be 7")
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_SdkEthereumGetBlockByTime_NotStubbed(t *testing.T) {
+	s := aFakeSdk()
+	require.Panics(t, func() {
+		s.SdkEthereumGetBlockNumberByTime(EXAMPLE_CONTEXT_ID, 0, 7)
+	}, "call to unstubbed method did not panic")
+}
+
+func TestMockHandler_SdkEthereumGetBlockByTime_PartialStubbed(t *testing.T) {
+	s := aFakeSdk()
+	blockNumber := 7
+	blockTime := 9
+	s.MockEthereumGetBlockNumberByTime(blockNumber, blockTime)
+
+	require.Panics(t, func() {
+		s.SdkEthereumGetBlockNumberByTime(EXAMPLE_CONTEXT_ID, 0, uint64(12))
+	}, "call to partially stubbed method did not panic")
+	require.Panics(t, func() { s.VerifyMocks() }, "missing call to ethereum should have failed verify")
+}
+
+func TestMockHandler_SdkEthereumGetBlockByTime_Success(t *testing.T) {
+	s := aFakeSdk()
+	blockNumber := 7
+	blockTime := 9
+	s.MockEthereumGetBlockNumberByTime(blockNumber, blockTime)
+
+	out := s.SdkEthereumGetBlockNumberByTime(EXAMPLE_CONTEXT_ID, 0, uint64(blockTime))
+	require.EqualValues(t, blockNumber, out, "block number should be 7")
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_SdkEthereumGetTime_NotStubbed(t *testing.T) {
+	s := aFakeSdk()
+	require.Panics(t, func() {
+		s.SdkEthereumGetBlockTime(EXAMPLE_CONTEXT_ID, 0)
+	}, "call to unstubbed method did not panic")
+}
+
+func TestMockHandler_SdkEthereumGetTime_Success(t *testing.T) {
+	s := aFakeSdk()
+	blockTime := 7
+	s.MockEthereumGetBlockTime(blockTime)
+
+	out := s.SdkEthereumGetBlockTime(EXAMPLE_CONTEXT_ID, 0)
+	require.EqualValues(t, blockTime, out, "block time should be 7")
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_SdkEthereumGetTimeByBlock_NotStubbed(t *testing.T) {
+	s := aFakeSdk()
+	require.Panics(t, func() {
+		s.SdkEthereumGetBlockTimeByNumber(EXAMPLE_CONTEXT_ID, 0, 7)
+	}, "call to unstubbed method did not panic")
+}
+
+func TestMockHandler_SdkEthereumGetTimeByBlock_PartialStubbed(t *testing.T) {
+	s := aFakeSdk()
+	blockNumber := 7
+	blockTime := 9
+	s.MockEthereumGetBlockTimeByNumber(blockNumber, blockTime)
+
+	require.Panics(t, func() {
+		s.SdkEthereumGetBlockTimeByNumber(EXAMPLE_CONTEXT_ID, 0, uint64(12))
+	}, "call to partially stubbed method did not panic")
+	require.Panics(t, func() { s.VerifyMocks() }, "missing call to ethereum should have failed verify")
+}
+
+func TestMockHandler_SdkEthereumGetTimeByBlock_Success(t *testing.T) {
+	s := aFakeSdk()
+	blockNumber := 7
+	blockTime := 9
+	s.MockEthereumGetBlockTimeByNumber(blockNumber, blockTime)
+
+	out := s.SdkEthereumGetBlockTimeByNumber(EXAMPLE_CONTEXT_ID, 0, uint64(blockNumber))
+	require.EqualValues(t, blockTime, out, "block time should be 9")
 	require.NotPanics(t, func() { s.VerifyMocks() })
 }
 
@@ -191,7 +285,6 @@ func TestMockHandler_SdkEventsEmitEvent_Partial(t *testing.T) {
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
 }
 
-
 func TestMockHandler_SdkEnvGetBlockHeight(t *testing.T) {
 	s := aFakeSdk()
 	b1 := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
@@ -224,7 +317,7 @@ func Test_InScope(t *testing.T) {
 	require.EqualValues(t, 1, singleWrite)
 	require.Len(t, stateDiffs, 1)
 	require.EqualValues(t, &StateDiff{
-		Key: []byte("hello"),
+		Key:   []byte("hello"),
 		Value: []byte("world"),
 	}, stateDiffs[0])
 
