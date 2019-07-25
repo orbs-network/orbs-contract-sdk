@@ -6,8 +6,7 @@ jobs:
       - image: orbsnetwork/gamma:experimental
     steps:
       - checkout
-      - run: go version
-      #- run: ./test.sh
+      - run: ./test.sh
 
 workflows:
   version: 2
