@@ -2,12 +2,12 @@ version: 2
 jobs:
   tests:
     docker:
-      image: orbsnetwork/gamma:experimental
-      image: circleci/golang:1.12.6
-        steps:
-          - checkout
-          - run: go version
-          #- run: ./test.sh
+      - image: orbsnetwork/gamma:experimental
+      - image: circleci/golang:1.12.6
+    steps:
+      - checkout
+      - run: go version
+      #- run: ./test.sh
 
 workflows:
   version: 2
