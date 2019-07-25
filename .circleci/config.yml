@@ -4,8 +4,8 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: ./git-submodule-checkout.sh
-      - run: ./docker-test.sh
+      - run: go version
+      #- run: ./test.sh
 
 workflows:
   version: 2
