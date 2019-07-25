@@ -1,5 +1,7 @@
 # Orbs Smart Contract SDK
 
+[![CircleCI](https://circleci.com/gh/orbs-network/orbs-contract-sdk/tree/master.svg?style=svg)](https://circleci.com/gh/orbs-network/orbs-contract-sdk/tree/master)
+
 The Orbs smart contract SDK is a framework for building decentralized applications over the Orbs blockchain. These applications are made of smart contracts written in the [Go](https://en.wikipedia.org/wiki/Go_(programming_language)) programming language.
 
 > Note: While the Orbs smart contract SDK is stable, it is still under active development; there may be breaking changes.
