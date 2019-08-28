@@ -251,6 +251,51 @@ func TestMockHandler_SdkServiceCallMethod_Success(t *testing.T) {
 	require.NotPanics(t, func() { s.VerifyMocks() })
 }
 
+func TestMockHandler_SdkEnvGetBlockHeight_Unset(t *testing.T) {
+	s := aFakeSdk()
+
+	require.Panics(t, func() {
+		s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
+	}, "when not set block height fails")
+}
+
+func TestMockHandler_SdkEnvGetBlockHeight_Success(t *testing.T) {
+	s := aFakeSdk()
+
+	s.MockEnvBlockHeight(5)
+
+	b := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
+	require.EqualValues(t, 5, b)
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_SdkEnvGetBlockTimestamp_Success(t *testing.T) {
+	s := aFakeSdk()
+
+	timestamp := time.Unix(0, int64(s.SdkEnvGetBlockTimestamp(EXAMPLE_CONTEXT_ID, 0)))
+	require.WithinDuration(t, time.Now(), timestamp, 5*time.Millisecond)
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
+func TestMockHandler_SdkEnvGetBlockProposer_Unset(t *testing.T) {
+	s := aFakeSdk()
+
+	require.Panics(t, func() {
+		s.SdkEnvGetBlockProposerAddress(EXAMPLE_CONTEXT_ID, 0)
+	}, "when not set block proposer fails")
+}
+
+func TestMockHandler_SdkEnvGetBlockProposer_Success(t *testing.T) {
+	s := aFakeSdk()
+
+	addr := []byte{0x01}
+	s.MockEnvBlockProposerAddress(addr)
+
+	res := s.SdkEnvGetBlockProposerAddress(EXAMPLE_CONTEXT_ID, 0)
+	require.EqualValues(t, addr, res)
+	require.NotPanics(t, func() { s.VerifyMocks() })
+}
+
 func TestMockHandler_SdkEventsEmitEvent_Unstubbed(t *testing.T) {
 	s := aFakeSdk()
 
@@ -283,21 +328,6 @@ func TestMockHandler_SdkEventsEmitEvent_Partial(t *testing.T) {
 		s.SdkEventsEmitEvent(EXAMPLE_CONTEXT_ID, 0, f, arg1, "d")
 	}, "partially stubbed event emit did not panic")
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
-}
-
-func TestMockHandler_SdkEnvGetBlockHeight(t *testing.T) {
-	s := aFakeSdk()
-	b1 := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
-	b2 := s.SdkEnvGetBlockHeight(EXAMPLE_CONTEXT_ID, 0)
-
-	require.EqualValues(t, 1, b1, "first block should be 1")
-	require.EqualValues(t, 2, b2, "second block should be 2")
-}
-
-func TestMockHandler_SdkEnvGetBlockTimestamp(t *testing.T) {
-	s := aFakeSdk()
-	ts := s.SdkEnvGetBlockTimestamp(EXAMPLE_CONTEXT_ID, 0)
-	require.InDelta(t, uint64(time.Now().UnixNano()), ts, float64(time.Second), "expected current block time to be around 1 second from current time")
 }
 
 func Test_InScope(t *testing.T) {
