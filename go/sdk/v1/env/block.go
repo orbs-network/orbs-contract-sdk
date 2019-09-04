@@ -17,3 +17,8 @@ func GetBlockTimestamp() uint64 {
 	contextId, handler, permissionScope := context.GetContext()
 	return handler.SdkEnvGetBlockTimestamp(contextId, permissionScope)
 }
+
+func GetBlockProposerAddress() []byte {
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkEnvGetBlockProposerAddress(contextId, permissionScope)
+}

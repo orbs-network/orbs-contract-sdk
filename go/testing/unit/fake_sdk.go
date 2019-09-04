@@ -28,6 +28,9 @@ type Mockery interface {
 	MockEthereumCallMethod(address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
 	MockEthereumCallMethodAtBlock(blockNumber uint64, address string, abiJson string, methodName string, outMutator func(out interface{}), args ...interface{})
 	MockServiceCallMethod(serviceName string, methodName string, out []interface{}, args ...interface{})
+	MockEnvBlockHeight(height int)
+	MockEnvBlockTimestamp(timestamp int)
+	MockEnvBlockProposerAddress(addr []byte)
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
 	VerifyMocks()
 }
@@ -56,15 +59,18 @@ type mockHandler struct {
 	signerAddress []byte
 	callerAddress []byte
 
+	blockProposerAddress []byte
+	blockHeight          uint64
+	blockTimestamp       uint64
+
 	state         stateMap
 	stateKeyOrder []string
 	stateReads    uint64
 	stateWrites   uint64
 
-	ethereumStubs  []*ethereumStub
-	serviceStubs   []*serviceStub
-	eventStubs     []*eventStub
-	ethBlockNumber uint64
+	ethereumStubs []*ethereumStub
+	serviceStubs  []*serviceStub
+	eventStubs    []*eventStub
 }
 
 type StateDiff struct {
@@ -231,12 +237,24 @@ func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope 
 }
 
 func (m *mockHandler) SdkEnvGetBlockHeight(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
-	m.ethBlockNumber++
-	return m.ethBlockNumber
+	if m.blockHeight == 0 {
+		panic(errors.Errorf("No block height set"))
+	}
+	return m.blockHeight
 }
 
 func (m *mockHandler) SdkEnvGetBlockTimestamp(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
+	if m.blockTimestamp != 0 {
+		return m.blockTimestamp
+	}
 	return uint64(time.Now().UnixNano())
+}
+
+func (m *mockHandler) SdkEnvGetBlockProposerAddress(ctx context.ContextId, permissionScope context.PermissionScope) []byte {
+	if m.blockProposerAddress == nil || len(m.blockProposerAddress) == 0 {
+		panic(errors.Errorf("No block proposer address set"))
+	}
+	return m.blockProposerAddress
 }
 
 func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionScope context.PermissionScope) uint32 {
@@ -292,6 +310,18 @@ func (m *mockHandler) MockServiceCallMethod(serviceName string, methodName strin
 	key = append(key, serviceName, methodName)
 	key = append(key, args...)
 	m.serviceStubs = append(m.serviceStubs, &serviceStub{key: key, out: out})
+}
+
+func (m *mockHandler) MockEnvBlockHeight(block int) {
+	m.blockHeight = uint64(block)
+}
+
+func (m *mockHandler) MockEnvBlockTimestamp(time int) {
+	m.blockTimestamp = uint64(time)
+}
+
+func (m *mockHandler) MockEnvBlockProposerAddress(addr []byte) {
+	m.blockProposerAddress = addr
 }
 
 func (m *mockHandler) MockEmitEvent(eventFunctionSignature interface{}, args ...interface{}) {
