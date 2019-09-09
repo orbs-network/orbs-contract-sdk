@@ -32,6 +32,7 @@ type Mockery interface {
 	MockEnvBlockTimestamp(timestamp int)
 	MockEnvBlockProposerAddress(addr []byte)
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
+	MockCallContractAddress(name string, value []byte)
 	VerifyMocks()
 }
 
@@ -55,6 +56,12 @@ type serviceStub struct {
 	satisfied bool
 }
 
+type addressStub struct {
+	key       []interface{}
+	out       []byte
+	satisfied bool
+}
+
 type mockHandler struct {
 	signerAddress []byte
 	callerAddress []byte
@@ -71,6 +78,7 @@ type mockHandler struct {
 	ethereumStubs []*ethereumStub
 	serviceStubs  []*serviceStub
 	eventStubs    []*eventStub
+	addressStubs  []*addressStub
 }
 
 type StateDiff struct {
@@ -218,8 +226,16 @@ func (m *mockHandler) SdkAddressGetOwnAddress(ctx context.ContextId, permissionS
 }
 
 func (m *mockHandler) SdkAddressGetContractAddress(ctx context.ContextId, permissionScope context.PermissionScope, contractName string) []byte {
-	panic("Not implemented")
-	return []byte{}
+	var key []interface{}
+	key = append(key, "contract name", contractName)
+
+	for _, stub := range m.addressStubs {
+		if keyEquals(stub.key, key) {
+			stub.satisfied = true
+			return stub.out
+		}
+	}
+	panic(errors.Errorf("No contract address stubed for name %s", contractName))
 }
 
 func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope context.PermissionScope, eventFunctionSignature interface{}, args ...interface{}) {
@@ -330,6 +346,12 @@ func (m *mockHandler) MockEmitEvent(eventFunctionSignature interface{}, args ...
 	m.eventStubs = append(m.eventStubs, &eventStub{key: key})
 }
 
+func (m *mockHandler) MockCallContractAddress(name string, value []byte) {
+	var key []interface{}
+	key = append(key, "contract name", name, )
+	m.addressStubs = append(m.addressStubs, &addressStub{key: key, out: value})
+}
+
 func (m *mockHandler) VerifyMocks() {
 	for _, stub := range m.eventStubs {
 		if !stub.satisfied {
@@ -344,6 +366,11 @@ func (m *mockHandler) VerifyMocks() {
 	for _, stub := range m.ethereumStubs {
 		if !stub.satisfied {
 			panic(errors.Errorf("ethereum mock set but not called"))
+		}
+	}
+	for _, stub := range m.addressStubs {
+		if !stub.satisfied {
+			panic(errors.Errorf("addresses mock set but not called"))
 		}
 	}
 }
