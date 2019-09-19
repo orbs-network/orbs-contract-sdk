@@ -8,7 +8,7 @@ package state
 
 import (
 	"encoding/binary"
-	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 )
 
 func WriteBytes(key []byte, value []byte) {

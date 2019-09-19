@@ -1,7 +1,7 @@
 package env
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 )
 
 func GetVirtualChainId() uint32 {

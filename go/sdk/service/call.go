@@ -6,7 +6,7 @@
 
 package service
 
-import "github.com/orbs-network/orbs-contract-sdk/go/context"
+import "github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 
 func CallMethod(serviceName string, methodName string, args ...interface{}) []interface{} {
 	contextId, handler, permissionScope := context.GetContext()

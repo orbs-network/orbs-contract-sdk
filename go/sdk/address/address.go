@@ -8,7 +8,7 @@ package address
 
 import (
 	"fmt"
-	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 )
 
 func ValidateAddress(address []byte) {

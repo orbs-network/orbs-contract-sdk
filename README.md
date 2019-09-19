@@ -39,7 +39,7 @@ Support for additional programming languages like JavaScript is under way, [cont
     go get -u github.com/orbs-network/orbs-contract-sdk/...
     ```
 
-   > It will be downloaded to your Go workspace, typically `~/go/src/github.com/orbs-network/orbs-contract-sdk`<br>[Example contracts](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples) will be at `~/go/src/github.com/orbs-network/orbs-contract-sdk/go/examples`
+   > It will be downloaded to your Go workspace, typically `~/go/src/github.com/orbs-network/orbs-contract-sdk`<br>[Example contracts](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/sdk/examples) will be at `~/go/src/github.com/orbs-network/orbs-contract-sdk/go/sdk/examples`
 
 2. Install [Gamma](https://github.com/orbs-network/gamma-cli), a personal Orbs blockchain running locally, by running in terminal:
 
@@ -55,7 +55,7 @@ Support for additional programming languages like JavaScript is under way, [cont
 
 ### 1. Write a simple contract
 
-Let's write a simple example that implements a counter. This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/counter.go)
+Let's write a simple example that implements a counter. This will be our code [`counter.go`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/sdk/examples/counter/counter.go)
 
 ```go
 package main
@@ -117,7 +117,7 @@ gamma-cli deploy counter.go -name MyCounter
 
 ### 4. Send a transaction to increment the counter
 
-Write the transaction details in a JSON file named [`add-25.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/add-25.json)
+Write the transaction details in a JSON file named [`add-25.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/sdk/examples/counter/test/add-25.json)
 
 ```json
 {
@@ -144,7 +144,7 @@ gamma-cli send-tx add-25.json -signer user1
 
 ### 5. Read the counter value
 
-Write the query details in a JSON file named [`get.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/examples/counter/test/get.json)
+Write the query details in a JSON file named [`get.json`](https://github.com/orbs-network/orbs-contract-sdk/blob/master/go/sdk/examples/counter/test/get.json)
 
 ```json
 {
@@ -174,7 +174,7 @@ gamma-cli stop-local
 
 ## Next steps
 
-* Explore more examples of contracts [here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/examples).
+* Explore more examples of contracts [here](https://github.com/orbs-network/orbs-contract-sdk/tree/master/go/sdk/examples).
 
 * Read more about Gamma, the local Orbs blockchain, [here](https://github.com/orbs-network/gamma-cli).
 

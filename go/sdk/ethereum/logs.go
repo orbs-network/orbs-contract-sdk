@@ -6,7 +6,7 @@
 
 package ethereum
 
-import "github.com/orbs-network/orbs-contract-sdk/go/context"
+import "github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 
 // returns a single log (single emit), in future we will add a version that returns multiple
 // ethContractAddress: string like "0x66c8bC6e162e45Da2Fc3337cF2164CA5E43CA4c5"

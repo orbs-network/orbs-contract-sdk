@@ -6,7 +6,7 @@
 
 package ethereum
 
-import "github.com/orbs-network/orbs-contract-sdk/go/context"
+import "github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 
 // returns the current Ethereum block number - with some safety margin to avoid forks (about 25 minutes)
 func GetBlockNumber() uint64 {

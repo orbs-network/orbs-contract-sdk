@@ -7,7 +7,7 @@
 package events
 
 import (
-	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 )
 
 func EmitEvent(eventFunctionSignature interface{}, args ...interface{}) {

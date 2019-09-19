@@ -6,7 +6,7 @@
 
 package env
 
-import "github.com/orbs-network/orbs-contract-sdk/go/context"
+import "github.com/orbs-network/orbs-contract-sdk/go/sdk/context"
 
 func GetBlockHeight() uint64 {
 	contextId, handler, permissionScope := context.GetContext()
