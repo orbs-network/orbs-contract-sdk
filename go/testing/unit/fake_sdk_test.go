@@ -8,7 +8,7 @@ package unit
 
 import (
 	"github.com/orbs-network/orbs-contract-sdk/go/context"
-	"github.com/orbs-network/orbs-contract-sdk/go/sdk/v1/state"
+	"github.com/orbs-network/orbs-contract-sdk/go/sdk/state"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
