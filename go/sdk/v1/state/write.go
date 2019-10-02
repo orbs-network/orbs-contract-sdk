@@ -32,3 +32,11 @@ func WriteUint32(key []byte, value uint32) {
 	binary.LittleEndian.PutUint32(bytes, value)
 	WriteBytes(key, bytes)
 }
+
+func WriteBytes20(key []byte, value [20]byte) {
+	WriteBytes(key, value[:])
+}
+
+func WriteBytes32(key []byte, value [32]byte) {
+	WriteBytes(key, value[:])
+}

@@ -9,6 +9,7 @@ package state
 import (
 	"encoding/binary"
 	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"unsafe"
 )
 
 func ReadBytes(key []byte) []byte {
@@ -35,4 +36,20 @@ func ReadUint32(key []byte) uint32 {
 		return 0
 	}
 	return binary.LittleEndian.Uint32(bytes)
+}
+
+func ReadBytes20(key []byte) (out [20]byte) {
+	bytes := ReadBytes(key)
+	if len(bytes) < 20 {
+		return
+	}
+	return *(*[20]byte)(unsafe.Pointer(&bytes[0]))
+}
+
+func ReadBytes32(key []byte) (out [32]byte) {
+	bytes := ReadBytes(key)
+	if len(bytes) < 20 {
+		return
+	}
+	return *(*[32]byte)(unsafe.Pointer(&bytes[0]))
 }
