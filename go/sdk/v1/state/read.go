@@ -9,7 +9,6 @@ package state
 import (
 	"encoding/binary"
 	"github.com/orbs-network/orbs-contract-sdk/go/context"
-	"unsafe"
 )
 
 func ReadBytes(key []byte) []byte {
@@ -43,7 +42,8 @@ func ReadBytes20(key []byte) (out [20]byte) {
 	if len(bytes) < 20 {
 		return
 	}
-	return *(*[20]byte)(unsafe.Pointer(&bytes[0]))
+	copy(out[:], bytes)
+	return
 }
 
 func ReadBytes32(key []byte) (out [32]byte) {
@@ -51,5 +51,6 @@ func ReadBytes32(key []byte) (out [32]byte) {
 	if len(bytes) < 20 {
 		return
 	}
-	return *(*[32]byte)(unsafe.Pointer(&bytes[0]))
+	copy(out[:], bytes)
+	return
 }
