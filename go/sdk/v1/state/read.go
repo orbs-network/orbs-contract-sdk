@@ -39,7 +39,7 @@ func ReadUint32(key []byte) uint32 {
 
 func ReadBytes20(key []byte) (out [20]byte) {
 	bytes := ReadBytes(key)
-	if len(bytes) < 20 {
+	if len(bytes) != 20 {
 		return
 	}
 	copy(out[:], bytes)
@@ -48,7 +48,7 @@ func ReadBytes20(key []byte) (out [20]byte) {
 
 func ReadBytes32(key []byte) (out [32]byte) {
 	bytes := ReadBytes(key)
-	if len(bytes) < 20 {
+	if len(bytes) != 32 {
 		return
 	}
 	copy(out[:], bytes)
