@@ -1,0 +1,10 @@
+{
+  "ContractName": "MyCounter",
+  "MethodName": "add",
+  "Arguments": [
+    {
+      "Type": "uint64",
+      "Value": "25"
+    }
+  ]
+}
