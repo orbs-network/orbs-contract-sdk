@@ -9,6 +9,7 @@ package state
 import (
 	"encoding/binary"
 	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"math/big"
 )
 
 func WriteBytes(key []byte, value []byte) {
@@ -39,4 +40,21 @@ func WriteBytes20(key []byte, value [20]byte) {
 
 func WriteBytes32(key []byte, value [32]byte) {
 	WriteBytes(key, value[:])
+}
+
+func WriteBool(key []byte, value bool) {
+	bytes := make([]byte, 1)
+	if value {
+		bytes[0] = 1
+	}
+	WriteBytes(key, bytes)
+}
+
+func WriteBigInt(key []byte, value *big.Int) {
+	actual := [32]byte{}
+	if value != nil {
+		b := value.Bytes()
+		copy(actual[32-len(b):], b)
+	}
+	WriteBytes(key, actual[:])
 }

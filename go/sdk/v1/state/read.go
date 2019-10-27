@@ -9,6 +9,7 @@ package state
 import (
 	"encoding/binary"
 	"github.com/orbs-network/orbs-contract-sdk/go/context"
+	"math/big"
 )
 
 func ReadBytes(key []byte) []byte {
@@ -53,4 +54,21 @@ func ReadBytes32(key []byte) (out [32]byte) {
 	}
 	copy(out[:], bytes)
 	return
+}
+
+func ReadBool(key []byte) bool {
+	bytes := ReadBytes(key)
+	if len(bytes) == 1 && bytes[0] != 0 {
+		return true
+	}
+	return false
+}
+
+func ReadBigInt(key []byte) *big.Int {
+	out := big.NewInt(0)
+	bytes := ReadBytes(key)
+	if len(bytes) == 32 {
+		out.SetBytes(bytes)
+	}
+	return out
 }
