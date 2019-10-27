@@ -1,9 +1,0 @@
-[submodule "go/vendor/github.com/pkg/errors"]
-	path = go/vendor/github.com/pkg/errors
-	url = https://github.com/pkg/errors
-[submodule "go/vendor/github.com/stretchr/testify"]
-	path = go/vendor/github.com/stretchr/testify
-	url = https://github.com/stretchr/testify
-[submodule "go/vendor/github.com/orbs-network/orbs-client-sdk-go"]
-	path = go/vendor/github.com/orbs-network/orbs-client-sdk-go
-	url = https://github.com/orbs-network/orbs-client-sdk-go
