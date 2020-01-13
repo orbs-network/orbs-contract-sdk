@@ -79,6 +79,7 @@ type mockHandler struct {
 	serviceStubs  []*serviceStub
 	eventStubs    []*eventStub
 	addressStubs  []*addressStub
+	committee     [][]byte
 }
 
 type StateDiff struct {
@@ -274,7 +275,7 @@ func (m *mockHandler) SdkEnvGetBlockProposerAddress(ctx context.ContextId, permi
 }
 
 func (m *mockHandler) SdkEnvGetBlockCommittee(ctx context.ContextId, permissionScope context.PermissionScope) [][]byte {
-	panic("Not implemented")
+	return m.committee
 }
 
 func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionScope context.PermissionScope) uint32 {
@@ -338,6 +339,10 @@ func (m *mockHandler) MockEnvBlockHeight(block int) {
 
 func (m *mockHandler) MockEnvBlockTimestamp(time int) {
 	m.blockTimestamp = uint64(time)
+}
+
+func (m *mockHandler) MockGetBlockCommittee(committee [][]byte) {
+	m.committee = committee
 }
 
 func (m *mockHandler) MockEnvBlockProposerAddress(addr []byte) {

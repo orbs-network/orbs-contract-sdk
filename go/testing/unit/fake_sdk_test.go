@@ -330,6 +330,17 @@ func TestMockHandler_SdkEventsEmitEvent_Partial(t *testing.T) {
 	require.Panics(t, func() { s.VerifyMocks() }, "missing call to emit should have failed verify")
 }
 
+func TestMockHandler_SdkEnvGetBlockCommittee(t *testing.T) {
+	s := aFakeSdk()
+
+	expectedCommittee := [][]byte{{0x01, 0x02}, {0x03, 0x04}}
+	s.MockGetBlockCommittee(expectedCommittee)
+	require.Equal(t, expectedCommittee, s.SdkEnvGetBlockCommittee(EXAMPLE_CONTEXT_ID, 0), "did not get expected committee")
+
+	require.NotPanics(t, func() { s.VerifyMocks() })
+
+}
+
 func Test_InScope(t *testing.T) {
 	caller := AnAddress()
 
