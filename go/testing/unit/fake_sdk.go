@@ -273,6 +273,10 @@ func (m *mockHandler) SdkEnvGetBlockProposerAddress(ctx context.ContextId, permi
 	return m.blockProposerAddress
 }
 
+func (m *mockHandler) SdkEnvGetBlockCommittee(ctx context.ContextId, permissionScope context.PermissionScope) [][]byte {
+	panic("Not implemented")
+}
+
 func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionScope context.PermissionScope) uint32 {
 	return 42
 }
@@ -348,7 +352,7 @@ func (m *mockHandler) MockEmitEvent(eventFunctionSignature interface{}, args ...
 
 func (m *mockHandler) MockCallContractAddress(name string, value []byte) {
 	var key []interface{}
-	key = append(key, "contract name", name, )
+	key = append(key, "contract name", name)
 	m.addressStubs = append(m.addressStubs, &addressStub{key: key, out: value})
 }
 

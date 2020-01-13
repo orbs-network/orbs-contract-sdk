@@ -22,3 +22,8 @@ func GetBlockProposerAddress() []byte {
 	contextId, handler, permissionScope := context.GetContext()
 	return handler.SdkEnvGetBlockProposerAddress(contextId, permissionScope)
 }
+
+func GetBlockCommittee() [][]byte {
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkEnvGetBlockCommittee(contextId, permissionScope)
+}
