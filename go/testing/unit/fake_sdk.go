@@ -31,7 +31,7 @@ type Mockery interface {
 	MockEnvBlockHeight(height int)
 	MockEnvBlockTimestamp(timestamp int)
 	MockEnvBlockProposerAddress(addr []byte)
-	MockGetBlockCommittee(committee [][]byte)
+	MockEnvGetBlockCommittee(committee [][]byte)
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
 	MockCallContractAddress(name string, value []byte)
 	VerifyMocks()
@@ -342,7 +342,7 @@ func (m *mockHandler) MockEnvBlockTimestamp(time int) {
 	m.blockTimestamp = uint64(time)
 }
 
-func (m *mockHandler) MockGetBlockCommittee(committee [][]byte) {
+func (m *mockHandler) MockEnvGetBlockCommittee(committee [][]byte) {
 	m.committee = committee
 }
 
