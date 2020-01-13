@@ -31,6 +31,7 @@ type Mockery interface {
 	MockEnvBlockHeight(height int)
 	MockEnvBlockTimestamp(timestamp int)
 	MockEnvBlockProposerAddress(addr []byte)
+	MockGetBlockCommittee(committee [][]byte)
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
 	MockCallContractAddress(name string, value []byte)
 	VerifyMocks()
