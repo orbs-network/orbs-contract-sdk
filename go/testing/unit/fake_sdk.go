@@ -31,6 +31,7 @@ type Mockery interface {
 	MockEnvBlockHeight(height int)
 	MockEnvBlockTimestamp(timestamp int)
 	MockEnvBlockProposerAddress(addr []byte)
+	MockEnvGetBlockCommittee(committee [][]byte)
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
 	MockCallContractAddress(name string, value []byte)
 	VerifyMocks()
@@ -79,6 +80,7 @@ type mockHandler struct {
 	serviceStubs  []*serviceStub
 	eventStubs    []*eventStub
 	addressStubs  []*addressStub
+	committee     [][]byte
 }
 
 type StateDiff struct {
@@ -273,6 +275,10 @@ func (m *mockHandler) SdkEnvGetBlockProposerAddress(ctx context.ContextId, permi
 	return m.blockProposerAddress
 }
 
+func (m *mockHandler) SdkEnvGetBlockCommittee(ctx context.ContextId, permissionScope context.PermissionScope) [][]byte {
+	return m.committee
+}
+
 func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionScope context.PermissionScope) uint32 {
 	return 42
 }
@@ -336,6 +342,10 @@ func (m *mockHandler) MockEnvBlockTimestamp(time int) {
 	m.blockTimestamp = uint64(time)
 }
 
+func (m *mockHandler) MockEnvGetBlockCommittee(committee [][]byte) {
+	m.committee = committee
+}
+
 func (m *mockHandler) MockEnvBlockProposerAddress(addr []byte) {
 	m.blockProposerAddress = addr
 }
@@ -348,7 +358,7 @@ func (m *mockHandler) MockEmitEvent(eventFunctionSignature interface{}, args ...
 
 func (m *mockHandler) MockCallContractAddress(name string, value []byte) {
 	var key []interface{}
-	key = append(key, "contract name", name, )
+	key = append(key, "contract name", name)
 	m.addressStubs = append(m.addressStubs, &addressStub{key: key, out: value})
 }
 
