@@ -283,6 +283,10 @@ func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionS
 	return 42
 }
 
+func (m *mockHandler) SdkIPFSRead(ctx context.ContextId, permissionScope context.PermissionScope, hash []byte) []byte {
+	panic("implement me")
+}
+
 func (m *mockHandler) MockEthereumLog(address string, abiJson string, ethTxHash string, eventName string, outEthBlockNumber int, outEthTxIndex int, outMutator func(out interface{})) {
 	var key []interface{}
 	key = append(key, address, abiJson, ethTxHash, eventName)

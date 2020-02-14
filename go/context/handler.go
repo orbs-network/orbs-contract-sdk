@@ -38,4 +38,7 @@ type SdkHandler interface {
 	SdkEnvGetBlockProposerAddress(ctx ContextId, permissionScope PermissionScope) []byte
 	SdkEnvGetBlockCommittee(ctx ContextId, permissionScope PermissionScope) [][]byte
 	SdkEnvGetVirtualChainId(ctx ContextId, permissionScope PermissionScope) uint32
+
+	// ipfs
+	SdkIPFSRead(ctx ContextId, permissionScope PermissionScope, hash []byte) []byte
 }
