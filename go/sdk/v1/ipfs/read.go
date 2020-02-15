@@ -8,7 +8,7 @@ package ipfs
 
 import "github.com/orbs-network/orbs-contract-sdk/go/context"
 
-func Read(hash []byte) []byte {
+func Read(hash string) []byte {
 	contextId, handler, permissionScope := context.GetContext()
 	return handler.SdkIPFSRead(contextId, permissionScope, hash)
 }

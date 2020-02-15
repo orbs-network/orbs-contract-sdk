@@ -283,7 +283,7 @@ func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionS
 	return 42
 }
 
-func (m *mockHandler) SdkIPFSRead(ctx context.ContextId, permissionScope context.PermissionScope, hash []byte) []byte {
+func (m *mockHandler) SdkIPFSRead(ctx context.ContextId, permissionScope context.PermissionScope, hash string) []byte {
 	panic("implement me")
 }
 

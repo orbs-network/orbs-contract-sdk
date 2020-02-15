@@ -40,5 +40,5 @@ type SdkHandler interface {
 	SdkEnvGetVirtualChainId(ctx ContextId, permissionScope PermissionScope) uint32
 
 	// ipfs
-	SdkIPFSRead(ctx ContextId, permissionScope PermissionScope, hash []byte) []byte
+	SdkIPFSRead(ctx ContextId, permissionScope PermissionScope, hash string) []byte
 }
