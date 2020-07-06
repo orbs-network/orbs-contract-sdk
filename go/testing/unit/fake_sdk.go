@@ -32,6 +32,7 @@ type Mockery interface {
 	MockEnvBlockTimestamp(timestamp int)
 	MockEnvBlockProposerAddress(addr []byte)
 	MockEnvGetBlockCommittee(committee [][]byte)
+	MockEnvGetNextBlockCommittee(committee [][]byte)
 	MockEmitEvent(eventFunctionSignature interface{}, args ...interface{})
 	MockCallContractAddress(name string, value []byte)
 	VerifyMocks()
@@ -81,6 +82,7 @@ type mockHandler struct {
 	eventStubs    []*eventStub
 	addressStubs  []*addressStub
 	committee     [][]byte
+	nextCommittee [][]byte
 }
 
 type StateDiff struct {
@@ -251,7 +253,7 @@ func (m *mockHandler) SdkEventsEmitEvent(ctx context.ContextId, permissionScope 
 		}
 	}
 
-	panic(errors.Errorf("No Emit Event stubbed for func %s, arguments %v", eventFunctionSignature, args))
+	panic(errors.Errorf("No Emit Event stubbed for func %s, arguments %v", reflect.TypeOf(eventFunctionSignature).String(), args))
 }
 
 func (m *mockHandler) SdkEnvGetBlockHeight(ctx context.ContextId, permissionScope context.PermissionScope) uint64 {
@@ -277,6 +279,10 @@ func (m *mockHandler) SdkEnvGetBlockProposerAddress(ctx context.ContextId, permi
 
 func (m *mockHandler) SdkEnvGetBlockCommittee(ctx context.ContextId, permissionScope context.PermissionScope) [][]byte {
 	return m.committee
+}
+
+func (m *mockHandler) SdkEnvGetNextBlockCommittee(ctx context.ContextId, permissionScope context.PermissionScope) [][]byte {
+	return m.nextCommittee
 }
 
 func (m *mockHandler) SdkEnvGetVirtualChainId(ctx context.ContextId, permissionScope context.PermissionScope) uint32 {
@@ -344,6 +350,10 @@ func (m *mockHandler) MockEnvBlockTimestamp(time int) {
 
 func (m *mockHandler) MockEnvGetBlockCommittee(committee [][]byte) {
 	m.committee = committee
+}
+
+func (m *mockHandler) MockEnvGetNextBlockCommittee(committee [][]byte) {
+	m.nextCommittee = committee
 }
 
 func (m *mockHandler) MockEnvBlockProposerAddress(addr []byte) {

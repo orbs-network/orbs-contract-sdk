@@ -27,3 +27,8 @@ func GetBlockCommittee() [][]byte {
 	contextId, handler, permissionScope := context.GetContext()
 	return handler.SdkEnvGetBlockCommittee(contextId, permissionScope)
 }
+
+func GetNextBlockCommittee() [][]byte {
+	contextId, handler, permissionScope := context.GetContext()
+	return handler.SdkEnvGetNextBlockCommittee(contextId, permissionScope)
+}
